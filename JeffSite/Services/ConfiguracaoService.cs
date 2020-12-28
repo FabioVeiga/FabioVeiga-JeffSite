@@ -24,6 +24,10 @@ namespace JeffSite.Services
             _context.SaveChanges();
         }
 
+        public string FindAdminEmail(){
+            return _context.Configuracao.FirstOrDefault().ContactEmail;
+        }
+
     }
 
 }
