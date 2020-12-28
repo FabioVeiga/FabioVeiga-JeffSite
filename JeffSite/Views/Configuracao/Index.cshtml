@@ -23,7 +23,12 @@
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.ImgLogo)</label>
         <input type="file" accept="image/*"class="form-control" asp-for="ImgLogo">
+        @* <input type="text" class="form-control" asp-for="ImgLogo"> *@
         <span asp-validation-for="ImgLogo" class="text-danger"></span>
+        @if(!string.IsNullOrEmpty(ViewBag.FileNameErro)){
+            <span class="text-danger">@ViewBag.FileNameErro</span>
+        }
+        
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.ImgProfile)</label>

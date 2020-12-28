@@ -2,8 +2,7 @@ using JeffSite.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using JeffSite.Services;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using System.IO;
 
 namespace JeffSite.Controllers
 {
@@ -32,14 +31,32 @@ namespace JeffSite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Configuracao configuracao)
+        public IActionResult Edit(Configuracao configuracao, IFormFile ImgLogo)
         {
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
             }
+
+            if(ImgLogo.FileName != "imgLogo.jpg"){
+                ViewBag.FileNameErro = "O nome do arquivo deve ser imgLogo.jpg";
+                return View(nameof(Index));
+            }
+
+            var pathImageSite = $@"../JeffSite/wwwroot/img/imgLogo.jpg";
+            var pathImageSiteImg = $@"../JeffSite/wwwroot/img/{ImgLogo.FileName}";
+            System.IO.File.Move(pathImageSite, pathImageSiteImg);
+
+            configuracao.ImgLogo = ImgLogo.FileName;
             _configuracaoService.Edit(configuracao);
+            
+            using (var stream = new FileStream(pathImageSite, FileMode.Create))
+            {
+                ImgLogo.CopyTo(stream);
+                
+            }
+
             TempData["message"] = "Alterado com sucesso!";
             return RedirectToAction("Index");
         }
