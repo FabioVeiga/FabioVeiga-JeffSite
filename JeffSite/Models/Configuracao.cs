@@ -11,12 +11,10 @@ namespace JeffSite.Models
         [Display(Name = "E-mail para contato")]
         [EmailAddress (ErrorMessage = "Necessário email válido!")]
         public string ContactEmail { get; set; }
-        [Required (ErrorMessage = "Por favor, inserir {0}!")]
-        [Display(Name = "Foto logotipo")]
+        [Display(Name = "Imagem do perfil")]
         public string ImgProfile { get; set; }
 
-        [Required (ErrorMessage = "Por favor, inserir {0}!")]
-        [Display(Name = "Imagem do perfil")]
+        [Display(Name = "Foto do logotipo")]
         public string ImgLogo { get; set; }
 
         [Display(Name = "Endereco da loja do Mercado Livre")]

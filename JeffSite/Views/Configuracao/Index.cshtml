@@ -22,18 +22,18 @@
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.ImgLogo)</label>
-        <input type="file" accept="image/*"class="form-control" asp-for="ImgLogo">
+        <input type="file" accept="image/*" class="form-control" asp-for="ImgLogo">
         @* <input type="text" class="form-control" asp-for="ImgLogo"> *@
-        <span asp-validation-for="ImgLogo" class="text-danger"></span>
-        @if(!string.IsNullOrEmpty(ViewBag.FileNameErro)){
-            <span class="text-danger">@ViewBag.FileNameErro</span>
+        @if(!string.IsNullOrEmpty(ViewBag.FileNameLogoErro)){
+            <span class="text-danger">@ViewBag.FileNameLogoErro</span>
         }
-        
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.ImgProfile)</label>
-        <input type="text" class="form-control" asp-for="ImgProfile">
-        <span asp-validation-for="ImgProfile" class="text-danger"></span>
+        <input type="file" accept="image/*" class="form-control" asp-for="ImgProfile">
+        @if(!string.IsNullOrEmpty(ViewBag.FileNameProfileErro)){
+            <span class="text-danger">@ViewBag.FileNameProfileErro</span>
+        }
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.UrlMercadoLivre)</label>
