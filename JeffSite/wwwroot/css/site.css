@@ -40,7 +40,8 @@ a {
 
 .imageBG{
     height: 300px;
-    background-color: aqua;
+    background-image: url("../img/imgProfile.jpg");
+    background-size: 100%;
 }
 
 #navPersonal {

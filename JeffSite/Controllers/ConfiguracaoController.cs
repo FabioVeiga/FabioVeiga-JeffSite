@@ -2,8 +2,7 @@ using JeffSite.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using JeffSite.Services;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using System.IO;
 
 namespace JeffSite.Controllers
 {
@@ -32,14 +31,48 @@ namespace JeffSite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Configuracao configuracao)
+        public IActionResult Edit(Configuracao configuracao, IFormFile ImgLogo, IFormFile ImgProfile)
         {
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
             }
+            configuracao.ImgLogo = "imgLogo.jpg";
+            configuracao.ImgProfile = "imgProfile.jpg";
+
+            if(ImgLogo != null){
+                if(ImgLogo.FileName != configuracao.ImgLogo){
+                    ViewBag.FileNameLogoErro = $"O nome do arquivo deve ser {configuracao.ImgLogo}";
+                    return View(nameof(Index));
+                }
+                //altera imagem logo
+                var pathImageSiteOriginal = $@"../JeffSite/wwwroot/img/{configuracao.ImgLogo}";
+                var pathImageSiteImgChanged = $@"../JeffSite/wwwroot/img/{ImgLogo.FileName}";
+                System.IO.File.Move(pathImageSiteOriginal, pathImageSiteImgChanged);
+                using (var stream = new FileStream(pathImageSiteOriginal, FileMode.Create))
+                {
+                    ImgLogo.CopyTo(stream); 
+                }
+            }
+
+            if(ImgProfile != null){
+                if(ImgProfile.FileName != configuracao.ImgProfile){
+                    ViewBag.FileNameProfileErro = $"O nome do arquivo deve ser {configuracao.ImgProfile}";
+                    return View(nameof(Index));
+                }
+                //altera imagem profile
+                var pathImageProfileSiteOriginal = $@"../JeffSite/wwwroot/img/{ImgProfile.FileName}";
+                var pathImageProfileSiteImgChanged = $@"../JeffSite/wwwroot/img/{ImgProfile.FileName}";
+                System.IO.File.Move(pathImageProfileSiteOriginal, pathImageProfileSiteImgChanged);
+                using (var stream = new FileStream(pathImageProfileSiteOriginal, FileMode.Create))
+                {
+                    ImgProfile.CopyTo(stream); 
+                }
+            }
+            
             _configuracaoService.Edit(configuracao);
+            
             TempData["message"] = "Alterado com sucesso!";
             return RedirectToAction("Index");
         }
