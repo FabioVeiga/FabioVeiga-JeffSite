@@ -30,8 +30,8 @@
             <a class="dropdown-item" onclick="changeIcon('TikTok','fab fa-tiktok')" href="#"><i class="fab fa-tiktok"></i>TikTok</a>
         </div>
     </div>
-    <input type="text" class="form-control" id="showName" placeholder="Nome rede social" readonly>
-    <input type="hidden" class="form-control" asp-for="Name">
+    <input type="text" class="form-control" asp-for="Name" placeholder="Nome rede social" readonly>
+    <input type="hidden" class="form-control" asp-for="IconFA">
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.Url)</label>
@@ -48,12 +48,12 @@
 
 <script>
     function changeIcon(name,icon){
-        const txtshowName = document.getElementById('showName')
         const txtName = document.getElementById('Name')
+        const txtIconFA = document.getElementById('IconFA')
         const lIcon = document.getElementById('label-icon')
 
-        txtshowName.value = name
-        txtName.value = icon
+        txtName.value = name
+        txtIconFA.value = icon
 
         if(lIcon === ""){
             lIcon.value = "Icone"
