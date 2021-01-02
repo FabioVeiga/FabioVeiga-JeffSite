@@ -14,6 +14,7 @@
   <thead>
     <tr>
       <th scope="col">#</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Id)</th>
       <th scope="col">@Html.DisplayNameFor(Model => Model.Name)</th>
       <th scope="col">@Html.DisplayNameFor(Model => Model.Url)</th>
     </tr>
@@ -23,10 +24,11 @@
       {
           <tr>
             <th scope="row">
-                @Html.ActionLink("Edit", "Edit", new { name = item.Name })
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                     @Html.Label(" | ")
-                    @Html.ActionLink("Delete", "Delete", new { name = item.Name })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </th>
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
             <td>@Html.DisplayFor(modelItem => item.Name)</td>
             <td>@Html.DisplayFor(modelItem => item.Url)</td>
         </tr>

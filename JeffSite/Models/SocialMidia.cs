@@ -5,6 +5,8 @@ namespace JeffSite.Models
     public class SocialMidia
     {
         [Key]
+        public int Id { get; set; }
+
         [Required (ErrorMessage = "Por favor, inserir {0}!")]
         [Display(Name = "Nome rede social")]
         public string Name { get; set; }
