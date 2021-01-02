@@ -59,21 +59,6 @@ a {
     padding-right: 40px;
 }
 
-.socialMidia {
-    background-color: #33415C;
-    color: #CFDBD5;
-    text-align: center;
-    height: 150px;
-    padding-bottom: 10%;
-}
-
-ul#SocialMidia li {
-    display: inline;
-}
-.iconsSocialMidia{
-    height: 50px;
-    width: 50px;
-}
  
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -89,7 +74,7 @@ html {
 }
 
 @media (max-width: 991px) {
-    .logoImage {
+      .divLogoImage {
         display: none;
     }
 

@@ -21,8 +21,8 @@ namespace JeffSite.Services
             _context.SocialMidia.Add(socialMidia);
             _context.SaveChanges();
         }
-        public SocialMidia FindByName(string name){
-            return _context.SocialMidia.FirstOrDefault(s => s.Name == name);
+        public SocialMidia FindById(int id){
+            return _context.SocialMidia.FirstOrDefault(s => s.Id == id);
         }
         public void Delete(SocialMidia socialMidia){
             _context.SocialMidia.Remove(socialMidia);

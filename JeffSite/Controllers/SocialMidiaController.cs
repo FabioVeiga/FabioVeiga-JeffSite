@@ -58,7 +58,7 @@ namespace JeffSite.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(string name)
+        public IActionResult Delete(int id)
         {
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
@@ -66,7 +66,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Deletar";
-            var social = _socialMidiaService.FindByName(name);
+            var social = _socialMidiaService.FindById(id);
             return View(social);
         }
 
@@ -84,7 +84,7 @@ namespace JeffSite.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(string name)
+        public IActionResult Edit(int id)
         {
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
@@ -92,7 +92,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Editar";
-            var social = _socialMidiaService.FindByName(name);
+            var social = _socialMidiaService.FindById(id);
             return View(social);
         }
 

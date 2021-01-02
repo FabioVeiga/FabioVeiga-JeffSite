@@ -27,11 +27,9 @@ namespace JeffSite.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("ImgLogo")
-                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("ImgProfile")
-                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("UrlMercadoLivre")
@@ -44,14 +42,21 @@ namespace JeffSite.Migrations
 
             modelBuilder.Entity("JeffSite.Models.SocialMidia", b =>
                 {
-                    b.Property<string>("Name")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("Url")
+                    b.Property<string>("IconFA")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Name");
+                    b.Property<string>("Url")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
 
                     b.ToTable("SocialMidia");
                 });

@@ -2,17 +2,36 @@
 @{
     Layout = "_LayoutAdmin";
 }
+<style>
+    .dropdown-item a{
+        font-family: 'FontAwesome';
+        
+    }
+</style>
 
 <br>
 <h1>@ViewData["Title"]</h1>
 <br>
 
 <form asp-action="Create">
-    
-    <div class="form-group">
-        <label>@Html.DisplayNameFor(Model => Model.Name)</label>
-        <input type="text" class="form-control" asp-for="Name" placeholder="Nome rede social">
-        <span asp-validation-for="Name" class="text-danger"></span>
+    <div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnIcon">
+            <label id="label-icon">Icone</label>
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" onclick="changeIcon('Facebook','fab fa-facebook-square')" href="#"><i class="fab fa-facebook-square"></i> Facebook</a>
+            <a class="dropdown-item" onclick="changeIcon('Instagram','fab fa-instagram-square')"  href="#"><i class="fab fa-instagram-square"></i> Instagram</a>
+            <a class="dropdown-item" onclick="changeIcon('Twitter','fab fa-twitter-square')" href="#"><i class="fab fa-twitter-square"></i> Twitter</a>
+            <a class="dropdown-item" onclick="changeIcon('GoodReads','fab fa-goodreads')" href="#"><i class="fab fa-goodreads"></i> GoodReads</a>
+            <a class="dropdown-item" onclick="changeIcon('WhatsApp','fab fa-whatsapp-square')" href="#"><i class="fab fa-whatsapp-square"></i> WhatsApp</a>
+            <a class="dropdown-item" onclick="changeIcon('Telegram','fab fa-telegram')" href="#"><i class="fab fa-telegram"></i> Telegram</a>
+            <a class="dropdown-item" onclick="changeIcon('Facebook-Messager','fab fa-facebook-messenger')" href="#"><i class="fab fa-facebook-messenger"></i>Facebook-Messager</a>
+            <a class="dropdown-item" onclick="changeIcon('TikTok','fab fa-tiktok')" href="#"><i class="fab fa-tiktok"></i>TikTok</a>
+        </div>
+    </div>
+    <input type="text" class="form-control" asp-for="Name" placeholder="Nome rede social" readonly>
+    <input type="hidden" class="form-control" asp-for="IconFA">
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.Url)</label>
@@ -26,3 +45,21 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    function changeIcon(name,icon){
+        const txtName = document.getElementById('Name')
+        const txtIconFA = document.getElementById('IconFA')
+        const lIcon = document.getElementById('label-icon')
+
+        txtName.value = name
+        txtIconFA.value = icon
+
+        if(lIcon === ""){
+            lIcon.value = "Icone"
+        }else{
+            lIcon.value = ""
+            lIcon.innerHTML = `<i class="${icon}"></i>`
+        }
+    }
+</script>

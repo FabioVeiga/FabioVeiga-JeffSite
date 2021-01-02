@@ -1,0 +1,39 @@
+@model SocialMidia
+
+<style>
+.footer-title{
+    padding-top: 3%;
+    text-align: center;
+}
+.title-footer{
+    font-weight: bold;
+    color: #CFDBD5;
+    font-size: large;
+}
+.footer-socias-midias{
+    text-align: center;
+    color: #CFDBD5;
+    margin-left: -5%;
+}
+.footer-socias-midias ul li{
+    display: inline;
+    text-decoration: none;
+    font-size: 50px;
+    color: #CFDBD5;
+}
+.footer-socias-midias a{
+    color: #CFDBD5;
+}
+</style>
+
+<div class="footer-title">
+    <h1 class="title-footer">Redes Sociais</h1>
+</div>
+<div class="footer-socias-midias">
+    <ul>
+        @foreach (var item in (List<SocialMidia>)ViewBag.Redes)
+        {
+            <li><a href="@item.Url" target="_blank" id="linkSociaMidia"><i class="@item.IconFA"></i></a></li>
+        }
+    </ul>
+</div>

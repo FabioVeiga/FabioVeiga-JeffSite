@@ -5,23 +5,27 @@ namespace JeffSite.Models
     public class SocialMidia
     {
         [Key]
+        public int Id { get; set; }
+
         [Required (ErrorMessage = "Por favor, inserir {0}!")]
         [Display(Name = "Nome rede social")]
         public string Name { get; set; }
 
-        [Required (ErrorMessage = "Por favor, inserir {0}!")]
-        //[StringLength(200, MinimumLength = 3, ErrorMessage = "{0} requer entre {2} e {1} caracteres!")]
         [Display(Name = "Endereço da rede social")]
         public string Url { get; set; }
+
+        [Display (Name= "Escolha um icone")]
+        public string IconFA { get; set; }
 
         public SocialMidia()
         {
         }
 
-        public SocialMidia(string name, string url)
+        public SocialMidia(string name, string url, string iconFA)
         {
             Name = name;
             Url = url;
+            IconFA = iconFA;
         }
         
     }
