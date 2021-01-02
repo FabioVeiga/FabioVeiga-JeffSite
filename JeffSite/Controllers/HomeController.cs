@@ -17,28 +17,33 @@ namespace JeffSite.Controllers
 
         private readonly UserService _userService;
         private readonly ConfiguracaoService _configuracaoService;
+        private readonly SocialMidiaService _socialMidia;
 
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, UserService userService, ConfiguracaoService configuracaoService)
+        public HomeController(ILogger<HomeController> logger, UserService userService, ConfiguracaoService configuracaoService, SocialMidiaService socialMidia)
         {
             _logger = logger;
             _userService = userService;
             _configuracaoService = configuracaoService;
+            _socialMidia = socialMidia;
         }
 
         public IActionResult Index()
         {
+            ViewBag.Redes = _socialMidia.FindAll();
             return View();
         }
 
         public IActionResult BioCompleta()
         {
+            ViewBag.Redes = _socialMidia.FindAll();
             return View();
         }
 
         public IActionResult Contato()
         {
+            ViewBag.Redes = _socialMidia.FindAll();
             return View();
         }
 
@@ -117,7 +122,7 @@ namespace JeffSite.Controllers
                 ViewBag.PhoneContact = "";
                 ViewBag.SubjectContact = "";
             }
-            
+            ViewBag.Redes = _socialMidia.FindAll();
             return View("Contato");
             
         }

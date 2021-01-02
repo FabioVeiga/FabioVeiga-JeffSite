@@ -1,8 +1,8 @@
 @model SocialMidia
+
 <style>
 .footer-title{
-    padding-top: 1%;
-    padding-bottom: 1%;
+    padding-top: 3%;
     text-align: center;
 }
 .title-footer{
@@ -18,7 +18,11 @@
 .footer-socias-midias ul li{
     display: inline;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 50px;
+    color: #CFDBD5;
+}
+.footer-socias-midias a{
+    color: #CFDBD5;
 }
 </style>
 
@@ -27,8 +31,9 @@
 </div>
 <div class="footer-socias-midias">
     <ul>
-        <li><i class="fab fa-tiktok"></i></li>
-        <li>teste2</li>
-        <li>teste3</li>
+        @foreach (var item in (List<SocialMidia>)ViewBag.Redes)
+        {
+            <li><a href="@item.Url" target="_blank" id="linkSociaMidia"><i class="@item.IconFA"></i></a></li>
+        }
     </ul>
 </div>
