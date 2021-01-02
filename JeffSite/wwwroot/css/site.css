@@ -89,7 +89,7 @@ html {
 }
 
 @media (max-width: 991px) {
-    .logoImage {
+      .divLogoImage {
         display: none;
     }
 
