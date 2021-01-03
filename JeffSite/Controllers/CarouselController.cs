@@ -1,3 +1,4 @@
+using System.Xml.Schema;
 
 using JeffSite.Models;
 using Microsoft.AspNetCore.Http;
@@ -21,11 +22,23 @@ namespace JeffSite.Controllers
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
             {
-                return View("AdminHome");
+                return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Lista de Carrousel";
             var lista = _carouselService.FindAll();
             return View(lista);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Novo";
+            return View();
         }
     }
 }

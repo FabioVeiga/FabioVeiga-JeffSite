@@ -7,6 +7,7 @@ namespace JeffSite.Models
     {
         public int Id { get; set; }
         [Display(Name = "Titulo")]
+        [Required(ErrorMessage = "Titulo obrigatoria!")]
         [MinLength(3,ErrorMessage = "Por favor, inserir mais de {1} caracteres!")]
         public string Title { get; set; }
         [Display(Name = "Breve Descrição")]
