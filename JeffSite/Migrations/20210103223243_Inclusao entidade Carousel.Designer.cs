@@ -3,14 +3,16 @@ using System;
 using JeffSite.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JeffSite.Migrations
 {
     [DbContext(typeof(JeffContext))]
-    partial class JeffContextModelSnapshot : ModelSnapshot
+    [Migration("20210103223243_Inclusao entidade Carousel")]
+    partial class InclusaoentidadeCarousel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

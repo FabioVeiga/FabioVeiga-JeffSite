@@ -1,0 +1,44 @@
+@model IEnumerable<JeffSite.Models.Carousel>
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+<a class="btn btn-primary" asp-action="Create">Criar</a>
+<br>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Id)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Title)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Description)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Link)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.ExpirationDate)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Image)</th>
+    </tr>
+  </thead>
+  <tbody>
+      @foreach (var item in Model)
+      {
+          <tr>
+            <th scope="row">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    @Html.Label(" | ")
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </th>
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <th scope="col">@Html.DisplayFor(Model => item.Id)</th>
+            <th scope="col">@Html.DisplayFor(Model => item.Title)</th>
+            <th scope="col">@Html.DisplayFor(Model => item.Description)</th>
+            <th scope="col">@Html.DisplayFor(Model => item.Link)</th>
+            <th scope="col">@Html.DisplayFor(Model => item.ExpirationDate)</th>
+            <th scope="col">@Html.DisplayFor(Model => item.Image)</th>
+        </tr>
+      }
+  </tbody>
+</table>
