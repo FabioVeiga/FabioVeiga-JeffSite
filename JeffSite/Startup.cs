@@ -44,6 +44,7 @@ namespace JeffSite
             services.AddScoped<SocialMidiaService>();
             services.AddScoped<ConfiguracaoService>();
             services.AddScoped<SeedingService>();
+            services.AddScoped<CarouselService>();
             
         }
 
