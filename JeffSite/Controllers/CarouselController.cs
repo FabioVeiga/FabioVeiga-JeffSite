@@ -56,9 +56,38 @@ namespace JeffSite.Controllers
                     img.CopyTo(stream); 
                 }
                 _carouselService.Create(carousel);
-                return View(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
             return View(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Excluir";
+            var item = _carouselService.FindById(id);
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Carousel carousel){
+            var item = _carouselService.FindById(carousel.Id);
+            var pathimg = $@"{item.PathImage}{item.Image}";
+            System.IO.FileInfo file = new System.IO.FileInfo(pathimg);
+            try{
+                file.Delete();
+                _carouselService.Delete(item);
+            }catch(System.IO.IOException e){
+                throw new System.Exception(e.Message);
+            }
+
+            return RedirectToAction(nameof(Index)); 
         }
     }
 }
