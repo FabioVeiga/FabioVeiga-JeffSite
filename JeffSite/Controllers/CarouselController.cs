@@ -91,5 +91,44 @@ namespace JeffSite.Controllers
 
             return RedirectToAction(nameof(Index)); 
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Editar";
+            var item = _carouselService.FindById(id);
+            item.ExpirationDate = null;
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Carousel carousel, IFormFile img){
+            var pathimg = $@"{carousel.PathImage}{carousel.Image}";
+            System.IO.FileInfo file = new System.IO.FileInfo(pathimg);
+            if(img != null){
+                try{
+                    var pathimgNew = $@"{carousel.PathImage}{img.FileName}";
+                    file.Delete();
+                    using (var stream = new FileStream(pathimgNew , FileMode.Create))
+                    {
+                        img.CopyTo(stream); 
+                    }
+                    carousel.Image = img.FileName;
+                }catch(System.IO.IOException e){
+                    throw new System.Exception(e.Message);
+                }
+            }
+            if(carousel.ExpirationDate == null){
+                carousel.ExpirationDate = new DateTime(1900,01,01);
+            }
+            _carouselService.Edit(carousel);
+            return RedirectToAction(nameof(Index)); 
+        }
     }
 }

@@ -33,6 +33,11 @@ namespace JeffSite.Services
             _context.SaveChanges();
         }
 
+        public void Edit(Carousel carousel){
+            _context.Update(carousel);
+            _context.SaveChanges();
+        }
+
     }
 
 }
