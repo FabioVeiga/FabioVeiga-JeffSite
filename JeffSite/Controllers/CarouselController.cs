@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using JeffSite.Services;
 using System.Threading.Tasks;
 using System.IO;
+using System;
 
 namespace JeffSite.Controllers
 {
@@ -55,10 +56,11 @@ namespace JeffSite.Controllers
                 {
                     img.CopyTo(stream); 
                 }
+                carousel.ExpirationDate = new DateTime(1900,01,01);
                 _carouselService.Create(carousel);
                 return RedirectToAction(nameof(Index));
             }
-            return View(nameof(Index));
+            return View(nameof(Create));
         }
 
         [HttpGet]

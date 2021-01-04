@@ -29,8 +29,13 @@
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </th>
             <td>@Html.DisplayFor(modelItem => item.Id)</td>
-            <td>@Html.DisplayFor(Model => item.Title)</td>
-            <td>@Html.DisplayFor(Model => item.ExpirationDate)</td>
+            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+            @if(item.ExpirationDate == new DateTime(1900,01,01)){
+              <td>Sem data de expiração</td>
+            }else{
+              <td>@Html.DisplayFor(modelItem => item.ExpirationDate)</td>
+            }
+            
         </tr>
       }
   </tbody>

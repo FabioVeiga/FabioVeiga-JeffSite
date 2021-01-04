@@ -17,7 +17,7 @@ namespace JeffSite.Models
         public string Link { get; set; }
 
         [Display(Name = "Data de Expiração")]
-        public DateTime ExpirationDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
         [Display(Name = "Imagem")]
         [Required(ErrorMessage = "Imagem obrigatoria!")]
@@ -26,13 +26,14 @@ namespace JeffSite.Models
         
         public Carousel(){}
 
-        public Carousel(int id, string title, string description, string link, DateTime expirationDate, string image){
+        public Carousel(int id, string title, string description, string link, DateTime expirationDate, string image, string pathImg){
             Id = id;
             Title = title;
             Description = description;
             Link = link;
             ExpirationDate = expirationDate;
             Image = image;
+            PathImage = pathImg;
         }
         
     }
