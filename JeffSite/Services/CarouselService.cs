@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +18,15 @@ namespace JeffSite.Services
 
         public List<Carousel> FindAll(){
             return _context.Carousels.ToList();
+        }
+
+        public List<Carousel> FindAllActive(){
+            DateTime now = DateTime.Now;
+            return _context.Carousels.Where(x => x.ExpirationDate <= now).ToList();
+        }
+
+        public int Quantity(){
+            return _context.Carousels.ToList().Count();
         }
 
         public Carousel FindById(int id){
