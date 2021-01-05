@@ -21,12 +21,18 @@ namespace JeffSite.Services
         }
 
         public List<Carousel> FindAllActive(){
-            DateTime now = DateTime.Now;
-            return _context.Carousels.Where(x => x.ExpirationDate <= now).ToList();
+            string now = DateTime.Now.ToString("yyyy-MM-dd");
+            return _context.Carousels
+            .Where(x => (x.ExpirationDate == new DateTime(1900,01,01)) || x.ExpirationDate >= DateTime.Parse(now))
+            .ToList();
         }
 
         public int Quantity(){
-            return _context.Carousels.ToList().Count();
+            string now = DateTime.Now.ToString("yyyy-MM-dd");
+            return _context.Carousels
+            .Where(x => (x.ExpirationDate == new DateTime(1900,01,01)) || x.ExpirationDate >= DateTime.Parse(now))
+            .ToList()
+            .Count();
         }
 
         public Carousel FindById(int id){

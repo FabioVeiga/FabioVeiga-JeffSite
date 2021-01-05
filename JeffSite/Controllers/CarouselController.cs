@@ -56,7 +56,9 @@ namespace JeffSite.Controllers
                 {
                     img.CopyTo(stream); 
                 }
-                carousel.ExpirationDate = new DateTime(1900,01,01);
+                if(carousel.ExpirationDate == null){
+                    carousel.ExpirationDate = new DateTime(1900,01,01);
+                }
                 _carouselService.Create(carousel);
                 return RedirectToAction(nameof(Index));
             }
@@ -102,7 +104,6 @@ namespace JeffSite.Controllers
             }
             ViewData["Title"] = "Editar";
             var item = _carouselService.FindById(id);
-            item.ExpirationDate = null;
             return View(item);
         }
 
