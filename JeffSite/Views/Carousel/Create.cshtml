@@ -1,0 +1,51 @@
+@model Carousel
+@{
+    Layout = "_LayoutAdmin";
+}
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Title)</label>
+        <input type="text" class="form-control" asp-for="Title">
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Description)</label>
+        <input type="text" class="form-control" asp-for="Description" maxlength="30">
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Link)</label>
+        <input type="text" class="form-control" asp-for="Link">
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.ExpirationDate)</label>
+        <input type="date" class="form-control" asp-for="ExpirationDate">
+        <small>Se nao estiver preenchido, ficara para sempre na tela</small>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Image)</label>
+        <input type="file" accept="image/*" class="form-control" id="img" name="img">
+        <input type="hidden" asp-for="Image">
+        <small>Por favor, incluir imagens coom no maximo 400px de largura e 200px de altura</small>
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="PathImage" value="../JeffSite/wwwroot/img/Carousel/">
+    <a asp-controller="Carousel" asp-action="Index">Voltar</a>
+    <button class="btn btn-primary">Salvar</button>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    document.getElementById('img').addEventListener('change', changeImg);
+    function changeImg(){
+        var img = document.getElementById('img').value
+        var image = document.getElementById('Image')
+        image.value = img
+    }
+</script>

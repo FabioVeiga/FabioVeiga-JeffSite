@@ -18,20 +18,23 @@ namespace JeffSite.Controllers
         private readonly UserService _userService;
         private readonly ConfiguracaoService _configuracaoService;
         private readonly SocialMidiaService _socialMidia;
-
+        private readonly CarouselService _carouselService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, UserService userService, ConfiguracaoService configuracaoService, SocialMidiaService socialMidia)
+        public HomeController(ILogger<HomeController> logger, UserService userService, ConfiguracaoService configuracaoService, SocialMidiaService socialMidia, CarouselService carouselService)
         {
             _logger = logger;
             _userService = userService;
             _configuracaoService = configuracaoService;
             _socialMidia = socialMidia;
+            _carouselService = carouselService;
         }
 
         public IActionResult Index()
         {
             ViewBag.Redes = _socialMidia.FindAll();
+            ViewBag.Carousels = _carouselService.FindAllActive();
+            ViewBag.CarouselsQuantity = _carouselService.Quantity();
             return View();
         }
 

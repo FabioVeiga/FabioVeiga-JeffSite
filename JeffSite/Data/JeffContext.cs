@@ -13,6 +13,7 @@ namespace JeffSite.Data
         public DbSet<User> User { get; set; }
         public DbSet<SocialMidia> SocialMidia { get; set; }
         public DbSet<Configuracao> Configuracao { get; set; }
+        public DbSet<Carousel> Carousels { get; set; }
 
     }
 }
