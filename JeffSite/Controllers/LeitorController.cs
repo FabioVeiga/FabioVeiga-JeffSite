@@ -12,10 +12,12 @@ namespace JeffSite.Controllers
     public class LeitorController : Controller
     {
         private readonly SocialMidiaService _socialMidia;
+        private readonly LeitorService _leitorService;
 
-        public LeitorController(SocialMidiaService socialMidia)
+        public LeitorController(SocialMidiaService socialMidia, LeitorService leitorService)
         {
             _socialMidia = socialMidia;
+            _leitorService = leitorService;
         }
 
         // GET: /<controller>/
@@ -23,6 +25,12 @@ namespace JeffSite.Controllers
         {
             ViewBag.Redes = _socialMidia.FindAll();
             return View();
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Create(){
+            return View("Index");
         }
     }
 }
