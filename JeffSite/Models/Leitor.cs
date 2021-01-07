@@ -1,5 +1,6 @@
 using System.IO;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace JeffSite.Models
 {
@@ -22,7 +23,7 @@ namespace JeffSite.Models
 
         [Display(Name = "Imagem")]
         [Required(ErrorMessage = "Por favor, selecione uma {0}")]
-        public FileInfo Img { get; set; }
+        public IFormFile Img { get; set; }
         
         [Display(Name = "Esta aprovado")]
         public bool IsApproved { get; set; }

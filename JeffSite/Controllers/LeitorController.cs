@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JeffSite.Models;
 using JeffSite.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -29,7 +31,12 @@ namespace JeffSite.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Create(){
+        public IActionResult Create(Leitor leitor){
+            ViewBag.Redes = _socialMidia.FindAll();
+            if(ModelState.IsValid){
+                //todo
+            }
+
             return View("Index");
         }
     }
