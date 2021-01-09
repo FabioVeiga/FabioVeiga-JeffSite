@@ -1,6 +1,7 @@
 using System.IO;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace JeffSite.Models
 {
@@ -23,10 +24,13 @@ namespace JeffSite.Models
 
         [Display(Name = "Imagem")]
         [Required(ErrorMessage = "Por favor, selecione uma {0}")]
-        public IFormFile Img { get; set; }
+        public string PathImg { get; set; }
         
         [Display(Name = "Esta aprovado")]
         public bool IsApproved { get; set; }
+
+        [Display(Name = "Data da do envio")]
+        public DateTime CreateDate { get; set; }
         
     }
 }

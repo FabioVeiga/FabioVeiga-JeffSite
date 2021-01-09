@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace JeffSite.Controllers
     {
         private readonly SocialMidiaService _socialMidia;
         private readonly LeitorService _leitorService;
+        private const int MaxMegaBytes = 5 * 1024 * 1024;
 
         public LeitorController(SocialMidiaService socialMidia, LeitorService leitorService)
         {
@@ -31,8 +33,17 @@ namespace JeffSite.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Create(Leitor leitor){
+        public IActionResult Create(Leitor leitor, IFormFile Img){
             ViewBag.Redes = _socialMidia.FindAll();
+            if(Img == null){
+                ViewBag.ErrorMessage = "Por favor inserir uma imagem!";
+                return View("Index");
+            }else{
+                if(Img.Length >= MaxMegaBytes){
+                    ViewBag.ErrorMessage = "Esta imagem é maior que 5Mb!";
+                }
+            }
+
             if(ModelState.IsValid){
                 //todo
             }

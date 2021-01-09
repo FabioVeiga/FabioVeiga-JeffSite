@@ -14,6 +14,7 @@ namespace JeffSite.Data
         public DbSet<SocialMidia> SocialMidia { get; set; }
         public DbSet<Configuracao> Configuracao { get; set; }
         public DbSet<Carousel> Carousels { get; set; }
+        public DbSet<Leitor> Leitors { get; set; }
 
     }
 }
