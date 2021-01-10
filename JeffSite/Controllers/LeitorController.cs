@@ -28,6 +28,7 @@ namespace JeffSite.Controllers
         public IActionResult Index()
         {
             ViewBag.Redes = _socialMidia.FindAll();
+            ViewBag.Leitores = _leitorService.FindAll();
             return View();
         }
 
@@ -55,7 +56,7 @@ namespace JeffSite.Controllers
                 leitor.NameImg = newNameImg;
                 await _leitorService.CreateAsync(leitor);
             }
-
+            ViewBag.Leitores = _leitorService.FindAll();
             return View("Index");
         }
     }
