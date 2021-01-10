@@ -2,6 +2,7 @@
 @{
     string errorMessage = ViewBag.ErrorMessage == null ? string.Empty : ViewBag.ErrorMessage.ToString();
     string sendMessage = ViewBag.Send == null ? string.Empty : ViewBag.Send.ToString();
+    int limit = ViewBag.Limit;
 }
 <style>
     .imgContainerMain{
@@ -30,10 +31,20 @@
             <div class="imgContainerMain">
                 <div class="imgContainer">
                         <img src="../img/Leitor/@listLeitores[i].NameImg">
-                        <p>This is image @i</p>
+                        <p>
+                            @if(!string.IsNullOrEmpty(listLeitores[i].Nickname)){
+                                @listLeitores[i].Nickname
+                            }else{
+                                @listLeitores[i].Name
+                            }
+                        </p>
                     </div>
             </div>
         }
+        <form asp-controller="Leitor" asp-action="MoreItens" >
+            <input type="hidden" name="limit" value="@limit">
+            <button class="btn btn-block btn-info">Ver mais fotos</button>
+        </form>
        
     </div>
     
@@ -76,7 +87,6 @@
             Ao enviar sua foto, ela ainda será aprovada pelo administrador.
         </div>
     </div>
-    
     
   </div>
 </div>

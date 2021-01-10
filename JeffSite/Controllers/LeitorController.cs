@@ -18,6 +18,7 @@ namespace JeffSite.Controllers
         private readonly LeitorService _leitorService;
         private const int MaxMegaBytes = 5 * 1024 * 1024;
         private const string titlePage = "Cantinho do leitor";
+        private int limitItensView = 9;
 
         public LeitorController(SocialMidiaService socialMidia, LeitorService leitorService)
         {
@@ -25,12 +26,13 @@ namespace JeffSite.Controllers
             _leitorService = leitorService;
         }
 
-        // GET: /<controller>/
+        [HttpGet]
         public IActionResult Index()
         {
             ViewBag.Redes = _socialMidia.FindAll();
-            ViewBag.Leitores = _leitorService.FindAll();
+            ViewBag.Leitores = _leitorService.FindAllApproved(limitItensView);
             ViewBag.Title = titlePage;
+            ViewBag.Limit = limitItensView;
             return View();
         }
 
@@ -60,8 +62,20 @@ namespace JeffSite.Controllers
                 leitor.NameImg = newNameImg;
                 await _leitorService.CreateAsync(leitor);
             }
-            ViewBag.Leitores = _leitorService.FindAll();
+            ViewBag.Leitores = _leitorService.FindAllApproved(limitItensView);
             ViewBag.Send = "Enviado com sucesso!";
+            ViewBag.Limit = limitItensView;
+            return View("Index");
+        }
+
+        [HttpPost]
+        public IActionResult MoreItens(int limit)
+        {
+            limit += 3;
+            ViewBag.Redes = _socialMidia.FindAll();
+            ViewBag.Leitores = _leitorService.FindAllApproved(limit);
+            ViewBag.Title = titlePage;
+            ViewBag.Limit = limit;
             return View("Index");
         }
     }

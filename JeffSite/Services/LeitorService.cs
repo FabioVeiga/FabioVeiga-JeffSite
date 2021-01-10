@@ -18,7 +18,13 @@ namespace JeffSite.Services
         
         public List<Leitor> FindAll(){
             return _context.Leitors
-            .OrderByDescending(x => x.CreateDate)
+            .OrderByDescending(x => x.Id)
+            .ToList();
+        }
+        public List<Leitor> FindAllApproved(int limit){
+            return _context.Leitors
+            .OrderByDescending(x => x.Id)
+            .Take(limit)
             .ToList();
         }
 
