@@ -1,5 +1,92 @@
-﻿@page
+﻿@model JeffSite.Models.Leitor
 @{
+    string errorMessage = ViewBag.ErrorMessage == null ? string.Empty : ViewBag.ErrorMessage.ToString();
+    string sendMessage = ViewBag.Send == null ? string.Empty : ViewBag.Send.ToString();
+    int limit = ViewBag.Limit;
 }
-
-Cantinho do leitor
+<style>
+    .imgContainerMain{
+        text-align: center;
+    }
+    .imgContainer{
+        float:left;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .imgContainer img{
+        height: 170px;
+        width: 170px;
+    }
+</style>
+<div class="container">
+  <h1>@ViewBag.Title</h1>
+  <div class="row">
+    <div class="col-sm-8">
+        @{
+            List<Leitor> listLeitores = (List<Leitor>)ViewBag.Leitores;
+            int totalRegister = listLeitores.Count;
+        }
+        @for (var i = 0; i < totalRegister; i++)
+        {
+            <div class="imgContainerMain">
+                <div class="imgContainer">
+                        <img src="../img/Leitor/@listLeitores[i].NameImg">
+                        <p>
+                            @if(!string.IsNullOrEmpty(listLeitores[i].Nickname)){
+                                @listLeitores[i].Nickname
+                            }else{
+                                @listLeitores[i].Name
+                            }
+                        </p>
+                    </div>
+            </div>
+        }
+        <form asp-controller="Leitor" asp-action="MoreItens" >
+            <input type="hidden" name="limit" value="@limit">
+            <button class="btn btn-block btn-info">Ver mais fotos</button>
+        </form>
+       
+    </div>
+    
+    <!-- Envie sua imagem -->
+    <div class="col-sm-4">
+        <div class="Container">
+            <h4 style="text-align: center;">Envie sua imagem</h4>
+            @if(!string.IsNullOrEmpty(sendMessage)){
+                <div class="alert alert-success" role="alert">
+                    @sendMessage
+                </div>
+            }
+            <form asp-controller="Leitor" asp-action="Create" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.Name)</label>
+                    <input type="text" class="form-control" asp-for="Name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.Email)</label>
+                    <input type="email" class="form-control" asp-for="Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.Nickname)</label>
+                    <input type="text" class="form-control" asp-for="Nickname">
+                    <span asp-validation-for="Nickname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="PathImg" value="../JeffSite/wwwroot/img/Leitor/">
+                    <label>@Html.DisplayNameFor(model => model.PathImg)</label>
+                    <input type="file" accept="image/*"  class="form-control" name="Img">
+                    <small>Será aceita somente imagens até 5MB</small>
+                    <span class="text-danger">@errorMessage</span>
+                </div>
+                <button type="submit" class="btn btn-info">Enviar</button>
+            </form>
+        </div>
+        <div class="alert alert-primary" role="alert" style="margin-top: 10px;">
+            Ao enviar sua foto, ela ainda será aprovada pelo administrador.
+        </div>
+    </div>
+    
+  </div>
+</div>

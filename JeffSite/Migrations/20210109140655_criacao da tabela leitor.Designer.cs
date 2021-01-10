@@ -3,14 +3,16 @@ using System;
 using JeffSite.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JeffSite.Migrations
 {
     [DbContext(typeof(JeffContext))]
-    partial class JeffContextModelSnapshot : ModelSnapshot
+    [Migration("20210109140655_criacao da tabela leitor")]
+    partial class criacaodatabelaleitor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,6 +87,10 @@ namespace JeffSite.Migrations
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<byte[]>("Img")
+                        .IsRequired()
+                        .HasColumnType("longblob");
+
                     b.Property<bool>("IsApproved")
                         .HasColumnType("tinyint(1)");
 
@@ -92,14 +98,7 @@ namespace JeffSite.Migrations
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("NameImg")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<string>("Nickname")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("PathImg")
-                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
