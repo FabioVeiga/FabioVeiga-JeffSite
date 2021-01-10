@@ -79,7 +79,7 @@ namespace JeffSite.Controllers
             return View("Index");
         }
 
-        [Route("ApproPost")]
+        [Route("ApprovePost")]
         [HttpGet]
         public IActionResult ApprovePost(){
             var userLogged = HttpContext.Session.GetString("userLogged");
@@ -88,10 +88,28 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Aprovar Posts";
-
-            var item = _leitorService.FindAllApproved();
-            
+            var item = _leitorService.FindAllApproved(false);
             return View(item);
+        }
+
+        [Route("ApprovePost-id")]
+        [HttpGet]
+        public IActionResult Approve(int id){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Aprovar este post";
+            var item = _leitorService.FindById(id);
+            return View(item);
+        }
+
+        [Route("ApprovePost")]
+        [HttpPost]
+        public async Task<IActionResult> ApprovePost(int id){
+            await _leitorService.ApprovePostAsync(id);
+            return RedirectToAction("ApprovePost");
         }
     }
 }

@@ -2,12 +2,12 @@
 @{
     Layout = "_LayoutAdmin";
 }
-@ViewData["Title"]
+<h1>@ViewData["Title"]</h1>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">Aprovar</th>
       <th scope="col">@Html.DisplayNameFor(Model => Model.Id)</th>
       <th scope="col">@Html.DisplayNameFor(Model => Model.Name)</th>
       <th scope="col">@Html.DisplayNameFor(Model => Model.Email)</th>
@@ -20,7 +20,8 @@
       {
           <tr>
             <th scope="row">
-                @Html.ActionLink("Approve", "Approve", new { id = item.Id })
+                @Html.ActionLink(" ", "Approve", new { id = item.Id }, new { @class = "fas fa-check-square" })
+
             </th>
             <td>@Html.DisplayFor(modelItem => item.Id)</td>
             <td>@Html.DisplayFor(modelItem => item.Name)</td>

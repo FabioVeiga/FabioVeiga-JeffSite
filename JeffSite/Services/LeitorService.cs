@@ -21,14 +21,16 @@ namespace JeffSite.Services
             .OrderByDescending(x => x.Id)
             .ToList();
         }
-        public List<Leitor> FindAllApproved(){
+        public List<Leitor> FindAllApproved(bool flag){
             return _context.Leitors
+            .Where(x => x.IsApproved == flag)
             .OrderByDescending(x => x.Id)
             .ToList();
         }
 
         public List<Leitor> FindAllApproved(int limit){
             return _context.Leitors
+            .Where(x => x.IsApproved == true)
             .OrderByDescending(x => x.Id)
             .Take(limit)
             .ToList();
@@ -41,7 +43,11 @@ namespace JeffSite.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task ApproveLeitor(int id){
+        public Leitor FindById(int id){
+            return  _context.Leitors.FirstOrDefault(x => x.Id == id);
+        }
+
+        public async Task ApprovePostAsync(int id){
             Leitor leitor = _context.Leitors.FirstOrDefault(x => x.Id == id);
             leitor.IsApproved = true;
             _context.Leitors.Update(leitor);
