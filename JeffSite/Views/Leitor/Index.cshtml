@@ -1,6 +1,7 @@
 ﻿@model JeffSite.Models.Leitor
 @{
     string errorMessage = ViewBag.ErrorMessage == null ? string.Empty : ViewBag.ErrorMessage.ToString();
+    string sendMessage = ViewBag.Send == null ? string.Empty : ViewBag.Send.ToString();
 }
 <style>
     .imgContainerMain{
@@ -17,7 +18,7 @@
     }
 </style>
 <div class="container">
-  <h1>Hello World!</h1>
+  <h1>@ViewBag.Title</h1>
   <div class="row">
     <div class="col-sm-8">
         @{
@@ -35,51 +36,47 @@
         }
        
     </div>
+    
+    <!-- Envie sua imagem -->
     <div class="col-sm-4">
-        <h4 style="text-align: center;">Envie sua imagem</h4>
-        <form asp-controller="Leitor" asp-action="Create" enctype="multipart/form-data" style="border: 1px solid black; border-radius: 5%; padding: 5px;">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">
-                        @Html.DisplayNameFor(model => model.Name)
-                    </span>
+        <div class="Container">
+            <h4 style="text-align: center;">Envie sua imagem</h4>
+            @if(!string.IsNullOrEmpty(sendMessage)){
+                <div class="alert alert-success" role="alert">
+                    @sendMessage
                 </div>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" asp-for="Name">
-            </div>
-            <span asp-validation-for="Name" class="text-danger"></span>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">
-                        @Html.DisplayNameFor(model => model.Email)
-                    </span>
+            }
+            <form asp-controller="Leitor" asp-action="Create" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.Name)</label>
+                    <input type="text" class="form-control" asp-for="Name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" asp-for="Email">
-            </div>
-            <span asp-validation-for="Email" class="text-danger"></span>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">
-                        @Html.DisplayNameFor(model => model.Nickname)
-                    </span>
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.Email)</label>
+                    <input type="email" class="form-control" asp-for="Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" asp-for="Nickname">
-            </div>
-            <div class="input-group mb-3">
-                <input type="hidden" asp-for="PathImg" value="../JeffSite/wwwroot/img/Leitor/">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">
-                        @Html.DisplayNameFor(model => model.PathImg)
-                    </span>
+                <div class="form-group">
+                    <label>@Html.DisplayNameFor(model => model.Nickname)</label>
+                    <input type="text" class="form-control" asp-for="Nickname">
+                    <span asp-validation-for="Nickname" class="text-danger"></span>
                 </div>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="Img" aria-describedby="inputGroupFileAddon01" accept="image/*" >
-                    <label class="custom-file-label" for="inputGroupFile01">Escolha sua imagem</label>
+                <div class="form-group">
+                    <input type="hidden" asp-for="PathImg" value="../JeffSite/wwwroot/img/Leitor/">
+                    <label>@Html.DisplayNameFor(model => model.PathImg)</label>
+                    <input type="file" accept="image/*"  class="form-control" name="Img">
+                    <small>Será aceita somente imagens até 5MB</small>
+                    <span class="text-danger">@errorMessage</span>
                 </div>
-            </div>
-            <small>Somente 5Mb</small>
-            <span class="text-danger">@errorMessage</span>
-            <button type="submit" class="btn btn-info">Enviar</button>
-        </form>
+                <button type="submit" class="btn btn-info">Enviar</button>
+            </form>
+        </div>
+        <div class="alert alert-primary" role="alert" style="margin-top: 10px;">
+            Ao enviar sua foto, ela ainda será aprovada pelo administrador.
+        </div>
     </div>
+    
+    
   </div>
 </div>

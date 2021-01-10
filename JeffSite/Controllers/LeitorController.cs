@@ -17,6 +17,7 @@ namespace JeffSite.Controllers
         private readonly SocialMidiaService _socialMidia;
         private readonly LeitorService _leitorService;
         private const int MaxMegaBytes = 5 * 1024 * 1024;
+        private const string titlePage = "Cantinho do leitor";
 
         public LeitorController(SocialMidiaService socialMidia, LeitorService leitorService)
         {
@@ -29,13 +30,16 @@ namespace JeffSite.Controllers
         {
             ViewBag.Redes = _socialMidia.FindAll();
             ViewBag.Leitores = _leitorService.FindAll();
+            ViewBag.Title = titlePage;
             return View();
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Create(Leitor leitor, IFormFile Img){
+            ViewBag.Title = titlePage;
             ViewBag.Redes = _socialMidia.FindAll();
+
             if(Img == null){
                 ViewBag.ErrorMessage = "Por favor inserir uma imagem!";
                 return View("Index");
@@ -57,6 +61,7 @@ namespace JeffSite.Controllers
                 await _leitorService.CreateAsync(leitor);
             }
             ViewBag.Leitores = _leitorService.FindAll();
+            ViewBag.Send = "Enviado com sucesso!";
             return View("Index");
         }
     }
