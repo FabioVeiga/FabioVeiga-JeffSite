@@ -25,6 +25,7 @@ namespace JeffSite.Models
         [Display(Name = "Imagem")]
         [Required(ErrorMessage = "Por favor, selecione uma {0}")]
         public string PathImg { get; set; }
+        public string NameImg { get; set; }
         
         [Display(Name = "Esta aprovado")]
         public bool IsApproved { get; set; }

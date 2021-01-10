@@ -33,7 +33,7 @@ namespace JeffSite.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Create(Leitor leitor, IFormFile Img){
+        public async Task<IActionResult> Create(Leitor leitor, IFormFile Img){
             ViewBag.Redes = _socialMidia.FindAll();
             if(Img == null){
                 ViewBag.ErrorMessage = "Por favor inserir uma imagem!";
@@ -45,7 +45,15 @@ namespace JeffSite.Controllers
             }
 
             if(ModelState.IsValid){
-                //todo
+                DateTime now = DateTime.Now;
+                string newNameImg = $@"{now.ToString("yyyyMMddhhmmss")}_{Img.FileName}";
+                string path = $@"{leitor.PathImg}{newNameImg}";
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    Img.CopyTo(stream); 
+                }
+                leitor.NameImg = newNameImg;
+                await _leitorService.CreateAsync(leitor);
             }
 
             return View("Index");
