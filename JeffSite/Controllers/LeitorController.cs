@@ -78,5 +78,20 @@ namespace JeffSite.Controllers
             ViewBag.Limit = limit;
             return View("Index");
         }
+
+        [Route("ApproPost")]
+        [HttpGet]
+        public IActionResult ApprovePost(){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Aprovar Posts";
+
+            var item = _leitorService.FindAllApproved();
+            
+            return View(item);
+        }
     }
 }
