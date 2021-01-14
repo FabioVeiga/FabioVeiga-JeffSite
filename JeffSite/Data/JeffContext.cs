@@ -15,6 +15,7 @@ namespace JeffSite.Data
         public DbSet<Configuracao> Configuracao { get; set; }
         public DbSet<Carousel> Carousels { get; set; }
         public DbSet<Leitor> Leitors { get; set; }
+        public DbSet<Livro> Livros { get; set; }
 
     }
 }
