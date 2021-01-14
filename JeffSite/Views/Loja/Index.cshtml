@@ -1,5 +1,65 @@
-﻿@page
+﻿
 @{
 }
-
-Loja
+<style>
+    .livro{
+        background-color: red;
+    }
+    .fotoLivro{
+        background-color: yellow;
+        width: 200px;
+        height: 200px;
+    }
+    .fotoLivro img{
+        width: 80%;
+        height: 80%;
+        margin: 10%;
+    }
+    .descricao{
+        background-color: brown;
+        margin-left: 200px;
+        margin-top: -200px;
+        height: 200px;
+    }
+    .descricao-titulo{
+        background-color: cyan;
+        width: 100%;
+        padding-left: 15px;
+    }
+    .descricao-corpo{
+        background-color: darkgray;
+        width: 100%;
+    }
+    .descricao-corpo p{
+        font-style: italic;
+    }
+    .descricao-links{
+        background-color: pink;
+        text-align: right;
+        margin-right: 10px;
+    }
+</style>
+<div class="container">
+    <h1>@ViewBag.Title</h1>
+    <div class="row">
+        <div class="col">
+            <div class="livro">
+                <div class="fotoLivro">
+                    <img src="img/imgProfile.jpg" />
+                </div>
+                <div class="descricao">
+                    <div class="descricao-titulo"><h4>Titulo</h4></div>
+                    <div class="descricao-corpo">
+                        <p>
+                            Existem diferentes métodos para o posicionamento de elementos horizontalmente, sendo normalmente divididos nas categorias "largura definida" e "largura variável", pois a escolhe do melhor método dependendo da necessidade e o código HTML.
+                        </p>
+                    </div>
+                    <div class="descricao-links">
+                        <a>teste</a>
+                        <a>teste</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

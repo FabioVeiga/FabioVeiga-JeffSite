@@ -14,6 +14,7 @@ namespace JeffSite.Controllers
     public class LojaController : Controller
     {
         private readonly SocialMidiaService _socialMidia;
+        private const string titlePage = "Loja";
         public LojaController(SocialMidiaService socialMidia)
         {
             _socialMidia = socialMidia;
@@ -22,6 +23,7 @@ namespace JeffSite.Controllers
         public IActionResult Index()
         {
             ViewBag.Redes = _socialMidia.FindAll();
+            ViewBag.Title = titlePage;
             return View();
         }
     }
