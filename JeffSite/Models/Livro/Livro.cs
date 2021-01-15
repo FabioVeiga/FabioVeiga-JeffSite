@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace JeffSite.Models
+namespace JeffSite.Models.Livro
 {
     public class Livro{
         [Key]
@@ -13,14 +13,10 @@ namespace JeffSite.Models
         [Required (ErrorMessage = "Por favor, inserir {0}!")]
         [Display(Name = "Descrição")]
         public string Description { get; set; }
+        
+        public Tag Tags { get; set; }
 
-        [Required (ErrorMessage = "Por favor, inserir {0}!")]
-        [Display(Name = "Onde comprar")]
-        public string[] ListWhereToBuy { get; set; }
-
-        [Required (ErrorMessage = "Por favor, inserir {0}!")]
-        [Display(Name = "Tag para pesquisa")]
-        public string[] Tags { get; set; }
+        public WhereToBuy WhereToBuy { get; set; }
         
         
     }
