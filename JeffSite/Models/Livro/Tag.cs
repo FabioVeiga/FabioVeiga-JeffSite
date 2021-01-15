@@ -12,7 +12,6 @@ namespace JeffSite.Models.Livro
         [Display(Name = "Tag para pesquisa")]
         public string Name { get; set; }
         public int IdLivro { get; set; }
-        public ICollection<Livro> Livros { get; set; }
 
         public Tag(){}
 

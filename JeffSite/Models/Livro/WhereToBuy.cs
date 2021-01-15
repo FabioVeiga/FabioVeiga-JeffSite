@@ -18,7 +18,6 @@ namespace JeffSite.Models.Livro
         public string IconFA { get; set; }
         
         public int IdLivro { get; set; }
-        public ICollection<Livro> Livros { get; set; }
         
         public WhereToBuy(){}
         public WhereToBuy(int id, string name, string url, string iconFA){
