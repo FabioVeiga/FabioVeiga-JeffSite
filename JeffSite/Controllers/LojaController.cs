@@ -40,5 +40,16 @@ namespace JeffSite.Controllers
             var livros = _livroService.FindAll();
             return View(livros);
         }
+        
+        [HttpGet]
+        public IActionResult Create(){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Novo";
+            return View();
+        }
     }
 }
