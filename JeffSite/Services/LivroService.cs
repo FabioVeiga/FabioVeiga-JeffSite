@@ -19,6 +19,11 @@ namespace JeffSite.Services
             return _context.Livros.ToList();
         }
 
+        public async Task CreateAsync(Livro livro){
+            await _context.Livros.AddAsync(livro);
+            await _context.SaveChangesAsync();
+        }
+
     }
 
 }

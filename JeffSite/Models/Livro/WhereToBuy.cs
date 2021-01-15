@@ -9,9 +9,22 @@ namespace JeffSite.Models.Livro
 
         [Required (ErrorMessage = "Por favor, inserir {0}!")]
         [Display(Name = "Onde comprar")]
-        public string ListWhereToBuy { get; set; }
-        public ICollection<Livro> Livros { get; set; }
+        public string Name { get; set; }
         
+        [Display(Name = "Endereço da rede social")]
+        public string Url { get; set; }
+
+        [Display (Name= "Escolha um icone")]
+        public string IconFA { get; set; }
         
+        public ICollection<Livro> Livros { get; set; } = new List<Livro>();
+        
+        public WhereToBuy(){}
+        public WhereToBuy(int id, string name, string url, string iconFA){
+            Id = id;
+            Name = name;
+            Url = url;
+            IconFA = iconFA;
+        }
     }
 }
