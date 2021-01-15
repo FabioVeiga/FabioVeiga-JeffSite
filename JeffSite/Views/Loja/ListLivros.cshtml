@@ -1,0 +1,44 @@
+@model IEnumerable<JeffSite.Models.Livro.Livro>
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+<a class="btn btn-primary" asp-action="Create">Criar</a>
+<br>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Id)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Title)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Description)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.WhereToBuy.ListWhereToBuy)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Tags.Name)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.ImgName)</th>
+    </tr>
+  </thead>
+  <tbody>
+      @foreach (var item in Model)
+      {
+          <tr>
+            <th scope="row">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    @Html.Label(" | ")
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </th>
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+            <td>@Html.DisplayFor(modelItem => item.WhereToBuy.ListWhereToBuy)</td>
+            <td>@Html.DisplayFor(modelItem => item.Tags.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.ImgName)</td>
+            
+        </tr>
+      }
+  </tbody>
+</table>

@@ -13,6 +13,7 @@ namespace JeffSite.Models.Livro
         [Required (ErrorMessage = "Por favor, inserir {0}!")]
         [Display(Name = "Descrição")]
         public string Description { get; set; }
+        public string ImgName { get; set; }
         
         public Tag Tags { get; set; }
 
