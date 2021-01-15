@@ -17,12 +17,6 @@ namespace JeffSite.Models.Livro
         public string Description { get; set; }
         public string ImgName { get; set; }
 
-        public int IdWhereToBuy { get; set; }
-        public WhereToBuy WhereToBuy { get; set; }
-        
-        public int IdTag{ get; set; }
-        public Tag Tag { get; set; }
-
         public Livro(){}
 
         public Livro(int id, string title, string description, string imgName){
