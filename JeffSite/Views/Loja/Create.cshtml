@@ -24,9 +24,10 @@
         <div class="dropdown-menu">
             <a class="dropdown-item" onclick="changeIcon('Amazon','fab fa-amazon')" href="#"><i class="fab fa-amazon"></i></i> Amazon</a>
         </div>
+        <input type="hidden" class="form-control" Id="Name">
+        <input type="hidden" class="form-control" Id="IconFA">
+        <input type="text" class="form-control" placeholder="Url">
     </div>
-    <input type="text" class="form-control" placeholder="Link para compra">
-    <input type="hidden" class="form-control">
     
     <input type="hidden" asp-for="ImgName" value="../JeffSite/wwwroot/img/Livro/">
     <a asp-controller="Carousel" asp-action="Index">Voltar</a>
