@@ -64,8 +64,8 @@ namespace JeffSite.Controllers
             {
                 Img.CopyTo(stream); 
             }
-            _livroService.Create(livro);
-            return RedirectToAction("AddWheryToBuy", livro);
+            var item = _livroService.Create(livro, proxId);
+            return RedirectToAction("AddWheryToBuy", item);
         }
     }
 }

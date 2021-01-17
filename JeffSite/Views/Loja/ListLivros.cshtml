@@ -1,6 +1,7 @@
 @model IEnumerable<JeffSite.Models.Livro.Livro>
 @{
     Layout = "_LayoutAdmin";
+    string pathImg = System.IO.Path.Combine("..","img","Livro");
 }
 
 <br>
@@ -32,7 +33,7 @@
             <td>@Html.DisplayFor(modelItem => item.Id)</td>
             <td>@Html.DisplayFor(modelItem => item.Title)</td>
             <td>@Html.DisplayFor(modelItem => item.Description)</td>
-            <td>@Html.DisplayFor(modelItem => item.ImgName)</td>
+            <td><img src="@pathImg\\@item.ImgName" style="width:100px;"></td>
             
         </tr>
       }
