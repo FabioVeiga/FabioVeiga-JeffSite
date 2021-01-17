@@ -1,7 +1,9 @@
-﻿using System;
+﻿using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JeffSite.Models.Livro;
 using JeffSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +52,20 @@ namespace JeffSite.Controllers
             }
             ViewData["Title"] = "Novo";
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Livro livro, IFormFile Img){
+            int proxId = _livroService.FindNextIdLivro();
+            livro.ImgName = string.Concat(proxId,"_",Img.FileName);
+            string path = Path.Combine("wwwroot","img","Livro",livro.ImgName);
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                Img.CopyTo(stream); 
+            }
+            _livroService.Create(livro);
+            return RedirectToAction("AddWheryToBuy", livro);
         }
     }
 }

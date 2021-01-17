@@ -16,7 +16,7 @@ namespace JeffSite.Models.Livro
         [Display(Name = "Descrição")]
         public string Description { get; set; }
         public string ImgName { get; set; }
-        public ICollection<WhereToBuy> WhereToBuys { get; set; }
+        public ICollection<WhereToBuy> WhereToBuys { get; set; } = new List<WhereToBuy>();
         public ICollection<Tag> Tags { get; set; }
 
         public Livro(){}
