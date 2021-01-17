@@ -1,0 +1,30 @@
+@model JeffSite.Models.Livro.Livro
+@{
+    Layout = "_LayoutAdmin";
+    string pathImg = System.IO.Path.Combine("..","..","img","Livro");
+}
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+<form asp-action="Delete">
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Id)</label>
+        <input type="text" class="form-control" asp-for="Id" readonly>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Title)</label>
+        <input type="text" class="form-control" asp-for="Title" readonly>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Description)</label>
+        <input type="text" class="form-control" asp-for="Description" readonly>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.ImgName)</label>
+        <img src="@pathImg/@Model.ImgName" style="width: 100px;">
+        <input type="hidden" class="form-control" asp-for="ImgName" >
+    </div>
+    <a asp-controller="Loja" asp-action="ListLivros">Voltar</a>
+    <button class="btn btn-danger">Excluir</button>
+</form>

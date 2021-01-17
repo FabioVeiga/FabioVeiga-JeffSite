@@ -29,6 +29,15 @@ namespace JeffSite.Services
             return _context.Livros.FirstOrDefault(x => x.Id == id);
         }
 
+        public Livro FindById(int id){
+            return _context.Livros.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void Delete(Livro livro){
+            _context.Livros.Remove(livro);
+            _context.SaveChanges();
+        }
+
     }
 
 }

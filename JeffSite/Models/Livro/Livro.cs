@@ -15,6 +15,7 @@ namespace JeffSite.Models.Livro
         [Required (ErrorMessage = "Por favor, inserir {0}!")]
         [Display(Name = "Descrição")]
         public string Description { get; set; }
+        [Display(Name = "Nome da imagem")]
         public string ImgName { get; set; }
         public ICollection<WhereToBuy> WhereToBuys { get; set; } = new List<WhereToBuy>();
         public ICollection<Tag> Tags { get; set; }

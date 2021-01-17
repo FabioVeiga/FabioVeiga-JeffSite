@@ -67,5 +67,27 @@ namespace JeffSite.Controllers
             var item = _livroService.Create(livro, proxId);
             return RedirectToAction("AddWheryToBuy", item);
         }
+
+        [HttpGet]
+        public IActionResult Delete(int id){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Deletar";
+            var livro = _livroService.FindById(id);
+            return View(livro);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Livro livro){
+            string path = Path.Combine("wwwroot","img","Livro",livro.ImgName);
+            System.IO.FileInfo file = new System.IO.FileInfo(path);
+            file.Delete();
+            _livroService.Delete(livro);
+            return RedirectToAction("ListLivros");
+        }
     }
 }
