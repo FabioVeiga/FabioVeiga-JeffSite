@@ -7,10 +7,9 @@
 <h1>@ViewData["Title"]</h1>
 <br>
 
-
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.Title)</label>
-        <input type="text" class="form-control" asp-for="Id" readonly>
+        <input type="hidden" class="form-control" asp-for="Id" readonly>
         <input type="text" class="form-control" asp-for="Title" readonly>
     </div>
     <div class="input-group-prepend">
@@ -29,13 +28,14 @@
         <input type="hidden" class="form-control" id="iconFA">
         <input type="text" class="form-control" id="url" placeholder="Url">
     </div>
-    <button class="btn btn-primary" onclick="AddWhereToBuy()" id="btnAddWhere">Adicionar</button>
+    <button class="btn btn-primary" onclick="AddWhereToBuy()">Adicionar</button>
+    <br>
 
 <table class="table table-striped">
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Onde</th>
+      <th scope="col">Lugar</th>
       <th scope="col">Url</th>
     </tr>
   </thead>
@@ -71,18 +71,28 @@
         var txtUrl = document.getElementById('url').value
         var txtIconFA = document.getElementById('iconFA').value
         if(txtUrl === '' || txtIconFA === ''){
-            console.log('nao pode')
         }else{
-            var dado = {
-                IdBook: document.getElementById('Id').value,
+            var item = {
+                IdLivro: document.getElementById('Id').value,
                 Name: document.getElementById('name').value,
-                IconFA: document.getElementById('iconFA').value,
+                IconFa: document.getElementById('iconFA').value,
                 Url: document.getElementById('url').value
             }
-            console.log(dado)
+            //enviando dados para API
+            var endpoint = 'https://' + window.location.host + '/api/livro/addwheretobuy'
+                $.ajax({
+                    url: endpoint,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: item,
+                    success: function (data, status) {
+                        console.log('the request is ' + status + ' the data is ' + data);
+                    },
+                    error: function (html, status, error) {
+                        alert("Ocorreu algum erro ao tentar inserir, tente mais tarde ou contato o ADM!")
+                    }
+                })
         }
-        
-        
     }
 
     

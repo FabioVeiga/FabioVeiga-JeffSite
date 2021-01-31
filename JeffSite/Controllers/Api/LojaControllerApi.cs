@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace JeffSite.Controllers
 {
     
-    
+    [Route("api/livro")]
     public class LojaControllerApi: Controller
     {
         private readonly SocialMidiaService _socialMidia;
@@ -25,16 +25,19 @@ namespace JeffSite.Controllers
         }
 
 
-        [Route("api/AddWhereToBuy/iconFa/name/url/idLivro")]
-        public IActionResult AddWhereToBuy(string iconFa, string name, string url, int idLivro){
-            WhereToBuy item = new WhereToBuy{
-                IconFA = iconFa,
-                Name = name,
-                Url = url,
-                IdLivro = idLivro
-            };
+        [Route("addwheretobuy")]
+        [HttpPost]
+        public IActionResult AddWhereToBuy(WhereToBuy item){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            if(item == null){
+                return BadRequest();
+            }
             _livroService.AddWhereToBuy(item);
-            var links = _livroService.FindAllWhereToBuyById(idLivro);
+            var links = _livroService.FindAllWhereToBuyById(item.IdLivro);
             return Ok(links);
         }
 

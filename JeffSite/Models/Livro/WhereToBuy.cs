@@ -20,11 +20,12 @@ namespace JeffSite.Models.Livro
         public int IdLivro { get; set; }
         
         public WhereToBuy(){}
-        public WhereToBuy(int id, string name, string url, string iconFA){
+        public WhereToBuy(int id, string name, string url, string iconFA, int idLivro){
             Id = id;
             Name = name;
             Url = url;
             IconFA = iconFA;
+            IdLivro = idLivro;
         }
     }
 }
