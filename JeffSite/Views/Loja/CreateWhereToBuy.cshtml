@@ -29,7 +29,7 @@
         <input type="hidden" class="form-control" id="iconFA">
         <input type="text" class="form-control" id="url" placeholder="Url">
     </div>
-    <button class="btn btn-primary" onclick="AddWhereToBuy()" id="btnAddWhere" disabled>Adicionar</button>
+    <button class="btn btn-primary" onclick="AddWhereToBuy()" id="btnAddWhere">Adicionar</button>
 
 <table class="table table-striped">
   <thead>
@@ -66,19 +66,23 @@
         }
     }
 
-    $('#url').keyup(function (){
-        if(this.value == ''){
-            $('#btnAddWhere').prop('disabled',true)
-        }else{
-            $('#btnAddWhere').removeAttr('disabled')
-        }
-    })
 
     function AddWhereToBuy(){
-        const txtIdBook = document.getElementById('Id')
-        const txtName = document.getElementById('name')
-        const txtIconFA = document.getElementById('iconFA')
-        const lIcon = document.getElementById('label-icon')
+        var txtUrl = document.getElementById('url').value
+        var txtIconFA = document.getElementById('iconFA').value
+        if(txtUrl === '' || txtIconFA === ''){
+            console.log('nao pode')
+        }else{
+            var dado = {
+                IdBook: document.getElementById('Id').value,
+                Name: document.getElementById('name').value,
+                IconFA: document.getElementById('iconFA').value,
+                Url: document.getElementById('url').value
+            }
+            console.log(dado)
+        }
+        
+        
     }
 
     
