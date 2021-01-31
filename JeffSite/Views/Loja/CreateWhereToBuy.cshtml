@@ -39,6 +39,14 @@
       <th scope="col">Url</th>
     </tr>
   </thead>
+  <tr>
+      @foreach (var item in (List<JeffSite.Models.Livro.WhereToBuy>)ViewBag.Links)
+      {
+          <td></td>
+          <td>item.Name</td>
+          <td>item.Url</td>
+      }
+  </tr>
   <tbody>
       
   </tbody>
@@ -73,25 +81,31 @@
         if(txtUrl === '' || txtIconFA === ''){
         }else{
             var item = {
-                IdLivro: document.getElementById('Id').value,
+                Livro: {
+                    Id: document.getElementById('Id').value
+                },
                 Name: document.getElementById('name').value,
                 IconFa: document.getElementById('iconFA').value,
                 Url: document.getElementById('url').value
             }
+            console.log(item)
+            console.log(JSON.stringify(item))
             //enviando dados para API
             var endpoint = 'https://' + window.location.host + '/api/livro/addwheretobuy'
-                $.ajax({
-                    url: endpoint,
-                    type: 'POST',
-                    dataType: 'json',
-                    data: item,
-                    success: function (data, status) {
-                        console.log('the request is ' + status + ' the data is ' + data);
-                    },
-                    error: function (html, status, error) {
-                        alert("Ocorreu algum erro ao tentar inserir, tente mais tarde ou contato o ADM!")
-                    }
-                })
+            
+            $.ajax({
+                url: endpoint,
+                type: 'POST',
+                dataType: 'json',
+                data: item,
+                success: function (data, status) {
+                    console.log('the request is ' + status + ' the data is ' + data);
+                },
+                error: function (html, status, error) {
+                    alert("Ocorreu algum erro ao tentar inserir, tente mais tarde ou contato o ADM!")
+                }
+            })
+            
         }
     }
 

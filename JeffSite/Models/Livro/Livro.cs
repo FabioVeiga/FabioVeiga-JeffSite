@@ -17,6 +17,12 @@ namespace JeffSite.Models.Livro
         public string Description { get; set; }
         [Display(Name = "Nome da imagem")]
         public string ImgName { get; set; }
+
+        public virtual ICollection<WhereToBuy> WhereToBuys { get; set; }
+        public Livro()
+        {
+            WhereToBuys = new HashSet<WhereToBuy>();
+        }
         
     }
     

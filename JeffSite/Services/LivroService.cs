@@ -44,7 +44,7 @@ namespace JeffSite.Services
         }
 
         public List<WhereToBuy> FindAllWhereToBuyById(int idLivro){
-            return _context.WhereToBuys.Where(x => x.livro.Id == idLivro).ToList();
+            return _context.WhereToBuys.Where(x => x.Livro.Id == idLivro).ToList();
         }
 
     }

@@ -16,7 +16,7 @@ namespace JeffSite.Models.Livro
 
         [Display (Name= "Escolha um icone")]
         public string IconFA { get; set; }
-        public Livro livro { get; set; }
+        public virtual Livro Livro { get; set; }
         
     }
 }

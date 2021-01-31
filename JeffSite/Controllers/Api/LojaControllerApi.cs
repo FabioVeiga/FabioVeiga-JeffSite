@@ -36,6 +36,7 @@ namespace JeffSite.Controllers
             if(item == null){
                 return BadRequest();
             }
+            item.Livro = _livroService.FindById(item.Livro.Id);
             _livroService.AddWhereToBuy(item);
             return Ok(item);
         }
