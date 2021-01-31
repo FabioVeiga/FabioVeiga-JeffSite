@@ -1,8 +1,8 @@
 @model JeffSite.Models.Livro.Livro
 @{
     Layout = "_LayoutAdmin";
-    var test = new List<JeffSite.Models.Livro.WhereToBuy>();
 }
+<script src="lib/jquery/dist/jquery.min.js"></script>
 <br>
 <h1>@ViewData["Title"]</h1>
 <br>
@@ -10,7 +10,7 @@
 
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.Title)</label>
-        <input type="hidden" class="form-control" asp-for="Id" readonly>
+        <input type="text" class="form-control" asp-for="Id" readonly>
         <input type="text" class="form-control" asp-for="Title" readonly>
     </div>
     <div class="input-group-prepend">
@@ -25,11 +25,11 @@
             <a class="dropdown-item" onclick="changeIcon('cart-arrow-down','fas fa-cart-arrow-down')" href="#"><i class="fas fa-cart-arrow-down"></i> Extra</a>
             <a class="dropdown-item" onclick="changeIcon('store-alt','fas fa-store-alt')" href="#"><i class="fas fa-store-alt"></i> Outros</a>
         </div>
-        <input type="text" class="form-control" id="name" >
-        <input type="text" class="form-control" id="iconFA">
+        <input type="hidden" class="form-control" id="name" >
+        <input type="hidden" class="form-control" id="iconFA">
         <input type="text" class="form-control" id="url" placeholder="Url">
     </div>
-    <button class="btn btn-primary" onclick="AddWhereToBuy()">Adicionar</button>
+    <button class="btn btn-primary" onclick="AddWhereToBuy()" id="btnAddWhere" disabled>Adicionar</button>
 
 <table class="table table-striped">
   <thead>
@@ -64,6 +64,21 @@
             lIcon.value = ""
             lIcon.innerHTML = `<i class="${icon}"></i>`
         }
+    }
+
+    $('#url').keyup(function (){
+        if(this.value == ''){
+            $('#btnAddWhere').prop('disabled',true)
+        }else{
+            $('#btnAddWhere').removeAttr('disabled')
+        }
+    })
+
+    function AddWhereToBuy(){
+        const txtIdBook = document.getElementById('Id')
+        const txtName = document.getElementById('name')
+        const txtIconFA = document.getElementById('iconFA')
+        const lIcon = document.getElementById('label-icon')
     }
 
     
