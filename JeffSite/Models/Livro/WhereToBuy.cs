@@ -16,16 +16,7 @@ namespace JeffSite.Models.Livro
 
         [Display (Name= "Escolha um icone")]
         public string IconFA { get; set; }
+        public Livro livro { get; set; }
         
-        public int IdLivro { get; set; }
-        
-        public WhereToBuy(){}
-        public WhereToBuy(int id, string name, string url, string iconFA, int idLivro){
-            Id = id;
-            Name = name;
-            Url = url;
-            IconFA = iconFA;
-            IdLivro = idLivro;
-        }
     }
 }

@@ -37,8 +37,7 @@ namespace JeffSite.Controllers
                 return BadRequest();
             }
             _livroService.AddWhereToBuy(item);
-            var links = _livroService.FindAllWhereToBuyById(item.IdLivro);
-            return Ok(links);
+            return Ok(item);
         }
 
     }
