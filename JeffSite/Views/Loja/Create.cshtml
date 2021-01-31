@@ -23,17 +23,6 @@
         <input type="hidden" class="form-control" asp-for="ImgName">
         <span asp-validation-for="ImgName" class="text-danger"></span>
     </div>
-    @* <div class="input-group-prepend">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnIcon">
-            <label id="label-icon">Icone</label>
-        </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="changeIcon('Amazon','fab fa-amazon')" href="#"><i class="fab fa-amazon"></i></i> Amazon</a>
-        </div>
-        <input type="hidden" class="form-control" Id="Name" >
-        <input type="hidden" class="form-control" Id="IconFA">
-        <input type="text" class="form-control" placeholder="Url">
-    </div> *@
     
     <a asp-controller="Loja" asp-action="Index">Voltar</a>
     <button class="btn btn-primary">Proximo</button>
@@ -42,21 +31,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-<script>
-    function changeIcon(name,icon){
-        const txtName = document.getElementById('Name')
-        const txtIconFA = document.getElementById('IconFA')
-        const lIcon = document.getElementById('label-icon')
-
-        txtName.value = name
-        txtIconFA.value = icon
-
-        if(lIcon === ""){
-            lIcon.value = "Icone"
-        }else{
-            lIcon.value = ""
-            lIcon.innerHTML = `<i class="${icon}"></i>`
-        }
-    }
-</script>

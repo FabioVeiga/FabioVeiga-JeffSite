@@ -1,0 +1,71 @@
+@model JeffSite.Models.Livro.Livro
+@{
+    Layout = "_LayoutAdmin";
+    var test = new List<JeffSite.Models.Livro.WhereToBuy>();
+}
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Title)</label>
+        <input type="hidden" class="form-control" asp-for="Id" readonly>
+        <input type="text" class="form-control" asp-for="Title" readonly>
+    </div>
+    <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnIcon">
+            <label id="label-icon">Icone</label>
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" onclick="changeIcon('Amazon','fab fa-amazon')" href="#"><i class="fab fa-amazon"></i></i> Amazon</a>
+            <a class="dropdown-item" onclick="changeIcon('shopping-bag','fas fa-shopping-bag')" href="#"><i class="fas fa-shopping-bag"></i> Submarino</a>
+            <a class="dropdown-item" onclick="changeIcon('shopping-basket','fas fa-shopping-basket')" href="#"><i class="fas fa-shopping-basket"></i> Americanas</a>
+            <a class="dropdown-item" onclick="changeIcon('shopping-cart','fas fa-shopping-cart')" href="#"><i class="fas fa-shopping-cart"></i> Mercado Livre</a>
+            <a class="dropdown-item" onclick="changeIcon('cart-arrow-down','fas fa-cart-arrow-down')" href="#"><i class="fas fa-cart-arrow-down"></i> Extra</a>
+            <a class="dropdown-item" onclick="changeIcon('store-alt','fas fa-store-alt')" href="#"><i class="fas fa-store-alt"></i> Outros</a>
+        </div>
+        <input type="text" class="form-control" id="name" >
+        <input type="text" class="form-control" id="iconFA">
+        <input type="text" class="form-control" id="url" placeholder="Url">
+    </div>
+    <button class="btn btn-primary" onclick="AddWhereToBuy()">Adicionar</button>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Onde</th>
+      <th scope="col">Url</th>
+    </tr>
+  </thead>
+  <tbody>
+      
+  </tbody>
+</table>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    function changeIcon(name,icon){
+        const txtName = document.getElementById('name')
+        const txtIconFA = document.getElementById('iconFA')
+        const lIcon = document.getElementById('label-icon')
+
+        txtName.value = name
+        txtIconFA.value = icon
+
+        if(lIcon === ""){
+            lIcon.value = "Icone"
+        }else{
+            lIcon.value = ""
+            lIcon.innerHTML = `<i class="${icon}"></i>`
+        }
+    }
+
+    
+
+</script>

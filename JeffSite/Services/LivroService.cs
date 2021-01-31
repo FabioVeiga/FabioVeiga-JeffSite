@@ -38,6 +38,15 @@ namespace JeffSite.Services
             _context.SaveChanges();
         }
 
+        public void AddWhereToBuy(WhereToBuy item){
+            _context.WhereToBuys.Add(item);
+            _context.SaveChanges();
+        }
+
+        public List<WhereToBuy> FindAllWhereToBuyById(int idLivro){
+            return _context.WhereToBuys.Where(x => x.IdLivro == idLivro).ToList();
+        }
+
     }
 
 }

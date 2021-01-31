@@ -65,7 +65,7 @@ namespace JeffSite.Controllers
                 Img.CopyTo(stream); 
             }
             var item = _livroService.Create(livro, proxId);
-            return RedirectToAction("AddWheryToBuy", item);
+            return RedirectToAction("CreateWhereToBuy", item);
         }
 
         [HttpGet]
@@ -88,6 +88,30 @@ namespace JeffSite.Controllers
             file.Delete();
             _livroService.Delete(livro);
             return RedirectToAction("ListLivros");
+        }
+
+        [HttpGet]
+        public IActionResult CreateWhereToBuy(Livro livro){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Adicionar URL de compra";
+            return View();
+        }
+
+        [Route("AddWhereToBuy")]
+        [HttpGet]
+        public IActionResult CreateWhereToBuy(int id){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Adicionar URL de compra";
+            var livro = _livroService.FindById(id);
+            return View(livro);
         }
     }
 }
