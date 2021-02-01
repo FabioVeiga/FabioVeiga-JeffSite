@@ -98,8 +98,8 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Adicionar URL de compra";
-            var links = _livroService.FindAllWhereToBuyById(livro.Id);
-            return View(links);
+            livro.WhereToBuys = _livroService.FindAllWhereToBuyById(livro.Id);
+            return View(livro);
         }
 
         [Route("AddWhereToBuy")]
@@ -112,7 +112,7 @@ namespace JeffSite.Controllers
             }
             ViewData["Title"] = "Adicionar URL de compra";
             var livro = _livroService.FindById(id);
-            ViewBag.Links = _livroService.FindAllWhereToBuyById(livro.Id);
+            livro.WhereToBuys = _livroService.FindAllWhereToBuyById(livro.Id);
             return View(livro);
         }
     }

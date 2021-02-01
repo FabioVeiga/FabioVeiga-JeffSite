@@ -18,18 +18,18 @@
         </button>
         <div class="dropdown-menu">
             <a class="dropdown-item" onclick="changeIcon('Amazon','fab fa-amazon')" href="#"><i class="fab fa-amazon"></i></i> Amazon</a>
-            <a class="dropdown-item" onclick="changeIcon('shopping-bag','fas fa-shopping-bag')" href="#"><i class="fas fa-shopping-bag"></i> Submarino</a>
-            <a class="dropdown-item" onclick="changeIcon('shopping-basket','fas fa-shopping-basket')" href="#"><i class="fas fa-shopping-basket"></i> Americanas</a>
-            <a class="dropdown-item" onclick="changeIcon('shopping-cart','fas fa-shopping-cart')" href="#"><i class="fas fa-shopping-cart"></i> Mercado Livre</a>
-            <a class="dropdown-item" onclick="changeIcon('cart-arrow-down','fas fa-cart-arrow-down')" href="#"><i class="fas fa-cart-arrow-down"></i> Extra</a>
-            <a class="dropdown-item" onclick="changeIcon('store-alt','fas fa-store-alt')" href="#"><i class="fas fa-store-alt"></i> Outros</a>
+            <a class="dropdown-item" onclick="changeIcon('Submarino','fas fa-shopping-bag')" href="#"><i class="fas fa-shopping-bag"></i> Submarino</a>
+            <a class="dropdown-item" onclick="changeIcon('Americanas','fas fa-shopping-basket')" href="#"><i class="fas fa-shopping-basket"></i> Americanas</a>
+            <a class="dropdown-item" onclick="changeIcon('Mercado Livre','fas fa-shopping-cart')" href="#"><i class="fas fa-shopping-cart"></i> Mercado Livre</a>
+            <a class="dropdown-item" onclick="changeIcon('Extra','fas fa-cart-arrow-down')" href="#"><i class="fas fa-cart-arrow-down"></i> Extra</a>
+            <a class="dropdown-item" onclick="changeIcon('Outros','fas fa-store-alt')" href="#"><i class="fas fa-store-alt"></i> Outros</a>
         </div>
         <input type="hidden" class="form-control" id="name" >
         <input type="hidden" class="form-control" id="iconFA">
         <input type="text" class="form-control" id="url" placeholder="Url">
     </div>
-    <button class="btn btn-primary" onclick="AddWhereToBuy()">Adicionar</button>
-    <br>
+    <button class="btn btn-primary" onclick="AddWhereToBuy()" style="margin-bottom: 20px;
+    margin-top: 10px;">Adicionar</button>
 
 <table class="table table-striped">
   <thead>
@@ -40,11 +40,17 @@
     </tr>
   </thead>
   <tr>
-      @foreach (var item in (List<JeffSite.Models.Livro.WhereToBuy>)ViewBag.Links)
+      @foreach (var item in Model.WhereToBuys)
       {
-          <td></td>
-          <td>item.Name</td>
-          <td>item.Url</td>
+          <tr>
+            <td style="width: 150px;">
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id })
+                @Html.Label(" | ")
+                @Html.ActionLink("Deletar", "Delete", new { id = item.Id })
+            </td>
+            <td style="width: 125px;">@item.Name</td>
+            <td><a href="@item.Url" target="_blank" style="font-size: smaller; text-decoration: none;">@item.Url</a></td>
+          </tr>
       }
   </tr>
   <tbody>
@@ -88,8 +94,6 @@
                 IconFa: document.getElementById('iconFA').value,
                 Url: document.getElementById('url').value
             }
-            console.log(item)
-            console.log(JSON.stringify(item))
             //enviando dados para API
             var endpoint = 'https://' + window.location.host + '/api/livro/addwheretobuy'
             
@@ -102,6 +106,7 @@
                     console.log('the request is ' + status + ' the data is ' + data);
                 },
                 error: function (html, status, error) {
+                    console.log('the request is:' + status + ' \nError: ' + error);
                     alert("Ocorreu algum erro ao tentar inserir, tente mais tarde ou contato o ADM!")
                 }
             })
