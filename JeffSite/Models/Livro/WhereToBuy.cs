@@ -12,7 +12,7 @@ namespace JeffSite.Models.Livro
         public string Name { get; set; }
         
         [Display(Name = "Endereço da rede social")]
-        public string Url { get; set; }
+        public string UrlEndereco { get; set; }
 
         [Display (Name= "Escolha um icone")]
         public string IconFA { get; set; }

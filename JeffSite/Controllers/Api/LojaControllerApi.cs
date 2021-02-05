@@ -7,6 +7,7 @@ using JeffSite.Models.Livro;
 using JeffSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,18 +28,17 @@ namespace JeffSite.Controllers
 
         [Route("addwheretobuy")]
         [HttpPost]
-        public IActionResult AddWhereToBuy(WhereToBuy item){
+        public IActionResult CreateWhereToBuy(WhereToBuy item){
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
             }
-            if(item == null){
-                return BadRequest();
-            }
+            
             item.Livro = _livroService.FindById(item.Livro.Id);
             _livroService.AddWhereToBuy(item);
-            return Ok(item);
+
+            return Ok();
         }
 
     }
