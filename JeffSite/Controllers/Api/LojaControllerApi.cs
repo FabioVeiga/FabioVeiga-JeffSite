@@ -41,5 +41,19 @@ namespace JeffSite.Controllers
             return Ok();
         }
 
+        [Route("findlastwheretobuy/{idlivro}")]
+        [HttpGet]
+        public IActionResult FindLastWhereToBuy(int idLivro){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            
+            var item = _livroService.FindLastWhereToBuy(idLivro);
+
+            return Ok(item);
+        }
+
     }
 }

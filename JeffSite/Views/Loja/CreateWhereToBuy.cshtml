@@ -26,10 +26,9 @@
         </div>
         <input type="hidden" class="form-control" id="name" >
         <input type="hidden" class="form-control" id="iconFA">
-        <input type="text" class="form-control" id="url" placeholder="Url">
+        <input type="text" class="form-control" id="url" placeholder="Url" value="http://">
     </div>
-    <button class="btn btn-primary" onclick="AddWhereToBuy()" style="margin-bottom: 20px;
-    margin-top: 10px;">Adicionar</button>
+    <button class="btn btn-primary" onclick="AddWhereToBuy()" style="margin-bottom: 20px;margin-top: 10px;">Adicionar</button>
 
 <table class="table table-striped" id="tab" >
   <thead>
@@ -39,10 +38,10 @@
       <th scope="col">Url</th>
     </tr>
   </thead>
-  <tr>
-      @foreach (var item in Model.WhereToBuys)
-      {
-          <tr>
+  <tbody>
+    @foreach (var item in Model.WhereToBuys)
+    {
+        <tr>
             <td style="width: 150px;">
                 @Html.ActionLink("Editar", "Edit", new { id = item.Id })
                 @Html.Label(" | ")
@@ -50,11 +49,8 @@
             </td>
             <td style="width: 125px;">@item.Name</td>
             <td><a href="@item.UrlEndereco" target="_blank" style="font-size: smaller; text-decoration: none;">@item.UrlEndereco</a></td>
-          </tr>
-      }
-  </tr>
-  <tbody>
-      
+        </tr>
+    }
   </tbody>
 </table>
 
@@ -65,6 +61,7 @@
 
 <script>
     function changeIcon(name,icon){
+        console.log(name + " - " + icon)
         const txtName = document.getElementById('name')
         const txtIconFA = document.getElementById('iconFA')
         const lIcon = document.getElementById('label-icon')
@@ -80,7 +77,6 @@
         }
     }
 
-
     function AddWhereToBuy(){
         var txtUrl = document.getElementById('url').value
         var txtIconFA = document.getElementById('iconFA').value
@@ -91,9 +87,10 @@
                     Id: document.getElementById('Id').value
                 },
                 Name: document.getElementById('name').value,
-                IconFa: document.getElementById('iconFA').value,
-                UrlEndereco: document.getElementById('url').value
+                IconFa: txtIconFA,
+                UrlEndereco: txtUrl
             }
+            console.log(item)
             //enviando dados para API
             var endpoint = 'https://' + window.location.host + '/api/livro/addwheretobuy'
             
@@ -102,23 +99,15 @@
                 type: 'POST',
                 dataType: 'json',
                 data: item,
-                success: AddLinha(item),
-                error: function (error) {
-                    console.log(error);
-                }
+                success: AddLinha(item)
             })
         }
     }
 
     function AddLinha(obj){
-        var newRow = $("<tr>");
-        var cols = ""
-        cols += '<td style="width: 150px;><a><a href="/Loja/Edit/NOVOID">Editar</a> | <a href="/Loja/Delete/NOVOID">Deletar</a></td>'                      
-        cols += `<td style="width: 125;">${obj.Name}</td>`
-        cols += `<td><a href="teste submarino" target="_blank" style="font-size: smaller; text-decoration: none;">${obj.UrlEndereco}</a></td>`
-
-        newRow.append(cols)
-        $("#tab").append(newRow)
+        console.log(obj.Livro.Id)
+        
+         
     }
     
 
