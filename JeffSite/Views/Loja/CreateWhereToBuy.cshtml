@@ -61,7 +61,7 @@
 
 <script>
     function changeIcon(name,icon){
-        console.log(name + " - " + icon)
+        //console.log(name + " - " + icon)
         const txtName = document.getElementById('name')
         const txtIconFA = document.getElementById('iconFA')
         const lIcon = document.getElementById('label-icon')
@@ -90,24 +90,46 @@
                 IconFa: txtIconFA,
                 UrlEndereco: txtUrl
             }
-            console.log(item)
+            //console.log(item)
             //enviando dados para API
             var endpoint = 'https://' + window.location.host + '/api/livro/addwheretobuy'
-            
             $.ajax({
                 url: endpoint,
                 type: 'POST',
                 dataType: 'json',
                 data: item,
-                success: AddLinha(item)
+                async: true,
+                success: function(xml, textStatus, xhr) {
+                    console.log(arguments);
+                    console.log(xhr.status);
+                },
+                complete: function(xhr, textStatus) {
+                    if(xhr.status == 200){
+                        AddLinha(item)
+                    }else{
+                        alert("Ocorreu algum erro, tente novamente!")
+                    }
+                }
             })
         }
     }
 
     function AddLinha(obj){
-        console.log(obj.Livro.Id)
-        
-         
+        //console.log(obj.Livro.Id)
+        $.ajax({
+            url: 'https://' + window.location.host + '/api/livro/findlastwheretobuy/'+obj.Livro.Id,
+            type: "GET",
+            success: function(data) {
+                //console.log(data)
+                var newRow = $("<tr>");
+                var cols = ""
+                cols += `<td style="width: 150px;"><a href="/Loja/Edit/${data.id}">Editar</a> | <a href="/Loja/Delete/${data.id}">Deletar</a></td>`                      
+                cols += `<td style="width: 125;">${data.name}</td>`
+                cols += `<td><a href="${data.urlEndereco}" target="_blank" style="font-size: smaller; text-decoration: none;">${data.urlEndereco}</a></td>`
+                newRow.append(cols)
+                $("#tab").append(newRow)
+            }
+        });
     }
     
 

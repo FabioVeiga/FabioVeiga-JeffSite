@@ -38,9 +38,9 @@ namespace JeffSite.Services
             _context.SaveChanges();
         }
 
-        public void AddWhereToBuy(WhereToBuy item){
-            _context.WhereToBuys.Add(item);
-            _context.SaveChanges();
+        public async Task AddWhereToBuyAsync(WhereToBuy item){
+            await _context.WhereToBuys.AddAsync(item);
+            await _context.SaveChangesAsync();
         }
 
         public List<WhereToBuy> FindAllWhereToBuyById(int idLivro){
@@ -48,7 +48,7 @@ namespace JeffSite.Services
         }
 
         public WhereToBuy FindLastWhereToBuy(int idLivro){
-            return _context.WhereToBuys.OrderByDescending(x => x.Id).Where(x => x.Livro.Id == idLivro).FirstOrDefault();
+            return _context.WhereToBuys.Where(x => x.Livro.Id == idLivro).OrderByDescending(x => x.Id).FirstOrDefault();
         }
 
     }

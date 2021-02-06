@@ -28,7 +28,7 @@ namespace JeffSite.Controllers
 
         [Route("addwheretobuy")]
         [HttpPost]
-        public IActionResult CreateWhereToBuy(WhereToBuy item){
+        public async Task<IActionResult> CreateWhereToBuy(WhereToBuy item){
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
             {
@@ -36,7 +36,7 @@ namespace JeffSite.Controllers
             }
             
             item.Livro = _livroService.FindById(item.Livro.Id);
-            _livroService.AddWhereToBuy(item);
+            await _livroService.AddWhereToBuyAsync(item);
 
             return Ok();
         }
