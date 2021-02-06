@@ -55,5 +55,20 @@ namespace JeffSite.Controllers
             return Ok(item);
         }
 
+        [Route("removewheretobuy/{id}/{idLivro}")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteWhereToBuy(int id, int idLivro){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            var item = _livroService.FindWhereToBuyById(id);
+            item.Livro = _livroService.FindById(idLivro);
+            await _livroService.DeleteWhereToBuyAsync(item);
+
+            return Ok();
+        }
+
     }
 }

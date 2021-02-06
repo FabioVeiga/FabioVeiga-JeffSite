@@ -47,8 +47,17 @@ namespace JeffSite.Services
             return _context.WhereToBuys.Where(x => x.Livro.Id == idLivro).ToList();
         }
 
+        public WhereToBuy FindWhereToBuyById(int id){
+            return _context.WhereToBuys.Where(x => x.Id == id).FirstOrDefault();
+        }
+
         public WhereToBuy FindLastWhereToBuy(int idLivro){
             return _context.WhereToBuys.Where(x => x.Livro.Id == idLivro).OrderByDescending(x => x.Id).FirstOrDefault();
+        }
+
+        public async Task DeleteWhereToBuyAsync(WhereToBuy item){
+            _context.WhereToBuys.Remove(item);
+            await _context.SaveChangesAsync();
         }
 
     }

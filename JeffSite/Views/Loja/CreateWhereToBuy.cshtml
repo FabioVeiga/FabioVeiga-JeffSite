@@ -43,9 +43,9 @@
     {
         <tr>
             <td style="width: 150px;">
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id })
+                <a href="">Editar</a>
                 @Html.Label(" | ")
-                @Html.ActionLink("Deletar", "Delete", new { id = item.Id })
+                <a href="" onclick="removeWhereToBuy(@item.Id,@Model.Id)">Deletar</a>
             </td>
             <td style="width: 125px;">@item.Name</td>
             <td><a href="@item.UrlEndereco" target="_blank" style="font-size: smaller; text-decoration: none;">@item.UrlEndereco</a></td>
@@ -135,6 +135,27 @@
     
     function limparDados(){
         txtUrl = document.getElementById('url').value = "http://"
+    }
+
+    function removeWhereToBuy(id,idLivro){
+        var endpoint = 'https://' + window.location.host + '/api/livro/removewheretobuy/'+id+"/"+idLivro
+            $.ajax({
+                url: endpoint,
+                type: 'DELETE',
+                dataType: 'json',
+                async: true,
+                success: function(xml, textStatus, xhr) {
+                    console.log(arguments);
+                    console.log(xhr.status);
+                },
+                complete: function(xhr, textStatus) {
+                    if(xhr.status == 200){
+                        alert("OK")
+                    }else{
+                        alert("Ocorreu algum erro, tente novamente!")
+                    }
+                }
+            })
     }
 
 </script>
