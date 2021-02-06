@@ -124,7 +124,7 @@
                 var newRow = $("<tr>");
                 var cols = ""
                 cols += `<td style="width: 150px;"><a href="/Loja/Edit/${data.id}">Editar</a> | <a href="/Loja/Delete/${data.id}">Deletar</a></td>`                      
-                cols += `<td style="width: 125;">${data.name}</td>`
+                cols += `<td style="width: 125px;">${data.name}</td>`
                 cols += `<td><a href="${data.urlEndereco}" target="_blank" style="font-size: smaller; text-decoration: none;">${data.urlEndereco}</a></td>`
                 newRow.append(cols)
                 $("#tab").append(newRow)
@@ -134,7 +134,7 @@
     }
     
     function limparDados(){
-        txtUrl = document.getElementById('url').value = ""
+        txtUrl = document.getElementById('url').value = "http://"
     }
 
 </script>
