@@ -28,8 +28,8 @@
         <input type="hidden" class="form-control" id="iconFA">
         <input type="text" class="form-control" id="url" placeholder="Url" value="http://">
     </div>
+    <a asp-action="ListLivros" asp-controller="Loja" >Voltar</a>
     <button class="btn btn-primary" onclick="AddWhereToBuy()" style="margin-bottom: 20px;margin-top: 10px;">Adicionar</button>
-
 <table class="table table-striped" id="tab" >
   <thead>
     <tr>
@@ -128,9 +128,13 @@
                 cols += `<td><a href="${data.urlEndereco}" target="_blank" style="font-size: smaller; text-decoration: none;">${data.urlEndereco}</a></td>`
                 newRow.append(cols)
                 $("#tab").append(newRow)
+                limparDados()
             }
         });
     }
     
+    function limparDados(){
+        txtUrl = document.getElementById('url').value = ""
+    }
 
 </script>
