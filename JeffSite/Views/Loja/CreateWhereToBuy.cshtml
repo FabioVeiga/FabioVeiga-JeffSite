@@ -123,7 +123,7 @@
                 //console.log(data)
                 var newRow = $("<tr>");
                 var cols = ""
-                cols += `<td style="width: 150px;"><a href="/Loja/Edit/${data.id}">Editar</a> | <a href="/Loja/Delete/${data.id}">Deletar</a></td>`                      
+                cols += `<td style="width: 150px;"><a href="/Loja/Edit/${data.id}">Editar</a> | <a href="" onClick="removeWhereToBuy(${data.id},${obj.Livro.Id})">Deletar</a></td>`                      
                 cols += `<td style="width: 125px;">${data.name}</td>`
                 cols += `<td><a href="${data.urlEndereco}" target="_blank" style="font-size: smaller; text-decoration: none;">${data.urlEndereco}</a></td>`
                 newRow.append(cols)
@@ -138,24 +138,19 @@
     }
 
     function removeWhereToBuy(id,idLivro){
-        var endpoint = 'https://' + window.location.host + '/api/livro/removewheretobuy/'+id+"/"+idLivro
+        var x = confirm("Voce realmente deseja deletar? ")
+        if(x == true){
+            var endpoint = 'https://' + window.location.host + '/api/livro/removewheretobuy/'+id+"/"+idLivro
             $.ajax({
                 url: endpoint,
                 type: 'DELETE',
-                dataType: 'json',
                 async: true,
-                success: function(xml, textStatus, xhr) {
-                    console.log(arguments);
-                    console.log(xhr.status);
-                },
-                complete: function(xhr, textStatus) {
+                complete: function(xhr){
                     if(xhr.status == 200){
-                        alert("OK")
-                    }else{
-                        alert("Ocorreu algum erro, tente novamente!")
+                        window.location.reload(true)
                     }
                 }
-            })
+            });
+        }
     }
-
 </script>
