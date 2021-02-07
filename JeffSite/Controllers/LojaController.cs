@@ -18,17 +18,21 @@ namespace JeffSite.Controllers
     {
         private readonly SocialMidiaService _socialMidia;
         private readonly LivroService _livroService;
+        private readonly ConfiguracaoService _configuracaoService;
         private const string titlePage = "Loja";
-        public LojaController(SocialMidiaService socialMidia, LivroService livroService)
+        public LojaController(SocialMidiaService socialMidia, LivroService livroService, ConfiguracaoService configuracaoService)
         {
             _socialMidia = socialMidia;
             _livroService = livroService;
+            _configuracaoService = configuracaoService;
         }
         // GET: /<controller>/
         public IActionResult Index()
         {
             ViewBag.Redes = _socialMidia.FindAll();
             ViewBag.Title = titlePage;
+            var livros = _livroService.FindAll();
+            ViewBag.LinkMercadoLivre = _configuracaoService.Find().UrlMercadoLivre;
             return View();
         }
 

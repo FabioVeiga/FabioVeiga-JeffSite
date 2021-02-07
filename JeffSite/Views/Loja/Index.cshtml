@@ -1,5 +1,6 @@
-﻿
+﻿@model IEnumerable<JeffSite.Models.Livro.Livro>
 @{
+    string linkMercadoLivre = ViewBag.LinkMercadoLivre;
 }
 <style>
     .livro{
@@ -46,10 +47,25 @@
     .descricao-links a{
         color: #CFDBD5;
     }
+    .mercado-livre{
+        background-color: #F0F0F0;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .mercado-livre a{
+        text-decoration: none; 
+    }
 </style>
 <div class="container">
     <h1>@ViewBag.Title</h1>
-    <div class="row">
+
+    @if(!string.IsNullOrEmpty(linkMercadoLivre)){
+        <div class="mercado-livre">
+            <p>Conheça nossa loja no: <img src="img/MercadoLivreLogo.jpg" style="width: 30px"> <a href="@linkMercadoLivre" target="_blank">Mercado Livre</a></p>
+        </div>
+    }
+
+    <div class="row" style="margin-bottom: 20px;">
         <div class="col">
             <div class="livro">
                 <div class="fotoLivro">
@@ -72,4 +88,6 @@
             </div>
         </div>
     </div>
+
+    
 </div>
