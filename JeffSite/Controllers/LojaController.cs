@@ -77,6 +77,14 @@ namespace JeffSite.Controllers
             }
             ViewData["Title"] = "Deletar";
             var livro = _livroService.FindById(id);
+            var itemsWTB = _livroService.FindAllWhereToBuyById(id);
+            
+            if(itemsWTB.Count > 0){
+                ViewBag.flagDelete = false;
+                ViewBag.qtdWTB = itemsWTB.Count;
+            }else{
+                ViewBag.flagDelete = true;
+            }
             return View(livro);
         }
 

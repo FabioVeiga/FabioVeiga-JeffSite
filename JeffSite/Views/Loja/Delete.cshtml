@@ -26,5 +26,16 @@
         <input type="hidden" class="form-control" asp-for="ImgName" >
     </div>
     <a asp-controller="Loja" asp-action="ListLivros">Voltar</a>
-    <button class="btn btn-danger">Excluir</button>
+    @if(ViewBag.flagDelete == false){
+        <button class="btn btn-danger" disabled>Excluir</button>
+        <div class="alert alert-danger" role="alert" style="margin-top: 30px;">
+            Este livros tem referencias: 
+            <button type="button" class="btn btn-danger" >
+                URLs <span class="badge badge-light">@ViewBag.qtdWTB</span>
+            </button>
+        </div>
+    }else{
+        <button class="btn btn-danger">Excluir</button>
+    }
+    
 </form>
