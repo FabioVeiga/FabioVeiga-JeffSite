@@ -144,5 +144,34 @@ namespace JeffSite.Controllers
             return RedirectToAction("CreateWhereToBuy", item.Livro);
         }
 
+
+        [HttpGet]
+        public IActionResult DeleteWhereToBuy(int id, int idLivro){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Deletar URL de compra";
+            var item = _livroService.FindWhereToBuyById(id);
+            item.Livro = _livroService.FindById(idLivro);
+
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteWhereToBuy(WhereToBuy item){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            item.Livro = _livroService.FindById(item.Livro.Id);
+            await _livroService.DeleteWhereToBuyAsync(item);
+
+            return RedirectToAction("CreateWhereToBuy", item.Livro);
+        }
+
     }
 }

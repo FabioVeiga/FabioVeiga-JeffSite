@@ -45,7 +45,7 @@
             <td style="width: 150px;">
                 @Html.ActionLink("Editar", "EditWhereToBuy", new { id = item.Id, idLivro = Model.Id})
                 @Html.Label(" | ")
-                @Html.ActionLink("Deletar", "DeleteWhereToBuy", new { id = item.Id }) 
+                @Html.ActionLink("Deletar", "DeleteWhereToBuy", new { id = item.Id, idLivro = Model.Id }) 
             </td>
             <td style="width: 125px;">@item.Name</td>
             <td><a href="@item.UrlEndereco" target="_blank" style="font-size: smaller; text-decoration: none;">@item.UrlEndereco</a></td>

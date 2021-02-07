@@ -6,14 +6,14 @@
 <br>
 <h1>@ViewData["Title"]</h1>
 
-<form asp-controller="Loja" asp-action="EditWhereToBuy" method="POST" >
+<form asp-controller="Loja" asp-action="DeleteWhereToBuy" method="POST" >
 <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.Livro.Id)</label>
         <input type="hidden" class="form-control" asp-for="Livro.Id" readonly>
         <input type="text" class="form-control" asp-for="Livro.Title" readonly>
     </div>
     <div class="input-group-prepend">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnIcon">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnIcon" disabled>
             <label id="label-icon"><i class="@Html.DisplayFor(m => m.IconFA)"></i></label>
         </button>
         <div class="dropdown-menu">
@@ -24,12 +24,12 @@
             <a class="dropdown-item" onclick="changeIcon('Extra','fas fa-cart-arrow-down')" href="#"><i class="fas fa-cart-arrow-down"></i> Extra</a>
             <a class="dropdown-item" onclick="changeIcon('Outros','fas fa-store-alt')" href="#"><i class="fas fa-store-alt"></i> Outros</a>
         </div>
-        <input type="text" class="form-control" id="name" asp-for="Name" style="width: 150px;">
-        <input type="hidden" class="form-control" id="iconFA" asp-for="IconFA" readonly>
-        <input type="text" class="form-control" id="url" placeholder="Url" asp-for="UrlEndereco">
+        <input type="text" class="form-control" id="name" asp-for="Name" style="width: 150px;" readonly>
+        <input type="hidden" class="form-control" id="iconFA" asp-for="IconFA" >
+        <input type="text" class="form-control" id="url" placeholder="Url" asp-for="UrlEndereco" readonly>
     </div>
     <a asp-action="createWhereToBuy" asp-controller="Loja" asp-route-id="@Model.Livro.Id" >Voltar</a>
-    <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;margin-top: 10px;">Salvar</button>
+    <button type="submit" class="btn btn-danger" style="margin-bottom: 20px;margin-top: 10px;">Deletar</button>
 </form>
 
     <script>
