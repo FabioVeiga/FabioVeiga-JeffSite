@@ -60,6 +60,11 @@ namespace JeffSite.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateWhereToBuyAsync(WhereToBuy item){
+            _context.WhereToBuys.Update(item);
+            await _context.SaveChangesAsync();
+        }
+
     }
 
 }

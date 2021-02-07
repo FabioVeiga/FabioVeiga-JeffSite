@@ -43,9 +43,9 @@
     {
         <tr>
             <td style="width: 150px;">
-                <a href="">Editar</a>
+                @Html.ActionLink("Editar", "EditWhereToBuy", new { id = item.Id, idLivro = Model.Id})
                 @Html.Label(" | ")
-                <a href="" onclick="removeWhereToBuy(@item.Id,@Model.Id)">Deletar</a>
+                @Html.ActionLink("Deletar", "DeleteWhereToBuy", new { id = item.Id }) 
             </td>
             <td style="width: 125px;">@item.Name</td>
             <td><a href="@item.UrlEndereco" target="_blank" style="font-size: smaller; text-decoration: none;">@item.UrlEndereco</a></td>
@@ -152,5 +152,15 @@
                 }
             });
         }
+    }
+
+    function updateWhereToBuy(id,idLivro){
+        $.ajax({
+            url: 'https://' + window.location.host + '/api/livro/updatewheretobuy/'+id+"/"+idLivro,
+            type: "GET",
+            success: function(data) {
+                console.log(data)
+            }
+        });
     }
 </script>

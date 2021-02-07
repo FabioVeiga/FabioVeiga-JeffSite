@@ -70,5 +70,20 @@ namespace JeffSite.Controllers
             return Ok();
         }
 
+        [Route("updatewheretobuy/{id}/{idLivro}")]
+        [HttpGet]
+        public async Task<IActionResult> UpdateWhereToBuy(int id, int idLivro){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            var item = _livroService.FindWhereToBuyById(id);
+            item.Livro = _livroService.FindById(idLivro);
+            await _livroService.UpdateWhereToBuyAsync(item);
+
+            return Ok();
+        }
+
     }
 }

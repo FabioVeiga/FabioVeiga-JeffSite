@@ -116,5 +116,19 @@ namespace JeffSite.Controllers
             return View(livro);
         }
 
+
+        [HttpGet]
+        public IActionResult EditWhereToBuy(int id, int idLivro){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Editar URL de compra";
+            var item = _livroService.FindWhereToBuyById(id);
+            item.Livro = _livroService.FindById(idLivro);
+            return View(item);
+        }
+
     }
 }
