@@ -115,7 +115,7 @@
     }
 
     function AddLinha(obj){
-        //console.log(obj.Livro.Id)
+        console.log(obj.Livro.Id)
         $.ajax({
             url: 'https://' + window.location.host + '/api/livro/findlastwheretobuy/'+obj.Livro.Id,
             type: "GET",
@@ -123,7 +123,7 @@
                 //console.log(data)
                 var newRow = $("<tr>");
                 var cols = ""
-                cols += `<td style="width: 150px;"><a href="/Loja/Edit/${data.id}">Editar</a> | <a href="" onClick="removeWhereToBuy(${data.id},${obj.Livro.Id})">Deletar</a></td>`                      
+                cols += `<td style="width: 150px;"><a href="/Loja/EditWhereToBuy/${data.id}?idLivro=${obj.Livro.Id}">Editar</a> | <a href="">Deletar</a></td>`                      
                 cols += `<td style="width: 125px;">${data.name}</td>`
                 cols += `<td><a href="${data.urlEndereco}" target="_blank" style="font-size: smaller; text-decoration: none;">${data.urlEndereco}</a></td>`
                 newRow.append(cols)
@@ -154,13 +154,4 @@
         }
     }
 
-    function updateWhereToBuy(id,idLivro){
-        $.ajax({
-            url: 'https://' + window.location.host + '/api/livro/updatewheretobuy/'+id+"/"+idLivro,
-            type: "GET",
-            success: function(data) {
-                console.log(data)
-            }
-        });
-    }
 </script>
