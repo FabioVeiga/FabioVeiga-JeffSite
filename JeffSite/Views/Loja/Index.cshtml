@@ -1,5 +1,4 @@
-﻿@model IEnumerable<JeffSite.Models.Livro.Livro>
-@{
+﻿@{
     string linkMercadoLivre = ViewBag.LinkMercadoLivre;
 }
 <style>
@@ -65,28 +64,33 @@
         </div>
     }
 
-    <div class="row" style="margin-bottom: 20px;">
-        <div class="col">
-            <div class="livro">
-                <div class="fotoLivro">
-                    <img src="img/imgProfile.jpg" />
-                </div>
-                <div class="descricao">
-                    <div class="descricao-titulo"><h4>Titulo</h4></div>
-                    <div class="descricao-corpo">
-                        <p>
-                            Existem diferentes métodos para o posicionamento de elementos horizontalmente, sendo normalmente divididos nas categorias "largura definida" e "largura variável", pois a escolhe do melhor método dependendo da necessidade e o código HTML.
-                        </p>
+    @foreach (var item in ViewBag.Livros)
+    {
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col">
+                <div class="livro">
+                    <div class="fotoLivro">
+                        <img src="img/Livro/@item.ImgName" />
                     </div>
-                    <div class="descricao-links">
-                        <ul>
-                            <li><a href="#">teste 1</a></li>
-                            <li><a href="#">teste 2</a></li>
-                        </ul>
+                    <div class="descricao">
+                        <div class="descricao-titulo"><h4>@item.Title</h4></div>
+                        <div class="descricao-corpo">
+                            <p>
+                                @item.Description
+                            </p>
+                        </div>
+                        <div class="descricao-links">
+                            <ul>
+                                <li><a href="#">teste 1</a></li>
+                                <li><a href="#">teste 2</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    }
+
     </div>
 
     

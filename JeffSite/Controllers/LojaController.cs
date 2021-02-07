@@ -31,8 +31,18 @@ namespace JeffSite.Controllers
         {
             ViewBag.Redes = _socialMidia.FindAll();
             ViewBag.Title = titlePage;
-            var livros = _livroService.FindAll();
             ViewBag.LinkMercadoLivre = _configuracaoService.Find().UrlMercadoLivre;
+
+            ICollection<Livro> livros = new List<Livro>();
+
+            foreach (var livro in _livroService.FindAll())
+            {
+                livro.WhereToBuys = _livroService.FindAllWhereToBuyByIdLivro(livro.Id);
+                livros.Add(livro);
+            }
+
+            ViewBag.Livros = livros;
+
             return View();
         }
 
@@ -81,7 +91,7 @@ namespace JeffSite.Controllers
             }
             ViewData["Title"] = "Deletar";
             var livro = _livroService.FindById(id);
-            var itemsWTB = _livroService.FindAllWhereToBuyById(id);
+            var itemsWTB = _livroService.FindAllWhereToBuyByIdLivro(id);
             
             if(itemsWTB.Count > 0){
                 ViewBag.flagDelete = false;
@@ -110,7 +120,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Adicionar URL de compra";
-            livro.WhereToBuys = _livroService.FindAllWhereToBuyById(livro.Id);
+            livro.WhereToBuys = _livroService.FindAllWhereToBuyByIdLivro(livro.Id);
             return View(livro);
         }
 
@@ -124,7 +134,7 @@ namespace JeffSite.Controllers
             }
             ViewData["Title"] = "Adicionar URL de compra";
             var livro = _livroService.FindById(id);
-            livro.WhereToBuys = _livroService.FindAllWhereToBuyById(livro.Id);
+            livro.WhereToBuys = _livroService.FindAllWhereToBuyByIdLivro(livro.Id);
             return View(livro);
         }
 

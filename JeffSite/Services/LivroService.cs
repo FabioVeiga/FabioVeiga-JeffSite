@@ -43,7 +43,7 @@ namespace JeffSite.Services
             await _context.SaveChangesAsync();
         }
 
-        public List<WhereToBuy> FindAllWhereToBuyById(int idLivro){
+        public List<WhereToBuy> FindAllWhereToBuyByIdLivro(int idLivro){
             return _context.WhereToBuys.Where(x => x.Livro.Id == idLivro).ToList();
         }
 
