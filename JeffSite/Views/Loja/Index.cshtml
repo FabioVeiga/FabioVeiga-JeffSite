@@ -37,6 +37,8 @@
         background-color: green;
         text-align: right;
         margin-right: 10px;
+        position: absolute;
+        bottom: 0;
     }
     .descricao-links ul li{
     display: inline;
@@ -66,7 +68,7 @@
 
     @foreach (var item in ViewBag.Livros)
     {
-        <div class="row" style="margin-bottom: 20px;">
+        <div class="row" style="margin-bottom: 20px; position: relative;">
             <div class="col">
                 <div class="livro">
                     <div class="fotoLivro">
@@ -81,8 +83,11 @@
                         </div>
                         <div class="descricao-links">
                             <ul>
-                                <li><a href="#">teste 1</a></li>
-                                <li><a href="#">teste 2</a></li>
+                                @foreach (var wtb in item.WhereToBuys)
+                                {
+                                    <li><a href="@wtb.UrlEndereco" target="_blank"><i class="@wtb.IconFA"></i> @wtb.Name</a></li>
+                                }
+                                
                             </ul>
                         </div>
                     </div>
