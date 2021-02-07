@@ -130,5 +130,19 @@ namespace JeffSite.Controllers
             return View(item);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditWhereToBuy(WhereToBuy item){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            item.Livro = _livroService.FindById(item.Livro.Id);
+            await _livroService.UpdateWhereToBuyAsync(item);
+
+            return RedirectToAction("CreateWhereToBuy", item.Livro);
+        }
+
     }
 }
