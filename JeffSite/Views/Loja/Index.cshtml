@@ -1,5 +1,99 @@
-﻿@page
-@{
+﻿@{
+    string linkMercadoLivre = ViewBag.LinkMercadoLivre;
 }
+<style>
+    .livro{
+        background-color: #EEEEEE;
+    }
+    .fotoLivro{
+        width: 200px;
+        height: 200px;
+    }
+    .fotoLivro img{
+        width: 80%;
+        height: 80%;
+        margin: 10%;
+    }
+    .descricao{
+        background-color: #F6F6F6;
+        margin-left: 210px;
+        margin-top: -200px;
+        height: 200px;
+    }
+    .descricao-titulo{
+        width: 100%;
+        padding-left: 15px;
+    }
+    .descricao-corpo{
+        width: 100%;
+        text-align: justify;
+        padding-left: 30px;
+        padding-right: 20px;
+    }
+    .descricao-corpo p{
+        font-style: italic;
+    }
+    .descricao-links{
+        margin-right: 10px;
+        position: absolute;
+        bottom: 0;
+    }
+    .descricao-links ul li{
+    display: inline;
+    text-decoration: none;
+    color: #757373;
+    }
+    .descricao-links a{
+        color: #757373;
+    }
+    .mercado-livre{
+        background-color: #F0F0F0;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .mercado-livre a{
+        text-decoration: none; 
+    }
+</style>
+<div class="container">
+<h3>@ViewBag.Title</h3>
+    @if(!string.IsNullOrEmpty(linkMercadoLivre)){
+        <div class="mercado-livre">
+            <p>Conheça nossa loja no: <img src="img/MercadoLivreLogo.jpg" style="width: 30px"> <a href="@linkMercadoLivre" target="_blank">Mercado Livre</a></p>
+        </div>
+    }
 
-Loja
+    @foreach (var item in ViewBag.Livros)
+    {
+        <div class="row" style="margin-bottom: 20px; position: relative;">
+            <div class="col">
+                <div class="livro">
+                    <div class="fotoLivro">
+                        <img src="img/Livro/@item.ImgName" />
+                    </div>
+                    <div class="descricao">
+                        <div class="descricao-titulo"><h4>@item.Title</h4></div>
+                        <div class="descricao-corpo">
+                            <p>
+                                @item.Description
+                            </p>    
+                        </div>
+                        <div class="descricao-links">
+                            <ul>
+                                @foreach (var wtb in item.WhereToBuys)
+                                {
+                                    <li><a href="@wtb.UrlEndereco" target="_blank"><i class="@wtb.IconFA"></i> @wtb.Name</a></li>
+                                }
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    </div>
+
+    
+</div>

@@ -3,14 +3,16 @@ using System;
 using JeffSite.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JeffSite.Migrations
 {
     [DbContext(typeof(JeffContext))]
-    partial class JeffContextModelSnapshot : ModelSnapshot
+    [Migration("20210131224048_ajuste relacionamento livro")]
+    partial class ajusterelacionamentolivro
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,19 +140,17 @@ namespace JeffSite.Migrations
                     b.Property<string>("IconFA")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("LivroId")
+                    b.Property<int>("IdLivro")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("UrlEndereco")
+                    b.Property<string>("Url")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LivroId");
 
                     b.ToTable("WhereToBuys");
                 });
@@ -188,13 +188,6 @@ namespace JeffSite.Migrations
                     b.HasKey("UserName");
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("JeffSite.Models.Livro.WhereToBuy", b =>
-                {
-                    b.HasOne("JeffSite.Models.Livro.Livro", "Livro")
-                        .WithMany("WhereToBuys")
-                        .HasForeignKey("LivroId");
                 });
 #pragma warning restore 612, 618
         }

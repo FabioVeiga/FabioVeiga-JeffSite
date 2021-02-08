@@ -3,14 +3,16 @@ using System;
 using JeffSite.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JeffSite.Migrations
 {
     [DbContext(typeof(JeffContext))]
-    partial class JeffContextModelSnapshot : ModelSnapshot
+    [Migration("20210115010751_ajustado entidades")]
+    partial class ajustadoentidades
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,13 +122,38 @@ namespace JeffSite.Migrations
                     b.Property<string>("ImgName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<int?>("TagsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int?>("WhereToBuyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TagsId");
+
+                    b.HasIndex("WhereToBuyId");
+
+                    b.ToTable("Livros");
+                });
+
+            modelBuilder.Entity("JeffSite.Models.Livro.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Livros");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("JeffSite.Models.Livro.WhereToBuy", b =>
@@ -138,19 +165,14 @@ namespace JeffSite.Migrations
                     b.Property<string>("IconFA")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("LivroId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("UrlEndereco")
+                    b.Property<string>("Url")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LivroId");
 
                     b.ToTable("WhereToBuys");
                 });
@@ -190,11 +212,15 @@ namespace JeffSite.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("JeffSite.Models.Livro.WhereToBuy", b =>
+            modelBuilder.Entity("JeffSite.Models.Livro.Livro", b =>
                 {
-                    b.HasOne("JeffSite.Models.Livro.Livro", "Livro")
-                        .WithMany("WhereToBuys")
-                        .HasForeignKey("LivroId");
+                    b.HasOne("JeffSite.Models.Livro.Tag", "Tags")
+                        .WithMany("Livros")
+                        .HasForeignKey("TagsId");
+
+                    b.HasOne("JeffSite.Models.Livro.WhereToBuy", "WhereToBuy")
+                        .WithMany("Livros")
+                        .HasForeignKey("WhereToBuyId");
                 });
 #pragma warning restore 612, 618
         }

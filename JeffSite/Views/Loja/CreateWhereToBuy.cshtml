@@ -1,0 +1,157 @@
+@model JeffSite.Models.Livro.Livro
+@{
+    Layout = "_LayoutAdmin";
+}
+<script src="lib/jquery/dist/jquery.min.js"></script>
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Title)</label>
+        <input type="hidden" class="form-control" asp-for="Id" readonly>
+        <input type="text" class="form-control" asp-for="Title" readonly>
+    </div>
+    <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnIcon">
+            <label id="label-icon">Icone</label>
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" onclick="changeIcon('Amazon','fab fa-amazon')" href="#"><i class="fab fa-amazon"></i></i> Amazon</a>
+            <a class="dropdown-item" onclick="changeIcon('Submarino','fas fa-shopping-bag')" href="#"><i class="fas fa-shopping-bag"></i> Submarino</a>
+            <a class="dropdown-item" onclick="changeIcon('Americanas','fas fa-shopping-basket')" href="#"><i class="fas fa-shopping-basket"></i> Americanas</a>
+            <a class="dropdown-item" onclick="changeIcon('Mercado Livre','fas fa-shopping-cart')" href="#"><i class="fas fa-shopping-cart"></i> Mercado Livre</a>
+            <a class="dropdown-item" onclick="changeIcon('Extra','fas fa-cart-arrow-down')" href="#"><i class="fas fa-cart-arrow-down"></i> Extra</a>
+            <a class="dropdown-item" onclick="changeIcon('Outros','fas fa-store-alt')" href="#"><i class="fas fa-store-alt"></i> Outros</a>
+        </div>
+        <input type="hidden" class="form-control" id="name" >
+        <input type="hidden" class="form-control" id="iconFA">
+        <input type="text" class="form-control" id="url" placeholder="Url" value="http://">
+    </div>
+    <a asp-action="ListLivros" asp-controller="Loja" >Voltar</a>
+    <button class="btn btn-primary" onclick="AddWhereToBuy()" style="margin-bottom: 20px;margin-top: 10px;">Adicionar</button>
+<table class="table table-striped" id="tab" >
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Lugar</th>
+      <th scope="col">Url</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model.WhereToBuys)
+    {
+        <tr>
+            <td style="width: 150px;">
+                @Html.ActionLink("Editar", "EditWhereToBuy", new { id = item.Id, idLivro = Model.Id})
+                @Html.Label(" | ")
+                @Html.ActionLink("Deletar", "DeleteWhereToBuy", new { id = item.Id, idLivro = Model.Id }) 
+            </td>
+            <td style="width: 125px;">@item.Name</td>
+            <td><a href="@item.UrlEndereco" target="_blank" style="font-size: smaller; text-decoration: none;">@item.UrlEndereco</a></td>
+        </tr>
+    }
+  </tbody>
+</table>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    function changeIcon(name,icon){
+        //console.log(name + " - " + icon)
+        const txtName = document.getElementById('name')
+        const txtIconFA = document.getElementById('iconFA')
+        const lIcon = document.getElementById('label-icon')
+
+        txtName.value = name
+        txtIconFA.value = icon
+
+        if(lIcon === ""){
+            lIcon.value = "Icone"
+        }else{
+            lIcon.value = ""
+            lIcon.innerHTML = `<i class="${icon}"></i>`
+        }
+    }
+
+    function AddWhereToBuy(){
+        var txtUrl = document.getElementById('url').value
+        var txtIconFA = document.getElementById('iconFA').value
+        if(txtUrl === '' || txtIconFA === ''){
+        }else{
+            var item = {
+                Livro: {
+                    Id: document.getElementById('Id').value
+                },
+                Name: document.getElementById('name').value,
+                IconFa: txtIconFA,
+                UrlEndereco: txtUrl
+            }
+            //console.log(item)
+            //enviando dados para API
+            var endpoint = 'https://' + window.location.host + '/api/livro/addwheretobuy'
+            $.ajax({
+                url: endpoint,
+                type: 'POST',
+                dataType: 'json',
+                data: item,
+                async: true,
+                success: function(xml, textStatus, xhr) {
+                    console.log(arguments);
+                    console.log(xhr.status);
+                },
+                complete: function(xhr, textStatus) {
+                    if(xhr.status == 200){
+                        AddLinha(item)
+                    }else{
+                        alert("Ocorreu algum erro, tente novamente!")
+                    }
+                }
+            })
+        }
+    }
+
+    function AddLinha(obj){
+        console.log(obj.Livro.Id)
+        $.ajax({
+            url: 'https://' + window.location.host + '/api/livro/findlastwheretobuy/'+obj.Livro.Id,
+            type: "GET",
+            success: function(data) {
+                //console.log(data)
+                var newRow = $("<tr>");
+                var cols = ""
+                cols += `<td style="width: 150px;"><a href="/Loja/EditWhereToBuy/${data.id}?idLivro=${obj.Livro.Id}">Editar</a> | <a href="">Deletar</a></td>`                      
+                cols += `<td style="width: 125px;">${data.name}</td>`
+                cols += `<td><a href="${data.urlEndereco}" target="_blank" style="font-size: smaller; text-decoration: none;">${data.urlEndereco}</a></td>`
+                newRow.append(cols)
+                $("#tab").append(newRow)
+                limparDados()
+            }
+        });
+    }
+    
+    function limparDados(){
+        txtUrl = document.getElementById('url').value = "http://"
+    }
+
+    function removeWhereToBuy(id,idLivro){
+        var x = confirm("Voce realmente deseja deletar? ")
+        if(x == true){
+            var endpoint = 'https://' + window.location.host + '/api/livro/removewheretobuy/'+id+"/"+idLivro
+            $.ajax({
+                url: endpoint,
+                type: 'DELETE',
+                async: true,
+                complete: function(xhr){
+                    if(xhr.status == 200){
+                        window.location.reload(true)
+                    }
+                }
+            });
+        }
+    }
+
+</script>
