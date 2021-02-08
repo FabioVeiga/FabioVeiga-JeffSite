@@ -102,6 +102,16 @@ namespace JeffSite.Controllers
             return View(livro);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Livro livro){
+            string path = Path.Combine("wwwroot","img","Livro",livro.ImgName);
+            System.IO.FileInfo file = new System.IO.FileInfo(path);
+            file.Delete();
+            _livroService.Delete(livro);
+            return RedirectToAction("ListLivros");
+        }
+
         [HttpGet]
         public IActionResult Edit(int id){
             var userLogged = HttpContext.Session.GetString("userLogged");
@@ -117,11 +127,20 @@ namespace JeffSite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Livro livro){
-            string path = Path.Combine("wwwroot","img","Livro",livro.ImgName);
-            System.IO.FileInfo file = new System.IO.FileInfo(path);
-            file.Delete();
-            _livroService.Delete(livro);
+        public IActionResult Edit(Livro livro, IFormFile Img){
+            if(Img != null){
+                if(Img.FileName != livro.ImgName){
+                    string path = Path.Combine("wwwroot","img","Livro",livro.ImgName);
+                    System.IO.FileInfo file = new System.IO.FileInfo(path);
+                    file.Delete();
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        Img.CopyTo(stream); 
+                    }
+                }
+            }
+            
+            _livroService.Edit(livro);
             return RedirectToAction("ListLivros");
         }
 

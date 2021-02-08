@@ -38,6 +38,11 @@ namespace JeffSite.Services
             _context.SaveChanges();
         }
 
+        public void Edit(Livro livro){
+            _context.Livros.Update(livro);
+            _context.SaveChanges();
+        }
+
         public async Task AddWhereToBuyAsync(WhereToBuy item){
             await _context.WhereToBuys.AddAsync(item);
             await _context.SaveChangesAsync();
