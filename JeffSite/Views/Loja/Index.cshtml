@@ -3,10 +3,9 @@
 }
 <style>
     .livro{
-        background-color: red;
+        background-color: #EEEEEE;
     }
     .fotoLivro{
-        background-color: yellow;
         width: 200px;
         height: 200px;
     }
@@ -16,26 +15,24 @@
         margin: 10%;
     }
     .descricao{
-        background-color: brown;
-        margin-left: 200px;
+        background-color: #F6F6F6;
+        margin-left: 210px;
         margin-top: -200px;
         height: 200px;
     }
     .descricao-titulo{
-        background-color: cyan;
         width: 100%;
         padding-left: 15px;
     }
     .descricao-corpo{
-        background-color: darkgray;
         width: 100%;
+        text-align: justify;
+        padding-left: 30px;
     }
     .descricao-corpo p{
         font-style: italic;
     }
     .descricao-links{
-        background-color: green;
-        text-align: right;
         margin-right: 10px;
         position: absolute;
         bottom: 0;
@@ -43,10 +40,10 @@
     .descricao-links ul li{
     display: inline;
     text-decoration: none;
-    color: #CFDBD5;
+    color: #757373;
     }
     .descricao-links a{
-        color: #CFDBD5;
+        color: #757373;
     }
     .mercado-livre{
         background-color: #F0F0F0;
@@ -58,8 +55,7 @@
     }
 </style>
 <div class="container">
-    <h1>@ViewBag.Title</h1>
-
+<h3>@ViewBag.Title</h3>
     @if(!string.IsNullOrEmpty(linkMercadoLivre)){
         <div class="mercado-livre">
             <p>Conheça nossa loja no: <img src="img/MercadoLivreLogo.jpg" style="width: 30px"> <a href="@linkMercadoLivre" target="_blank">Mercado Livre</a></p>
@@ -79,7 +75,7 @@
                         <div class="descricao-corpo">
                             <p>
                                 @item.Description
-                            </p>
+                            </p>    
                         </div>
                         <div class="descricao-links">
                             <ul>
