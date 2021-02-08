@@ -102,6 +102,19 @@ namespace JeffSite.Controllers
             return View(livro);
         }
 
+        [HttpGet]
+        public IActionResult Edit(int id){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Editar";
+            var livro = _livroService.FindById(id);
+            
+            return View(livro);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(Livro livro){
