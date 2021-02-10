@@ -1,8 +1,7 @@
-using System.Reflection.PortableExecutable;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace JeffSite.Models{
+namespace JeffSite.Models.Loja{
     public class Pedido{
         public int Id { get; set; }
         public string Email { get; set; }

@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace JeffSite.Models{
+namespace JeffSite.Models.Loja{
     public enum Status
     {
         [Description("Aguardando Link")]
