@@ -13,8 +13,7 @@ namespace JeffSite.Models.Loja{
         public string Complemento { get; set; }
         public string LinkRastreio { get; set; }
         public string LinkPagamento { get; set; }
-        public int Status { get; set; }
-        
+        public Status Status { get; set; }
         
     }
 }
