@@ -197,7 +197,7 @@
         var pedido = {
             Nome: $("#nome").val(),
             Email: $("#email").val(),
-            Dedicado: $("#dedicado").val(),
+            NomeDedicado: $("#dedicado").val(),
             CEP: $("#CEP").val(),
             Endereco: $("#endereco").val(),
             Bairro: $("#bairro").val(),
@@ -205,7 +205,20 @@
             Numero: parseInt($("#numero").val()),
             Complemento: $("#complemento").val()
         }
-        console.log(pedido)
+
+        console.log(JSON.stringify(pedido))
+        
+        $.ajax({
+            url: 'https://' + window.location.host + "/api/livro/add-pedido",
+            method :"POST",
+            type: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(pedido),
+            complete: function(xrh, textStatus){
+                console.log(xrh)
+            }
+        })
+
     })
 
     function maxLengthCheck(object)
