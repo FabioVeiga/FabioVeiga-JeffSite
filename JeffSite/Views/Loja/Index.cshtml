@@ -129,13 +129,19 @@
                             id="CEP" 
                             required
                             oninput="maxLengthCheck(this)"
-                            maxlength = "8"
-                            min = "1"
-                            max = "999">
+                            maxlength = "8">
                     </div>
                     <div class="form-group">
                         <label for="endereco" class="col-form-label">*Endereço</label>
                         <input class="form-control" type="text" id="endereco" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bairro" class="col-form-label">*Bairro</label>
+                        <input class="form-control" type="text" id="bairro" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cidade" class="col-form-label">*Cidade</label>
+                        <input class="form-control" type="text" id="cidade" required>
                     </div>
                     <div class="form-group">
                         <label for="numero" class="col-form-label">*Numero</label>
@@ -171,9 +177,18 @@
     })
 
     $("#CEP").keyup(function(){
-        
-        if($(this).val().length == 8){
-            console.log($(this).val()) 
+        var cep = $(this).val()
+        if(cep.length == 8){
+            $.ajax({
+                url: `https://viacep.com.br/ws/${cep}/json/`,
+                type:"GET",
+                dataType: "json",
+                success: function(data) {
+                    $("#endereco").val(data.logradouro)
+                    $("#bairro").val(data.bairro)
+                    $("#cidade").val(data.localidade)
+                }
+            })
         }
     })
 
@@ -184,6 +199,9 @@
             Email: $("#email").val(),
             Dedicado: $("#dedicado").val(),
             CEP: $("#CEP").val(),
+            Endereco: $("#endereco").val(),
+            Bairro: $("#bairro").val(),
+            Cidade: $("#cidade").val(),
             Numero: parseInt($("#numero").val()),
             Complemento: $("#complemento").val()
         }
