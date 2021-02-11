@@ -106,43 +106,52 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form id="pedido">
+                <div class="modal-body">
                     <input type="hidden" id="idLivro">
-                <div class="form-group">
-                    <label for="nome" class="col-form-label">Nome:</label>
-                    <input type="text" class="form-control" id="Nome">
+                    <div class="form-group">
+                        <label for="nome" class="col-form-label">*Nome:</label>
+                        <input type="text" class="form-control" id="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">*Email:</label>
+                        <input class="form-control" type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dedicado" class="col-form-label">Nome do dedicado</label>
+                        <input class="form-control" type="text" id="dedicado">
+                    </div>
+                    <div class="form-group">
+                        <label for="cep" class="col-form-label">*CEP</label>
+                        <input class="form-control" 
+                            type="number" 
+                            placeholder="0000000" 
+                            id="CEP" 
+                            required
+                            oninput="maxLengthCheck(this)"
+                            maxlength = "8"
+                            min = "1"
+                            max = "999">
+                    </div>
+                    <div class="form-group">
+                        <label for="endereco" class="col-form-label">*Endereço</label>
+                        <input class="form-control" type="text" id="endereco" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="numero" class="col-form-label">*Numero</label>
+                        <input class="form-control" type="number" id="numero" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="complemento" class="col-form-label">Complemento</label>
+                        <input class="form-control" type="text" id="complemento">
+                    </div>
+                    
                 </div>
-                <div class="form-group">
-                    <label for="email" class="col-form-label">Email:</label>
-                    <input class="form-control" type="email" id="email">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
                 </div>
-                <div class="form-group">
-                    <label for="dedicado" class="col-form-label">Nome do dedicado</label>
-                    <input class="form-control" type="text" id="dedicado">
-                </div>
-                <div class="form-group">
-                    <label for="cep" class="col-form-label">CEP</label>
-                    <input class="form-control" type="text" id="CEP">
-                </div>
-                <div class="form-group">
-                    <label for="endereco" class="col-form-label">Endereço</label>
-                    <input class="form-control" type="text" id="CEP">
-                </div>
-                <div class="form-group">
-                    <label for="numero" class="col-form-label">Numero</label>
-                    <input class="form-control" type="number" id="numero">
-                </div>
-                <div class="form-group">
-                    <label for="complemento" class="col-form-label">Complemento</label>
-                    <input class="form-control" type="text" id="complemento">
-                </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary">Enviar</button>
-            </div>
+            </form>
             </div>
         </div>
     </div>
@@ -159,8 +168,33 @@
 
         $("h5#myModalLabel").text(title)
         $("input#idLivro").val(id)
-        
     })
+
+    $("#CEP").keyup(function(){
+        
+        if($(this).val().length == 8){
+            console.log($(this).val()) 
+        }
+    })
+
+    $("#pedido").submit(function(event){
+        event.preventDefault()
+        var pedido = {
+            Nome: $("#nome").val(),
+            Email: $("#email").val(),
+            Dedicado: $("#dedicado").val(),
+            CEP: $("#CEP").val(),
+            Numero: parseInt($("#numero").val()),
+            Complemento: $("#complemento").val()
+        }
+        console.log(pedido)
+    })
+
+    function maxLengthCheck(object)
+    {
+        if (object.value.length > object.maxLength)
+        object.value = object.value.slice(0, object.maxLength)
+    }
 
     
 </script>
