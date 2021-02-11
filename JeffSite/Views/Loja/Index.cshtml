@@ -193,7 +193,7 @@
     })
 
     $("#pedido").submit(function(event){
-        event.preventDefault()
+        
         var pedido = {
             Nome: $("#nome").val(),
             Email: $("#email").val(),
@@ -206,7 +206,7 @@
             Complemento: $("#complemento").val()
         }
 
-        console.log(JSON.stringify(pedido))
+        //console.log(JSON.stringify(pedido))
         
         $.ajax({
             url: 'https://' + window.location.host + "/api/livro/add-pedido",
@@ -215,10 +215,14 @@
             contentType: "application/json; charset=UTF-8",
             data: JSON.stringify(pedido),
             complete: function(xrh, textStatus){
-                console.log(xrh)
+                if(textStatus == "OK"){
+                    console.log("Mostrar OK")
+                }else{
+                    console.log("Mostrar NOK")
+                }
             }
         })
-
+        event.preventDefault()
     })
 
     function maxLengthCheck(object)

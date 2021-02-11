@@ -59,12 +59,6 @@ namespace JeffSite.Controllers
         [Route("add-pedido")]
         [HttpPost]
         public IActionResult AddPedido([FromBody]Pedido model){
-            var userLogged = HttpContext.Session.GetString("userLogged");
-            if (userLogged == "" || userLogged == null)
-            {
-                return RedirectToAction("Index", "Admin");
-            }
-            
             var item = model;
 
             return Ok();
