@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using JeffSite.Models.Livro;
 
 namespace JeffSite.Models.Loja{
     public class Pedido{
@@ -16,6 +17,7 @@ namespace JeffSite.Models.Loja{
         public string LinkRastreio { get; set; }
         public string LinkPagamento { get; set; }
         public Status Status { get; set; }
+        public int IdLivro { get; set; }
 
         public Pedido(){}
         

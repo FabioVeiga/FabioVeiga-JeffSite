@@ -151,7 +151,9 @@
                         <label for="complemento" class="col-form-label">Complemento</label>
                         <input class="form-control" type="text" id="complemento">
                     </div>
-                    
+                    <div class="alert alert-success" role="alert" id="aviso" style="display:none">
+                        Enviado, por favor aguarda que você receberá novas instruções.
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -203,7 +205,8 @@
             Bairro: $("#bairro").val(),
             Cidade: $("#cidade").val(),
             Numero: parseInt($("#numero").val()),
-            Complemento: $("#complemento").val()
+            Complemento: $("#complemento").val(),
+            IdLivro: parseInt($("#idLivro").val())
         }
 
         //console.log(JSON.stringify(pedido))
@@ -215,10 +218,11 @@
             contentType: "application/json; charset=UTF-8",
             data: JSON.stringify(pedido),
             complete: function(xrh, textStatus){
-                if(textStatus == "OK"){
-                    console.log("Mostrar OK")
+                if(textStatus == "success"){
+                    document.getElementById('aviso').style.display = "block"
                 }else{
-                    console.log("Mostrar NOK")
+                    //alert(textStatus)
+                    alert("Houve algum erro, por favor retortar mais tarde")
                 }
             }
         })
