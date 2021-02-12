@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JeffSite.Data;
 using JeffSite.Models.Livro;
+using JeffSite.Models.Loja;
 
 namespace JeffSite.Services
 {
@@ -68,6 +69,10 @@ namespace JeffSite.Services
         public async Task UpdateWhereToBuyAsync(WhereToBuy item){
             _context.WhereToBuys.Update(item);
             await _context.SaveChangesAsync();
+        }
+
+        public List<Pedido> FindAllPedidosByIdLivro(int idLivro){
+            return _context.Pedidos.Where(x => x.LivroId == idLivro).ToList();
         }
 
     }
