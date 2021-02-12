@@ -17,7 +17,7 @@ namespace JeffSite.Models.Loja{
         public string LinkRastreio { get; set; }
         public string LinkPagamento { get; set; }
         public Status Status { get; set; }
-        public int IdLivro { get; set; }
+        public int LivroId { get; set; }
 
         public Pedido(){}
         
