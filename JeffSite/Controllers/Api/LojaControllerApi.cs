@@ -20,10 +20,12 @@ namespace JeffSite.Controllers
     {
         private readonly SocialMidiaService _socialMidia;
         private readonly LivroService _livroService;
-        public LojaControllerApi(SocialMidiaService socialMidia, LivroService livroService)
+        private readonly LojaService _lojaService;
+        public LojaControllerApi(SocialMidiaService socialMidia, LivroService livroService, LojaService lojaService)
         {
             _socialMidia = socialMidia;
             _livroService = livroService;
+            _lojaService = lojaService;
         }
 
 
@@ -58,9 +60,9 @@ namespace JeffSite.Controllers
 
         [Route("add-pedido")]
         [HttpPost]
-        public IActionResult AddPedido([FromBody]Pedido model){
-            var item = model;
-
+        public IActionResult AddPedido([FromBody]Pedido pedido){
+            pedido.Status = Status.Aguardando_Link;
+            _lojaService.AddPedido(pedido);
             return Ok();
         }
 
