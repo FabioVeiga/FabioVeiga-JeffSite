@@ -75,6 +75,10 @@ namespace JeffSite.Services
             return _context.Pedidos.Where(x => x.LivroId == idLivro).ToList();
         }
 
+        public List<Pedido> FillAllPedidos(){
+            return _context.Pedidos.ToList();
+        }
+
     }
 
 }

@@ -231,5 +231,12 @@ namespace JeffSite.Controllers
             return RedirectToAction("CreateWhereToBuy", item.Livro);
         }
 
+        [HttpGet]
+        public IActionResult Pedido(){
+            ViewData["Title"] = "Pedidos";
+            var pedidos = _livroService.FillAllPedidos();
+            return View(pedidos);
+        }
+
     }
 }
