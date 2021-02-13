@@ -30,7 +30,9 @@
             </th>
             <td>@Html.DisplayFor(modelItem => item.Id)</td>
             <td>@Html.DisplayFor(modelItem => item.Email)</td>
-            <td>@Html.DisplayFor(modelItem => item.Status)</td>
+            <td>
+                @JeffSite.Utils.Util.GetDescription(item.Status)
+            </td>
             
         </tr>
       }

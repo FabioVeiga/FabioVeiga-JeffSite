@@ -12,6 +12,8 @@ namespace JeffSite.Models.Loja{
         [Display(Name = "Nome do dedicado")]
         public string NomeDedicado { get; set; }
         public string CEP { get; set; }
+
+        [Display(Name = "Endereço")]
         public string Endereco { get; set; }
         public string Bairro { get; set; }
         public string Cidade { get; set; }

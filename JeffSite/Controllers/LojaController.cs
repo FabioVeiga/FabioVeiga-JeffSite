@@ -233,6 +233,11 @@ namespace JeffSite.Controllers
 
         [HttpGet]
         public IActionResult Pedido(){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             ViewData["Title"] = "Pedidos";
             var pedidos = _livroService.FillAllPedidos();
             return View(pedidos);
