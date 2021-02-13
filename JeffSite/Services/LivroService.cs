@@ -75,9 +75,19 @@ namespace JeffSite.Services
             return _context.Pedidos.Where(x => x.LivroId == idLivro).ToList();
         }
 
-        public List<Pedido> FillAllPedidos(){
+        public List<Pedido> FindAllPedidos(){
             return _context.Pedidos.ToList();
         }
+
+        public Pedido FindPedidoById(int id){
+            return _context.Pedidos.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void EditPedido(Pedido pedido){
+            _context.Pedidos.Update(pedido);
+            _context.SaveChanges();
+        }
+        
 
     }
 

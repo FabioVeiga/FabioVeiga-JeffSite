@@ -31,7 +31,7 @@
             <td>@Html.DisplayFor(modelItem => item.Id)</td>
             <td>@Html.DisplayFor(modelItem => item.Email)</td>
             <td>
-                @JeffSite.Utils.Util.GetDescription(item.Status)
+              @Html.ActionLink(@JeffSite.Utils.Util.GetDescription(item.Status), "PedidoAddInfo", new { id = item.Id})
             </td>
             
         </tr>

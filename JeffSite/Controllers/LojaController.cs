@@ -7,6 +7,7 @@ using JeffSite.Models.Livro;
 using JeffSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using JeffSite.Models.Loja;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -239,8 +240,73 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Pedidos";
-            var pedidos = _livroService.FillAllPedidos();
+            var pedidos = _livroService.FindAllPedidos();
             return View(pedidos);
+        }
+
+        [HttpGet]
+        public IActionResult PedidoAddInfo(int id){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Adicionar informação do pedido";
+            var item = _livroService.FindPedidoById(id);
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PedidoAddInfo(Pedido pedido, string outrosStatus){
+            ViewData["Title"] = "Adicionar informação do pedido";
+            switch((int)pedido.Status)
+            {
+                case 1:
+                    if(ValidarCampo(1, pedido.LinkPagamento)){
+                        ViewBag.Erro = "Por favor preencher o campo!";
+                        return View(pedido);
+                    }else{
+                        pedido.Status = Status.Aguardando_Pagamento;
+                    }
+                    break;
+                case 2:
+                    if(outrosStatus == "PagoSim"){
+                        pedido.Status = Status.Pago_e_Aguardando_Dedicatorio;
+                    }else{
+                        pedido.Status = Status.Aguardando_Pagamento;
+                    }
+                    break;
+                case 3:
+                    if(outrosStatus == "DedicadoSim"){
+                        pedido.Status = Status.Aguardando_Postagem;
+                    }else{
+                        pedido.Status = Status.Pago_e_Aguardando_Dedicatorio;
+                    }
+                    break;
+                case 4:
+                    if(ValidarCampo(4, pedido.LinkRastreio)){
+                        ViewBag.Erro = "Por favor preencher o campo!";
+                        return View(pedido);
+                    }else{
+                        pedido.Status = Status.Enviado;
+                    }
+                    break;
+            }
+            
+            _livroService.EditPedido(pedido);
+            var pedidos = _livroService.FindAllPedidos();
+
+            return RedirectToAction("Pedido",pedidos);
+        }
+
+        private bool ValidarCampo(int status, string info){
+            int[] statusValido = {1,4};
+            if(statusValido.Contains(status) && string.IsNullOrEmpty(info)){
+                return true;
+            }else{
+                return false;
+            }
         }
 
     }

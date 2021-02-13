@@ -10,6 +10,9 @@ namespace JeffSite.Models.Loja{
 
         [Description("Pago e Aguardando dedicatório")]
         Pago_e_Aguardando_Dedicatorio = 3,
-        Enviado = 4
+        
+         [Description("Aguardando Codigo ou Link de Rastreio")]
+        Aguardando_Postagem = 4,
+        Enviado = 5
     }
 }

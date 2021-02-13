@@ -24,6 +24,7 @@ namespace JeffSite.Models.Loja{
         public string LinkRastreio { get; set; }
 
         [Display(Name = "Link de Pagamento")]
+        [Url(ErrorMessage = "Inserir um endereço valido!")]
         public string LinkPagamento { get; set; }
         public Status Status { get; set; }
         public int LivroId { get; set; }
