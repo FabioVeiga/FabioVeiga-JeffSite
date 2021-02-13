@@ -260,6 +260,8 @@ namespace JeffSite.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult PedidoAddInfo(Pedido pedido, string outrosStatus){
             ViewData["Title"] = "Adicionar informação do pedido";
+            var livro = _livroService.FindById(pedido.LivroId);
+            string emailFrom = _configuracaoService.FindAdminEmail();
             switch((int)pedido.Status)
             {
                 case 1:
@@ -267,7 +269,18 @@ namespace JeffSite.Controllers
                         ViewBag.Erro = "Por favor preencher o campo!";
                         return View(pedido);
                     }else{
-                        pedido.Status = Status.Aguardando_Pagamento;
+                        bool envioEmail = JeffSite.Utils.EnviarEmail.testeEmail(
+                            emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
+                            pedido.Nome, null, "ModeloPedidoLinkPagamento",livro.Title, pedido.Id, 
+                            pedido.LinkPagamento);
+                        if(envioEmail){
+                            pedido.Status = Status.Aguardando_Pagamento;
+                        }else{
+                            ViewBag.Erro = "Houve algum erro no email do email, tentar mais tarde!";
+                            pedido.Status = Status.Aguardando_Link_De_Pagamento;
+                            _livroService.EditPedido(pedido);
+                            return View(pedido);
+                        }
                     }
                     break;
                 case 2:

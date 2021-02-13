@@ -7,12 +7,57 @@ using System.Web;
 
 namespace JeffSite.Utils{
 
-    public class EnviarEmail{
-        public bool testeEmail(string emailFrom, string emailTo, string subject, string namecontact, string phonecontact){
-            string texthtml = string.Format(@"<p> Nome: {0}</p>
+    public static class EnviarEmail{
+        
+        private static string ModeloEmailContato(string namecontact, string phonecontact, string emailTo, string subject){
+            return string.Format(@"<p> Nome: {0}</p>
                  <p>Telefone: {1}</p>
                  <p>Email: {2}</p>
                  <p>Assunto: {3}</p>", namecontact, phonecontact, emailTo, subject); 
+        }
+
+        private static string ModeloPedidoLinkPagamento(string nome, string livro, int pedido, string url){
+            return string.Format(
+                @"<html style=""text-align: center;"" >
+                    <table style=""width: 80%;
+                    border: 1px solid #B9B9B9;
+                    background-color: #E1E1E1;"">
+                        <tr>
+                        <td>
+                            <img src=""https://jornalportuario.com.br/upload/paginainfo/2021/2/13793/small/jeff-bezos-deixar-o-cargo-de-ceo-da-amazon.jpg"" 
+                            style=""width: 150px;
+                    border-radius: 30%;""
+                            />
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style=""text-align: left;"">
+                            <p>Pedido: {0}</p>
+                            <p>Livro: {1}</p>
+                            <p>Nome: {2}</p>
+                            <p>Link de Pagamento: <a href=""{3}"">Clique aqui</a></p>
+                            <p>Obrigado por comprar nosso livro!</p>
+                        </td>
+                        </tr>
+                    </table>
+                    </html>"
+                , pedido, livro, nome, url); 
+        }
+
+        public static bool testeEmail(string emailFrom, string emailTo, string subject, string nome, string phonecontact, string modelo, string livro, int? pedido, string url){
+             string texthtml = "";
+
+            switch (modelo)
+            {
+                case "ModeloEmailContato":
+                    texthtml = ModeloEmailContato(nome, phonecontact, emailTo, subject);
+                    break;
+
+                case "ModeloPedidoLinkPagamento":
+                    texthtml = ModeloPedidoLinkPagamento(nome, livro, pedido.Value, url);
+                    break;
+            }
+            
                  
             try{
                 // Instancia da classe de Mensagem
@@ -39,9 +84,9 @@ namespace JeffSite.Utils{
 
                 return true;
             }
-            catch(Exception ex){
+            catch{
                 //TODO: Verificar as exceções que podem vir a calhar.
-                throw ex;
+                return false;
             }
         }
         
