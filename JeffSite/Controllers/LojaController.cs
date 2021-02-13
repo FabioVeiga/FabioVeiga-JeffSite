@@ -302,7 +302,19 @@ namespace JeffSite.Controllers
                         ViewBag.Erro = "Por favor preencher o campo!";
                         return View(pedido);
                     }else{
-                        pedido.Status = Status.Enviado;
+                        bool envioEmail = JeffSite.Utils.EnviarEmail.testeEmail(
+                            emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
+                            pedido.Nome, null, "ModeloPedidoLinkRastreio",livro.Title, pedido.Id, 
+                            pedido.LinkRastreio);
+                        if(envioEmail){
+                            pedido.Status = Status.Enviado;
+                        }else{
+                            ViewBag.Erro = "Houve algum erro no email do email, tentar mais tarde!";
+                            pedido.Status = Status.Aguardando_Postagem;
+                            _livroService.EditPedido(pedido);
+                            return View(pedido);
+                        }
+                        
                     }
                     break;
             }
