@@ -11,8 +11,8 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">#</th>
       <th scope="col">@Html.DisplayNameFor(Model => Model.Id)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Nome)</th>
       <th scope="col">@Html.DisplayNameFor(Model => Model.Email)</th>
       <th scope="col">@Html.DisplayNameFor(Model => Model.Status)</th>
     </tr>
@@ -21,17 +21,15 @@
       @foreach (var item in Model)
       {
           <tr>
-            <th scope="row">
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id })
-                    @Html.Label(" | ")
-                    @Html.ActionLink("Deletar", "Delete", new { id = item.Id })
-                    @Html.Label(" | ")
-                    @Html.ActionLink("Links", "CreateWhereToBuy", new { id = item.Id })
-            </th>
             <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.Nome)</td>
             <td>@Html.DisplayFor(modelItem => item.Email)</td>
             <td>
-              @Html.ActionLink(@JeffSite.Utils.Util.GetDescription(item.Status), "PedidoAddInfo", new { id = item.Id})
+              @if(@JeffSite.Utils.Util.GetDescription(item.Status) == "Enviado"){
+                @JeffSite.Utils.Util.GetDescription(item.Status)
+              }else{
+                @Html.ActionLink(@JeffSite.Utils.Util.GetDescription(item.Status), "PedidoAddInfo", new { id = item.Id})
+              }
             </td>
             
         </tr>
