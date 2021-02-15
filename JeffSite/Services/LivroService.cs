@@ -87,6 +87,10 @@ namespace JeffSite.Services
             _context.Pedidos.Update(pedido);
             _context.SaveChanges();
         }
+
+        public Pedido FindPedidosById(int id){
+            return _context.Pedidos.FirstOrDefault(x => x.Id == id);
+        }
         
 
     }

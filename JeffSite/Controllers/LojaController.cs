@@ -334,5 +334,19 @@ namespace JeffSite.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult EditPedido(int id){
+            var item = _livroService.FindPedidosById(id);
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditPedido(Pedido item){
+            _livroService.EditPedido(item);
+            var pedidos = _livroService.FindAllPedidos();
+            return RedirectToAction("Pedido",pedidos);
+        }
+
     }
 }

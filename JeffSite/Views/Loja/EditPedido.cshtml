@@ -1,0 +1,49 @@
+@model JeffSite.Models.Loja.Pedido
+@{
+    Layout = "_LayoutAdmin";
+    int status = (int)Model.Status;
+}
+
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+<form asp-action="PedidoAddInfo" method="POST">
+    <input type="hidden" class="form-control" asp-for="Status" >
+    <input type="hidden" class="form-control" asp-for="LivroId" >
+    <input type="hidden" class="form-control" asp-for="Nome" >
+    <input type="hidden" class="form-control" asp-for="NomeDedicado" >
+    <input type="hidden" class="form-control" asp-for="Numero" >
+    <input type="hidden" class="form-control" asp-for="Bairro" >
+    <input type="hidden" class="form-control" asp-for="CEP" >
+    <input type="hidden" class="form-control" asp-for="Cidade" >
+    <input type="hidden" class="form-control" asp-for="Complemento" >
+    <input type="hidden" class="form-control" asp-for="Email" >
+    <input type="hidden" class="form-control" asp-for="Endereco" >
+
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Id)</label>
+        <input type="text" class="form-control" asp-for="Id" readonly>
+    </div>
+   
+    
+    <label>@Html.DisplayNameFor(Model => Model.LinkPagamento)</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="LinkPagamento">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button">Reenviar Email</button>
+        </div>
+    </div>
+
+    <label>@Html.DisplayNameFor(Model => Model.LinkRastreio)</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="LinkRastreio">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button">Reenviar Email</button>
+        </div>
+    </div>
+
+    <a asp-controller="Loja" asp-action="Pedido">Voltar</a>
+    <button class="btn btn-primary">Editar</button>
+
+</form>
