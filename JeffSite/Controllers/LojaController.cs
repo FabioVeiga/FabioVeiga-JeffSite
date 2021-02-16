@@ -345,13 +345,25 @@ namespace JeffSite.Controllers
             return View(item);
         }
 
+         [HttpGet]
+        public IActionResult DeletePedido(int id){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            var item = _livroService.FindPedidosById(id);
+            return View(item);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditPedido(Pedido item){
-            _livroService.EditPedido(item);
+        public IActionResult DeletePedido(Pedido item){
+            _livroService.DeletePedido(item);
             var pedidos = _livroService.FindAllPedidos();
             return RedirectToAction("Pedido",pedidos);
         }
+        
 
     }
 }

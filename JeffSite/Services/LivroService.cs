@@ -91,6 +91,11 @@ namespace JeffSite.Services
         public Pedido FindPedidosById(int id){
             return _context.Pedidos.FirstOrDefault(x => x.Id == id);
         }
+
+        public void DeletePedido(Pedido pedido){
+            _context.Pedidos.Remove(pedido);
+            _context.SaveChanges();
+        }
         
 
     }
