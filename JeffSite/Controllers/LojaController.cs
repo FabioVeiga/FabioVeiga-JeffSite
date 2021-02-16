@@ -336,6 +336,11 @@ namespace JeffSite.Controllers
 
         [HttpGet]
         public IActionResult EditPedido(int id){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             var item = _livroService.FindPedidosById(id);
             return View(item);
         }
