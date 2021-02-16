@@ -233,14 +233,15 @@ namespace JeffSite.Controllers
         }
 
         [HttpGet]
-        public IActionResult Pedido(){
+        public IActionResult Pedido(int limit = 10){
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Pedidos";
-            var pedidos = _livroService.FindAllPedidos();
+            ViewBag.Limit = limit;
+            var pedidos = _livroService.FindAllPedidos(limit);
             return View(pedidos);
         }
 
@@ -320,7 +321,9 @@ namespace JeffSite.Controllers
             }
             
             _livroService.EditPedido(pedido);
-            var pedidos = _livroService.FindAllPedidos();
+            
+            ViewBag.Limit = 10;
+            var pedidos = _livroService.FindAllPedidos(ViewBag.Limit);
 
             return RedirectToAction("Pedido",pedidos);
         }
@@ -341,6 +344,7 @@ namespace JeffSite.Controllers
             {
                 return RedirectToAction("Index", "Admin");
             }
+            ViewData["Title"] = "Editar Pedido";
             var item = _livroService.FindPedidosById(id);
             return View(item);
         }
@@ -352,6 +356,7 @@ namespace JeffSite.Controllers
             {
                 return RedirectToAction("Index", "Admin");
             }
+            ViewData["Title"] = "Deletar Pedido";
             var item = _livroService.FindPedidosById(id);
             return View(item);
         }
@@ -360,10 +365,10 @@ namespace JeffSite.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePedido(Pedido item){
             _livroService.DeletePedido(item);
-            var pedidos = _livroService.FindAllPedidos();
+            ViewBag.Limit = 10;
+            var pedidos = _livroService.FindAllPedidos(ViewBag.Limit);
             return RedirectToAction("Pedido",pedidos);
         }
-        
 
     }
 }

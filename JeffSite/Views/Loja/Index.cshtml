@@ -156,7 +156,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="function(){location.reload.bind(location)}">Fechar</button>
                     <button type="submit" class="btn btn-primary">Enviar</button>
                 </div>
             </form>
@@ -220,9 +220,10 @@
             complete: function(xrh, textStatus){
                 if(textStatus == "success"){
                     document.getElementById('aviso').style.display = "block"
+                    setTimeout(location.reload.bind(location), 5000);
                 }else{
                     //alert(textStatus)
-                    alert("Houve algum erro, por favor retortar mais tarde")
+                    alert("Houve algum erro, por favor retornar mais tarde")
                 }
             }
         })

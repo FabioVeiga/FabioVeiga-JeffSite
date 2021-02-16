@@ -75,8 +75,12 @@ namespace JeffSite.Services
             return _context.Pedidos.Where(x => x.LivroId == idLivro).ToList();
         }
 
-        public List<Pedido> FindAllPedidos(){
-            return _context.Pedidos.ToList();
+        public List<Pedido> FindAllPedidos(int limit){
+            return _context
+            .Pedidos
+            .OrderBy(x => x.Id)
+            .Take(limit)
+            .ToList();
         }
 
         public Pedido FindPedidoById(int id){
@@ -95,6 +99,13 @@ namespace JeffSite.Services
         public void DeletePedido(Pedido pedido){
             _context.Pedidos.Remove(pedido);
             _context.SaveChanges();
+        }
+
+        public List<Pedido> FindPedidosFilters(int limit){
+            return _context
+            .Pedidos
+            .Take(limit)
+            .ToList();
         }
         
 

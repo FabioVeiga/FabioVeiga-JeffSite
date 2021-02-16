@@ -1,6 +1,7 @@
 @model IEnumerable<JeffSite.Models.Loja.Pedido>
 @{
     Layout = "_LayoutAdmin";
+    int limit = (int)ViewBag.Limit + 5;
 }
 
 <br>
@@ -44,3 +45,8 @@
       }
   </tbody>
 </table>
+
+<form asp-action="Pedido" method="GET" >
+    <input type="hidden" name="limit" value="@limit">
+    <button class="btn btn-block btn-info">Ver mais Pedidos</button>
+</form>
