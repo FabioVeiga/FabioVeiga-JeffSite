@@ -24,10 +24,7 @@ namespace JeffSite.Utils{
                     background-color: #E1E1E1;"">
                         <tr>
                         <td>
-                            <img src=""https://jornalportuario.com.br/upload/paginainfo/2021/2/13793/small/jeff-bezos-deixar-o-cargo-de-ceo-da-amazon.jpg"" 
-                            style=""width: 150px;
-                    border-radius: 30%;""
-                            />
+                            Jeff Autor
                         </td>
                         </tr>
                         <tr>
@@ -52,10 +49,7 @@ namespace JeffSite.Utils{
                     background-color: #E1E1E1;"">
                         <tr>
                         <td>
-                            <img src=""https://jornalportuario.com.br/upload/paginainfo/2021/2/13793/small/jeff-bezos-deixar-o-cargo-de-ceo-da-amazon.jpg"" 
-                            style=""width: 150px;
-                    border-radius: 30%;""
-                            />
+                            Jeff Autor
                         </td>
                         </tr>
                         <tr>
