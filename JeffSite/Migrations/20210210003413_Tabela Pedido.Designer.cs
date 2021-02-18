@@ -3,14 +3,16 @@ using System;
 using JeffSite.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JeffSite.Migrations
 {
     [DbContext(typeof(JeffContext))]
-    partial class JeffContextModelSnapshot : ModelSnapshot
+    [Migration("20210210003413_Tabela Pedido")]
+    partial class TabelaPedido
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,13 +163,7 @@ namespace JeffSite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Bairro")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<string>("CEP")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Cidade")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Complemento")
@@ -178,9 +174,6 @@ namespace JeffSite.Migrations
 
                     b.Property<string>("Endereco")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("IdLivro")
-                        .HasColumnType("int");
 
                     b.Property<string>("LinkPagamento")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");

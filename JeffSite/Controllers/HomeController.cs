@@ -63,7 +63,8 @@ namespace JeffSite.Controllers
             bool enviado = true;
             // Recuperar o email que está cadastrado nas configs.
             // Email abaixo está cadastrado no MailJet, provedor com 6000 msg/mês gratuitas
-            string email = "rika_alves@hotmail.com";  
+            //string email = "rika_alves@hotmail.com";  
+            string email = _configuracaoService.FindAdminEmail();  
 
             // Verifica se o nome foi digitado
             if(string.IsNullOrEmpty(namecontact)){
@@ -96,12 +97,12 @@ namespace JeffSite.Controllers
 
             // verifica se todas as validações foram feitas.
             if(val){
-                
+
                 // Cria Instancia da classe enviar email
-                EnviarEmail env_mail = new EnviarEmail();
+                //EnviarEmail env_mail = new EnviarEmail();
 
                 // Se passou em todas as validações, realiza o envio de email
-                if(env_mail.testeEmail(email, emailcontact, subjectcontact, namecontact, phonecontact)){
+                if(JeffSite.Utils.EnviarEmail.testeEmail(email, emailcontact, subjectcontact, namecontact, phonecontact, "ModeloEmailContato", null, null, null)){
                     ViewBag.Message = "Mensagem enviada!";
                     enviado = true;
                 };

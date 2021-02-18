@@ -7,6 +7,7 @@ using JeffSite.Models.Livro;
 using JeffSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using JeffSite.Models.Loja;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -92,13 +93,17 @@ namespace JeffSite.Controllers
             ViewData["Title"] = "Deletar";
             var livro = _livroService.FindById(id);
             var itemsWTB = _livroService.FindAllWhereToBuyByIdLivro(id);
+            var itemsPedidos = _livroService.FindAllPedidosByIdLivro(id);
             
-            if(itemsWTB.Count > 0){
+            if(itemsWTB.Count > 0 && itemsPedidos.Count > 0){
                 ViewBag.flagDelete = false;
                 ViewBag.qtdWTB = itemsWTB.Count;
+                ViewBag.qtdPedido = itemsPedidos.Count;
             }else{
                 ViewBag.flagDelete = true;
             }
+
+
             return View(livro);
         }
 
@@ -225,6 +230,151 @@ namespace JeffSite.Controllers
             await _livroService.DeleteWhereToBuyAsync(item);
 
             return RedirectToAction("CreateWhereToBuy", item.Livro);
+        }
+
+        [HttpGet]
+        public IActionResult Pedido(string filtroStatus, int limit = 10){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Pedidos";
+            ViewBag.Limit = limit;
+            ViewBag.Status = filtroStatus;
+            if(!string.IsNullOrEmpty(filtroStatus)){
+                Status s =  (Status)Enum.Parse(typeof(Status), filtroStatus);
+                var pedidos = _livroService.FindPedidosByStatus(limit,s);
+                return View(pedidos);
+            }else{
+                var pedidos = _livroService.FindAllPedidos(limit);
+                return View(pedidos);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult PedidoAddInfo(int id){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Adicionar informação do pedido";
+            var item = _livroService.FindPedidoById(id);
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PedidoAddInfo(Pedido pedido, string outrosStatus){
+            ViewData["Title"] = "Adicionar informação do pedido";
+            var livro = _livroService.FindById(pedido.LivroId);
+            string emailFrom = _configuracaoService.FindAdminEmail();
+            switch((int)pedido.Status)
+            {
+                case 1:
+                    if(ValidarCampo(1, pedido.LinkPagamento)){
+                        ViewBag.Erro = "Por favor preencher o campo!";
+                        return View(pedido);
+                    }else{
+                        bool envioEmail = JeffSite.Utils.EnviarEmail.testeEmail(
+                            emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
+                            pedido.Nome, null, "ModeloPedidoLinkPagamento",livro.Title, pedido.Id, 
+                            pedido.LinkPagamento);
+                        if(envioEmail){
+                            pedido.Status = Status.Aguardando_Pagamento;
+                        }else{
+                            ViewBag.Erro = "Houve algum erro no email do email, tentar mais tarde!";
+                            pedido.Status = Status.Aguardando_Link_De_Pagamento;
+                            _livroService.EditPedido(pedido);
+                            return View(pedido);
+                        }
+                    }
+                    break;
+                case 2:
+                    if(outrosStatus == "PagoSim"){
+                        pedido.Status = Status.Pago_e_Aguardando_Dedicatorio;
+                    }else{
+                        pedido.Status = Status.Aguardando_Pagamento;
+                    }
+                    break;
+                case 3:
+                    if(outrosStatus == "DedicadoSim"){
+                        pedido.Status = Status.Aguardando_Postagem;
+                    }else{
+                        pedido.Status = Status.Pago_e_Aguardando_Dedicatorio;
+                    }
+                    break;
+                case 4:
+                    if(ValidarCampo(4, pedido.LinkRastreio)){
+                        ViewBag.Erro = "Por favor preencher o campo!";
+                        return View(pedido);
+                    }else{
+                        bool envioEmail = JeffSite.Utils.EnviarEmail.testeEmail(
+                            emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
+                            pedido.Nome, null, "ModeloPedidoLinkRastreio",livro.Title, pedido.Id, 
+                            pedido.LinkRastreio);
+                        if(envioEmail){
+                            pedido.Status = Status.Enviado;
+                        }else{
+                            ViewBag.Erro = "Houve algum erro no email do email, tentar mais tarde!";
+                            pedido.Status = Status.Aguardando_Postagem;
+                            _livroService.EditPedido(pedido);
+                            return View(pedido);
+                        }
+                        
+                    }
+                    break;
+            }
+            
+            _livroService.EditPedido(pedido);
+            
+            ViewBag.Limit = 10;
+            var pedidos = _livroService.FindAllPedidos(ViewBag.Limit);
+
+            return RedirectToAction("Pedido",pedidos);
+        }
+
+        private bool ValidarCampo(int status, string info){
+            int[] statusValido = {1,4};
+            if(statusValido.Contains(status) && string.IsNullOrEmpty(info)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        [HttpGet]
+        public IActionResult EditPedido(int id){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Editar Pedido";
+            var item = _livroService.FindPedidosById(id);
+            return View(item);
+        }
+
+         [HttpGet]
+        public IActionResult DeletePedido(int id){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Deletar Pedido";
+            var item = _livroService.FindPedidosById(id);
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePedido(Pedido item){
+            _livroService.DeletePedido(item);
+            ViewBag.Limit = 10;
+            var pedidos = _livroService.FindAllPedidos(ViewBag.Limit);
+            return RedirectToAction("Pedido",pedidos);
         }
 
     }

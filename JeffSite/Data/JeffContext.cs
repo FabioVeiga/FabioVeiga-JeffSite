@@ -1,6 +1,7 @@
 ﻿using System;
 using JeffSite.Models;
 using JeffSite.Models.Livro;
+using JeffSite.Models.Loja;
 using Microsoft.EntityFrameworkCore;
 
 namespace JeffSite.Data
@@ -18,6 +19,8 @@ namespace JeffSite.Data
         public DbSet<Leitor> Leitors { get; set; }
         public DbSet<Livro> Livros { get; set; }
         public DbSet<WhereToBuy> WhereToBuys { get; set; }
+        public DbSet<Pedido> Pedidos { get; set; }
+        
 
     }
 }

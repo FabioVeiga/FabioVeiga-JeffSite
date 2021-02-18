@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JeffSite.Data;
 using JeffSite.Models.Livro;
+using JeffSite.Models.Loja;
 
 namespace JeffSite.Services
 {
@@ -69,6 +70,53 @@ namespace JeffSite.Services
             _context.WhereToBuys.Update(item);
             await _context.SaveChangesAsync();
         }
+
+        public List<Pedido> FindAllPedidosByIdLivro(int idLivro){
+            return _context.Pedidos.Where(x => x.LivroId == idLivro).ToList();
+        }
+
+        public List<Pedido> FindAllPedidos(int limit){
+            return _context
+            .Pedidos
+            .OrderBy(x => x.Id)
+            .Take(limit)
+            .ToList();
+        }
+
+        public List<Pedido> FindPedidosByStatus(int limit, Status status){
+            return _context
+            .Pedidos
+            .Where(x => x.Status == status)
+            .OrderBy(x => x.Id)
+            .Take(limit)
+            .ToList();
+        }
+
+        public Pedido FindPedidoById(int id){
+            return _context.Pedidos.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void EditPedido(Pedido pedido){
+            _context.Pedidos.Update(pedido);
+            _context.SaveChanges();
+        }
+
+        public Pedido FindPedidosById(int id){
+            return _context.Pedidos.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void DeletePedido(Pedido pedido){
+            _context.Pedidos.Remove(pedido);
+            _context.SaveChanges();
+        }
+
+        public List<Pedido> FindPedidosFilters(int limit){
+            return _context
+            .Pedidos
+            .Take(limit)
+            .ToList();
+        }
+        
 
     }
 

@@ -8,6 +8,7 @@ using JeffSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using JeffSite.Models.Loja;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,10 +20,12 @@ namespace JeffSite.Controllers
     {
         private readonly SocialMidiaService _socialMidia;
         private readonly LivroService _livroService;
-        public LojaControllerApi(SocialMidiaService socialMidia, LivroService livroService)
+        private readonly LojaService _lojaService;
+        public LojaControllerApi(SocialMidiaService socialMidia, LivroService livroService, LojaService lojaService)
         {
             _socialMidia = socialMidia;
             _livroService = livroService;
+            _lojaService = lojaService;
         }
 
 
@@ -53,6 +56,14 @@ namespace JeffSite.Controllers
             var item = _livroService.FindLastWhereToBuy(idLivro);
 
             return Ok(item);
+        }
+
+        [Route("add-pedido")]
+        [HttpPost]
+        public IActionResult AddPedido([FromBody]Pedido pedido){
+            pedido.Status = Status.Aguardando_Link_De_Pagamento;
+            _lojaService.AddPedido(pedido);
+            return Ok();
         }
 
     }
