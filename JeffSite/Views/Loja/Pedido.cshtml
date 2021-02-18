@@ -2,8 +2,10 @@
 @{
     Layout = "_LayoutAdmin";
     int limit = (int)ViewBag.Limit + 5;
-    string filtroStatus = ViewBag.Status;
+    string filterStatus = ViewBag.Status == null ? string.Empty : ViewBag.Status;
 }
+
+<script src="../lib/jquery/dist/jquery.min.js"></script>
 
 <br>
 <h1>@ViewData["Title"]</h1>
@@ -17,13 +19,13 @@
   Filtrar por Status:
   <form asp-action="Pedido" method="GET">
     <input type="hidden" name="limit" value="@limit">
-    <select name="filtroStatus">
-      <option >Selecione um tipo</option>
+    <select name="filtroStatus" id="filtroStatus">
+      <option value="" >Selecione um tipo</option>
       <option value="Aguardando_Link_De_Pagamento">Aguardando Link de Pagamento</option>
       <option value="Aguardando_Pagamento">Aguardando Pagamento</option>
       <option value="Pago_e_Aguardando_Dedicatorio">Pago e Aguardando dedicatório</option>
       <option value="Aguardando_Postagem">Aguardando Codigo ou Link de Rastreio</option>
-      <option value="Enviado"></option>
+      <option value="Enviado">Enviado</option>
     </select>
     <button type="submit" class="btn btn-info" >Filtrar</button>
   </form>
@@ -68,6 +70,10 @@
 
 <form asp-action="Pedido" method="GET" >
     <input type="hidden" name="limit" value="@limit">
-    <input type="hidden" name="filtroStatus" value="@filtroStatus">
+    <input type="hidden" name="filtroStatus" value="@filterStatus">
     <button class="btn btn-block btn-info">Ver mais Pedidos</button>
 </form>
+
+<script>
+  document.getElementById('filtroStatus').value = "@filterStatus"
+</script>
