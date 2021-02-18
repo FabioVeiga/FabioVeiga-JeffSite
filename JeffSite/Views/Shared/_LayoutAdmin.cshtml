@@ -25,9 +25,17 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="SocialMidia" asp-action="Index">Redes Sociais</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Configuracao" asp-action="Index">Configurações</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Configurações
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="Configuracao" asp-action="Index">do Site</a>
+                                <a class="dropdown-item">do Email</a>
+                            </div>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Carousel" asp-action="Index">Carrousel</a>
                         </li>
