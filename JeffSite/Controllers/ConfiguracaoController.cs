@@ -77,5 +77,17 @@ namespace JeffSite.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public IActionResult confEmail(){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Configurações do Email";
+
+            return View();
+        }
+
     }
 }
