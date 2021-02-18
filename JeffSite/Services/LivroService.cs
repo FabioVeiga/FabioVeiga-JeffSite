@@ -83,6 +83,15 @@ namespace JeffSite.Services
             .ToList();
         }
 
+        public List<Pedido> FindPedidosByStatus(int limit, Status status){
+            return _context
+            .Pedidos
+            .Where(x => x.Status == status)
+            .OrderBy(x => x.Id)
+            .Take(limit)
+            .ToList();
+        }
+
         public Pedido FindPedidoById(int id){
             return _context.Pedidos.FirstOrDefault(x => x.Id == id);
         }

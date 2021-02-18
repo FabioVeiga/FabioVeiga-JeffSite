@@ -233,7 +233,7 @@ namespace JeffSite.Controllers
         }
 
         [HttpGet]
-        public IActionResult Pedido(int limit = 10){
+        public IActionResult Pedido(string filtroStatus, int limit = 10){
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
             {
@@ -241,8 +241,15 @@ namespace JeffSite.Controllers
             }
             ViewData["Title"] = "Pedidos";
             ViewBag.Limit = limit;
-            var pedidos = _livroService.FindAllPedidos(limit);
-            return View(pedidos);
+            ViewBag.Status = filtroStatus;
+            if(!string.IsNullOrEmpty(filtroStatus)){
+                Status s =  (Status)Enum.Parse(typeof(Status), filtroStatus);
+                var pedidos = _livroService.FindPedidosByStatus(limit,s);
+                return View(pedidos);
+            }else{
+                var pedidos = _livroService.FindAllPedidos(limit);
+                return View(pedidos);
+            }
         }
 
         [HttpGet]
