@@ -75,8 +75,7 @@ namespace JeffSite.Controllers
                         break;
                 }
                 if(resp != resposta){
-                    ViewBag.Message = "Resultado errado!";
-                    ViewBag.Enviado = false;
+                    ViewBag.conta = "Resultado errado";
                     return View();
                 }
             }
