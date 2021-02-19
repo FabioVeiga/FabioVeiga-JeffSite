@@ -43,12 +43,7 @@ namespace JeffSite.Controllers
             ViewBag.Redes = _socialMidia.FindAll();
             return View();
         }
-
-        public IActionResult Contato()
-        {
-            ViewBag.Redes = _socialMidia.FindAll();
-            return View();
-        }
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -56,9 +51,36 @@ namespace JeffSite.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult Contato()
+        {
+            ViewBag.Redes = _socialMidia.FindAll();
+            return View();
+        }
+
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult SendEmail(string namecontact, string emailcontact, string phonecontact, string subjectcontact){
+        public IActionResult Contato(int numA, int numB, string ope, int resposta, string namecontact, string emailcontact, string phonecontact, string subjectcontact){
+            ViewBag.Redes = _socialMidia.FindAll();
+            if(!string.IsNullOrEmpty(ope)){
+                int resp = 0;
+                switch(ope){
+                    case "+":
+                        resp = numA + numB;
+                        break;
+                    case "-":
+                        resp = numA - numB;
+                        break;
+                    default:
+                        resp = numA * numB;
+                        break;
+                }
+                if(resp != resposta){
+                    ViewBag.Message = "Resultado errado!";
+                    ViewBag.Enviado = false;
+                    return View();
+                }
+            }
+            
             bool val = true;
             bool enviado = true;
             // Recuperar o email que está cadastrado nas configs.
@@ -106,11 +128,13 @@ namespace JeffSite.Controllers
                 bool flag = JeffSite.Utils.EnviarEmail.testeEmail(configEmail,email, emailcontact, subjectcontact, namecontact, phonecontact, "ModeloEmailContato", null, null, null);
                 if(flag){
                     ViewBag.Message = "Mensagem enviada!";
+                    ViewBag.Enviado = true;
                     enviado = true;
                 };
             // Caso não passe em alguma validação uma mensagem de erro será escrita
             }else{
                 ViewBag.Message = "Mensagem não enviada!";
+                ViewBag.Enviado = false;
                 enviado = false;
             }
 
@@ -129,7 +153,7 @@ namespace JeffSite.Controllers
                 ViewBag.SubjectContact = "";
             }
             ViewBag.Redes = _socialMidia.FindAll();
-            return View("Contato");
+            return View();
             
         }
     }
