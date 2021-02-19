@@ -7,7 +7,13 @@
 <h1>@ViewData["Title"]</h1>
 <br>
 
-<form asp-action="EditConfEmail" method="POST">
+@if(ViewBag.Message != null){
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Message 
+    </div>
+}
+
+<form asp-action="confEmail" method="POST">
     <input type="hidden" class="form-control" asp-for="Id" readonly>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.Servidor)</label>
@@ -21,7 +27,7 @@
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.ContaEmail)</label>
-        <input type="email" class="form-control" asp-for="ContaEmail">
+        <input type="text" class="form-control" asp-for="ContaEmail">
         <span asp-validation-for="ContaEmail" class="text-danger"></span>
     </div>
     <div class="form-group">

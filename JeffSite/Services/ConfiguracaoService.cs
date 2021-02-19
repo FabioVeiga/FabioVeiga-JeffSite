@@ -28,10 +28,14 @@ namespace JeffSite.Services
             return _context.Configuracao.FirstOrDefault().ContactEmail;
         }
 
-        public Email FindEmailI(){
+        public Email FindEmail(){
             return _context.Emails.FirstOrDefault();
         }
 
+        public void EditEmail(Email email){
+            _context.Emails.Update(email);
+            _context.SaveChanges();
+        }
 
     }
 

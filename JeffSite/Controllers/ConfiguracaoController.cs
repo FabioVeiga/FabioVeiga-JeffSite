@@ -86,7 +86,19 @@ namespace JeffSite.Controllers
             }
             ViewData["Title"] = "Configurações do Email";
 
-            var item = _configuracaoService.FindEmailI();
+            var item = _configuracaoService.FindEmail();
+
+            return View(item);
+        }
+
+        [HttpPost]
+        public IActionResult confEmail(Email item){
+            ViewData["Title"] = "Configurações do Email";
+
+            if(ModelState.IsValid){
+                _configuracaoService.EditEmail(item);
+                ViewBag.Message = "Salvo com sucesso!";
+            }
 
             return View(item);
         }
