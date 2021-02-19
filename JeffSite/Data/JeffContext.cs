@@ -20,6 +20,7 @@ namespace JeffSite.Data
         public DbSet<Livro> Livros { get; set; }
         public DbSet<WhereToBuy> WhereToBuys { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }
+        public DbSet<Email> Emails { get; set; }
         
 
     }
