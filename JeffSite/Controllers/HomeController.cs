@@ -102,7 +102,9 @@ namespace JeffSite.Controllers
                 //EnviarEmail env_mail = new EnviarEmail();
 
                 // Se passou em todas as validações, realiza o envio de email
-                if(JeffSite.Utils.EnviarEmail.testeEmail(email, emailcontact, subjectcontact, namecontact, phonecontact, "ModeloEmailContato", null, null, null)){
+                var configEmail = _configuracaoService.FindEmail();
+                bool flag = JeffSite.Utils.EnviarEmail.testeEmail(configEmail,email, emailcontact, subjectcontact, namecontact, phonecontact, "ModeloEmailContato", null, null, null);
+                if(flag){
                     ViewBag.Message = "Mensagem enviada!";
                     enviado = true;
                 };
