@@ -28,6 +28,11 @@ namespace JeffSite.Services
             return _context.Configuracao.FirstOrDefault().ContactEmail;
         }
 
+        public Email FindEmailI(){
+            return _context.Emails.FirstOrDefault();
+        }
+
+
     }
 
 }

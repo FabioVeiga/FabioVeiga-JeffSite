@@ -33,6 +33,11 @@ namespace JeffSite.Data
 
             _context.SaveChanges();
 
+            if (_context.Emails.Any())
+            {
+                return;
+            }
+
             Email e1 = new Email {
                 Id = 1, 
                 Servidor = "in-v3.mailjet.com", 

@@ -86,7 +86,9 @@ namespace JeffSite.Controllers
             }
             ViewData["Title"] = "Configurações do Email";
 
-            return View();
+            var item = _configuracaoService.FindEmailI();
+
+            return View(item);
         }
 
     }
