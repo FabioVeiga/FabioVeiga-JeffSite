@@ -14,7 +14,8 @@ namespace JeffSite.Services
             _context = context;
         }
         public bool ValidateUser(User user){
-            return  _context.User.Any(u => u.UserName == user.UserName && u.Pass == user.Pass);
+            string senhaEncriptada = JeffSite.Utils.Util.GerarHashMd5(user.Pass);
+            return  _context.User.Any(u => u.UserName == user.UserName && u.Pass == senhaEncriptada);
         }
 
         public User GetUserBYLogin(string login){
