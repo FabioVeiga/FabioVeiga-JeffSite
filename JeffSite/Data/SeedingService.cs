@@ -33,6 +33,23 @@ namespace JeffSite.Data
 
             _context.SaveChanges();
 
+            if (_context.Emails.Any())
+            {
+                return;
+            }
+
+            Email e1 = new Email {
+                Id = 1, 
+                Servidor = "in-v3.mailjet.com", 
+                Porta = 587,
+                UsarCredencialPadrao = false,
+                ContaEmail = "82e27f3e2c23efde495f3d945230903e",
+                Senha = "0291dad12068416508fa09631f8c7e2e",
+                HabilitaSSL = true
+                };
+            _context.Add(e1);
+            _context.SaveChanges();
+
         }
     }
 }

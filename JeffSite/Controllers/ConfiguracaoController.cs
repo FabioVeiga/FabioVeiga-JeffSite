@@ -77,5 +77,31 @@ namespace JeffSite.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public IActionResult confEmail(){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Configurações do Email";
+
+            var item = _configuracaoService.FindEmail();
+
+            return View(item);
+        }
+
+        [HttpPost]
+        public IActionResult confEmail(Email item){
+            ViewData["Title"] = "Configurações do Email";
+
+            if(ModelState.IsValid){
+                _configuracaoService.EditEmail(item);
+                ViewBag.Message = "Salvo com sucesso!";
+            }
+
+            return View(item);
+        }
+
     }
 }

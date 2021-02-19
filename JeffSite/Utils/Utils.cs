@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
+using JeffSite.Models;
 
 namespace JeffSite.Utils{
 
@@ -67,7 +68,7 @@ namespace JeffSite.Utils{
                 , pedido, livro, nome, url); 
         }
 
-        public static bool testeEmail(string emailFrom, string emailTo, string subject, string nome, string phonecontact, string modelo, string livro, int? pedido, string url){
+        public static bool testeEmail(Email config, string emailFrom, string emailTo, string subject, string nome, string phonecontact, string modelo, string livro, int? pedido, string url){
              string texthtml = "";
 
             switch (modelo)
@@ -101,12 +102,12 @@ namespace JeffSite.Utils{
             
 
                 // Configuração com porta
-                SmtpClient _smtpClient = new SmtpClient("in-v3.mailjet.com", Convert.ToInt32("587"));
+                SmtpClient _smtpClient = new SmtpClient(config.Servidor, config.Porta);
 
                 // Credenciais para o envio por SMTP seguro via MailJet
-                _smtpClient.UseDefaultCredentials = false;
-                _smtpClient.Credentials = new NetworkCredential("82e27f3e2c23efde495f3d945230903e","0291dad12068416508fa09631f8c7e2e");
-                _smtpClient.EnableSsl = true;
+                _smtpClient.UseDefaultCredentials = config.UsarCredencialPadrao;
+                _smtpClient.Credentials = new NetworkCredential(config.ContaEmail,config.Senha);
+                _smtpClient.EnableSsl = config.HabilitaSSL;
                 _smtpClient.Send(_mailmessage);
 
                 return true;

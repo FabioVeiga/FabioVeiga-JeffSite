@@ -277,7 +277,9 @@ namespace JeffSite.Controllers
                         ViewBag.Erro = "Por favor preencher o campo!";
                         return View(pedido);
                     }else{
+                        var configEmail = _configuracaoService.FindEmail();
                         bool envioEmail = JeffSite.Utils.EnviarEmail.testeEmail(
+                            configEmail,
                             emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
                             pedido.Nome, null, "ModeloPedidoLinkPagamento",livro.Title, pedido.Id, 
                             pedido.LinkPagamento);
@@ -310,7 +312,9 @@ namespace JeffSite.Controllers
                         ViewBag.Erro = "Por favor preencher o campo!";
                         return View(pedido);
                     }else{
+                        var configEmail = _configuracaoService.FindEmail();
                         bool envioEmail = JeffSite.Utils.EnviarEmail.testeEmail(
+                            configEmail,
                             emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
                             pedido.Nome, null, "ModeloPedidoLinkRastreio",livro.Title, pedido.Id, 
                             pedido.LinkRastreio);
