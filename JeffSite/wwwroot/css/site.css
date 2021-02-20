@@ -62,6 +62,59 @@ a {
   width: 170px;
 }
 
+.livro{
+  background-color: #EEEEEE;
+}
+.fotoLivro{
+  width: 200px;
+  height: 200px;
+}
+.fotoLivro img{
+  width: 80%;
+  height: 80%;
+  margin: 10%;
+}
+.descricao{
+  background-color: #F6F6F6;
+  margin-left: 210px;
+  margin-top: -200px;
+  height: 200px;
+}
+.descricao-titulo{
+  width: 100%;
+  padding-left: 15px;
+}
+.descricao-corpo{
+  width: 100%;
+  text-align: justify;
+  padding-left: 30px;
+  padding-right: 20px;
+}
+.descricao-corpo p{
+  font-style: italic;
+}
+.descricao-links{
+  margin-right: 10px;
+  position: absolute;
+  bottom: 0;
+}
+.descricao-links ul li{
+display: inline;
+text-decoration: none;
+color: #757373;
+}
+.descricao-links a{
+  color: #757373;
+}
+.mercado-livre{
+  background-color: #F0F0F0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.mercado-livre a{
+  text-decoration: none; 
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
