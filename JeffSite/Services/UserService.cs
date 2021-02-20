@@ -14,7 +14,11 @@ namespace JeffSite.Services
             _context = context;
         }
         public bool ValidateUser(User user){
-            return  _context.User.Any(u => u.UserName == user.UserName && u.Pass == user.Pass);
+            string senhaEncriptada = JeffSite.Utils.Util.GerarHashMd5(user.Pass);
+            if(senhaEncriptada == "erro:senha-vazia"){
+                return false;
+            }
+            return  _context.User.Any(u => u.UserName == user.UserName && u.Pass == senhaEncriptada);
         }
 
         public User GetUserBYLogin(string login){
@@ -22,6 +26,7 @@ namespace JeffSite.Services
         }
 
         public void ChangePassword(User user){
+            user.Pass = JeffSite.Utils.Util.GerarHashMd5(user.Pass);
             _context.User.Update(user);
             _context.SaveChanges();
         }

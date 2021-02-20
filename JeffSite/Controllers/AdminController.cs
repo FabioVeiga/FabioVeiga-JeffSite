@@ -9,9 +9,13 @@ namespace JeffSite.Controllers
     public class AdminController : Controller
     {
         private readonly UserService _userService;
+        private readonly LojaService _lojaService;
+        private readonly LeitorService _leitorService;
 
-        public AdminController(UserService userService){
+        public AdminController(UserService userService, LojaService lojaService, LeitorService leitorService){
             _userService = userService;
+            _lojaService = lojaService;
+            _leitorService = leitorService;
         }
 
         public IActionResult Index()
@@ -26,6 +30,10 @@ namespace JeffSite.Controllers
             {
                 return View(nameof(AdminHome));
             }
+            ViewBag.QuantidadeLivros = _lojaService.HowManyLivros();
+            ViewBag.QuantidadePedidos = _lojaService.HowManyPedidos();
+            ViewBag.QuantidadePostsAprovado = _leitorService.HowManyPostsApproved();
+            ViewBag.QuantidadePostsNaoAprovado = _leitorService.HowManyPostsAreNotApproved();
             return View();
         }
 

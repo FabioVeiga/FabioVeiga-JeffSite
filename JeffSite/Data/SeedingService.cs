@@ -19,8 +19,8 @@ namespace JeffSite.Data
                 return;
             }
 
-            User user1 = new User {UserName = "Admin", Pass = "123"};
-            User user2 = new User {UserName = "Jeff", Pass = "123"};
+            User user1 = new User {UserName = "Admin", Pass = JeffSite.Utils.Util.GerarHashMd5("123")};
+            User user2 = new User {UserName = "JeffAdmin", Pass = JeffSite.Utils.Util.GerarHashMd5("Admin0123")};
             _context.User.AddRange(user1, user2);
 
             if (_context.Configuracao.Any())

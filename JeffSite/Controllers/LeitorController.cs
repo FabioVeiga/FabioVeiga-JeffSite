@@ -38,7 +38,7 @@ namespace JeffSite.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Create(Leitor leitor, IFormFile Img){
+        public async Task<IActionResult> Index(Leitor leitor, IFormFile Img){
             ViewBag.Title = titlePage;
             ViewBag.Redes = _socialMidia.FindAll();
 

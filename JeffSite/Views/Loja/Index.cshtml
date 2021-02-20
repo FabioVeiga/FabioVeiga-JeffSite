@@ -1,63 +1,8 @@
 ﻿@{
     string linkMercadoLivre = ViewBag.LinkMercadoLivre;
 }
-<script src="lib/jquery/dist/jquery.min.js"></script>
-<style>
-    .livro{
-        background-color: #EEEEEE;
-    }
-    .fotoLivro{
-        width: 200px;
-        height: 200px;
-    }
-    .fotoLivro img{
-        width: 80%;
-        height: 80%;
-        margin: 10%;
-    }
-    .descricao{
-        background-color: #F6F6F6;
-        margin-left: 210px;
-        margin-top: -200px;
-        height: 200px;
-    }
-    .descricao-titulo{
-        width: 100%;
-        padding-left: 15px;
-    }
-    .descricao-corpo{
-        width: 100%;
-        text-align: justify;
-        padding-left: 30px;
-        padding-right: 20px;
-    }
-    .descricao-corpo p{
-        font-style: italic;
-    }
-    .descricao-links{
-        margin-right: 10px;
-        position: absolute;
-        bottom: 0;
-    }
-    .descricao-links ul li{
-    display: inline;
-    text-decoration: none;
-    color: #757373;
-    }
-    .descricao-links a{
-        color: #757373;
-    }
-    .mercado-livre{
-        background-color: #F0F0F0;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-    .mercado-livre a{
-        text-decoration: none; 
-    }
-</style>
 <div class="container">
-<h3>@ViewBag.Title</h3>
+<h1 class="Titulo"><span>@ViewBag.Title<span></h1>
     @if(!string.IsNullOrEmpty(linkMercadoLivre)){
         <div class="mercado-livre">
             <p>Conheça nossa loja no: <img src="img/MercadoLivreLogo.jpg" style="width: 30px"> <a href="@linkMercadoLivre" target="_blank">Mercado Livre</a></p>
@@ -167,74 +112,77 @@
     
 </div>
 
-<script>
-    $('a#linkAutografado').click(function (event){
-        var id = $(event.target).attr("data-id")
-        var title = $(event.target).attr("data-title")
-        //console.log($(event.target).attr("data-id"))
-        //console.log($(event.target).attr("data-title"))
+@section Scripts{
+    <script>
+        $('a#linkAutografado').click(function (event){
+            var id = $(event.target).attr("data-id")
+            var title = $(event.target).attr("data-title")
+            //console.log($(event.target).attr("data-id"))
+            //console.log($(event.target).attr("data-title"))
 
-        $("h5#myModalLabel").text(title)
-        $("input#idLivro").val(id)
-    })
+            $("h5#myModalLabel").text(title)
+            $("input#idLivro").val(id)
+        })
 
-    $("#CEP").keyup(function(){
-        var cep = $(this).val()
-        if(cep.length == 8){
-            $.ajax({
-                url: `https://viacep.com.br/ws/${cep}/json/`,
-                type:"GET",
-                dataType: "json",
-                success: function(data) {
-                    $("#endereco").val(data.logradouro)
-                    $("#bairro").val(data.bairro)
-                    $("#cidade").val(data.localidade)
-                }
-            })
-        }
-    })
-
-    $("#pedido").submit(function(event){
-        
-        var pedido = {
-            Nome: $("#nome").val(),
-            Email: $("#email").val(),
-            NomeDedicado: $("#dedicado").val(),
-            CEP: $("#CEP").val(),
-            Endereco: $("#endereco").val(),
-            Bairro: $("#bairro").val(),
-            Cidade: $("#cidade").val(),
-            Numero: parseInt($("#numero").val()),
-            Complemento: $("#complemento").val(),
-            LivroId: parseInt($("#idLivro").val())
-        }
-
-        //console.log(JSON.stringify(pedido))
-        
-        $.ajax({
-            url: 'https://' + window.location.host + "/api/livro/add-pedido",
-            method :"POST",
-            type: "json",
-            contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify(pedido),
-            complete: function(xrh, textStatus){
-                if(textStatus == "success"){
-                    document.getElementById('aviso').style.display = "block"
-                    setTimeout(location.reload.bind(location), 5000);
-                }else{
-                    //alert(textStatus)
-                    alert("Houve algum erro, por favor retornar mais tarde")
-                }
+        $("#CEP").keyup(function(){
+            var cep = $(this).val()
+            if(cep.length == 8){
+                $.ajax({
+                    url: `https://viacep.com.br/ws/${cep}/json/`,
+                    type:"GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $("#endereco").val(data.logradouro)
+                        $("#bairro").val(data.bairro)
+                        $("#cidade").val(data.localidade)
+                    }
+                })
             }
         })
-        event.preventDefault()
-    })
 
-    function maxLengthCheck(object)
-    {
-        if (object.value.length > object.maxLength)
-        object.value = object.value.slice(0, object.maxLength)
-    }
+        $("#pedido").submit(function(event){
+            
+            var pedido = {
+                Nome: $("#nome").val(),
+                Email: $("#email").val(),
+                NomeDedicado: $("#dedicado").val(),
+                CEP: $("#CEP").val(),
+                Endereco: $("#endereco").val(),
+                Bairro: $("#bairro").val(),
+                Cidade: $("#cidade").val(),
+                Numero: parseInt($("#numero").val()),
+                Complemento: $("#complemento").val(),
+                LivroId: parseInt($("#idLivro").val())
+            }
 
-    
-</script>
+            //console.log(JSON.stringify(pedido))
+            
+            $.ajax({
+                url: 'https://' + window.location.host + "/api/livro/add-pedido",
+                method :"POST",
+                type: "json",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(pedido),
+                complete: function(xrh, textStatus){
+                    if(textStatus == "success"){
+                        document.getElementById('aviso').style.display = "block"
+                        setTimeout(location.reload.bind(location), 5000);
+                    }else{
+                        //alert(textStatus)
+                        alert("Houve algum erro, por favor retornar mais tarde")
+                    }
+                }
+            })
+            event.preventDefault()
+        })
+
+        function maxLengthCheck(object)
+        {
+            if (object.value.length > object.maxLength)
+            object.value = object.value.slice(0, object.maxLength)
+        }
+
+        
+    </script>
+}
+

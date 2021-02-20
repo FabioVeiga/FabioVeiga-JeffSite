@@ -54,6 +54,14 @@ namespace JeffSite.Services
             await _context.SaveChangesAsync();
         }
 
+        public int HowManyPostsApproved(){
+            return _context.Leitors.Where(x => x.IsApproved == true).ToList().Count;
+        }
+
+        public int HowManyPostsAreNotApproved(){
+            return _context.Leitors.Where(x => x.IsApproved == false).ToList().Count;
+        }
+
     }
 
 }
