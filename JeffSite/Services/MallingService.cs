@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using JeffSite.Data;
 using JeffSite.Models;
@@ -25,6 +26,10 @@ namespace JeffSite.Services
             }else{
                 return true;
             }
+        }
+
+        public List<Malling> FillAllMalling(){
+            return _context.Mallings.ToList();
         }
     }
 }

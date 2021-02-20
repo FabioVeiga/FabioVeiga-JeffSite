@@ -1,0 +1,25 @@
+@model IEnumerable<JeffSite.Models.Malling>
+@{
+    Layout = "_LayoutAdmin";
+}
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Email)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Nome)</th>
+    </tr>
+  </thead>
+  <tbody>
+      @foreach (var item in Model)
+      {
+          <tr>
+            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+            <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+        </tr>
+      }
+  </tbody>
+</table>
