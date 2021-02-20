@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using JeffSite.Models.Loja;
+using JeffSite.Models;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,11 +22,14 @@ namespace JeffSite.Controllers
         private readonly SocialMidiaService _socialMidia;
         private readonly LivroService _livroService;
         private readonly LojaService _lojaService;
-        public LojaControllerApi(SocialMidiaService socialMidia, LivroService livroService, LojaService lojaService)
+        private readonly MallingService _mallingService;
+
+        public LojaControllerApi(SocialMidiaService socialMidia, LivroService livroService, LojaService lojaService, MallingService mallingService)
         {
             _socialMidia = socialMidia;
             _livroService = livroService;
             _lojaService = lojaService;
+            _mallingService = mallingService;
         }
 
 
@@ -63,6 +67,17 @@ namespace JeffSite.Controllers
         public IActionResult AddPedido([FromBody]Pedido pedido){
             pedido.Status = Status.Aguardando_Link_De_Pagamento;
             _lojaService.AddPedido(pedido);
+
+            //add email malling
+            var mail = new Malling();
+            mail.Email = pedido.Email;
+            mail.Nome = pedido.Nome;
+
+            //Add malling
+            if(!_mallingService.CheckMail(mail)){
+                _mallingService.AddMalling(mail);
+            }
+
             return Ok();
         }
 
