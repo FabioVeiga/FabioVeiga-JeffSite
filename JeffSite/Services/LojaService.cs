@@ -19,6 +19,14 @@ namespace JeffSite.Services
             _context.Pedidos.Add(pedido);
             _context.SaveChanges();
         }
+
+        public int HowManyLivros(){
+            return _context.Livros.ToList().Count();
+        }
+
+        public int HowManyPedidos(){
+            return _context.Pedidos.ToList().Count();
+        }
     }
 
 }
