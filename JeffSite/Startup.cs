@@ -48,6 +48,7 @@ namespace JeffSite
             services.AddScoped<LeitorService>();
             services.AddScoped<LivroService>();
             services.AddScoped<LojaService>();
+            services.AddScoped<MallingService>();
             
         }
 
