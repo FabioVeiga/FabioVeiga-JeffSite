@@ -49,6 +49,19 @@ a {
   color: #0366d6;
 }
 
+.imgContainerMain{
+  text-align: center;
+}
+.imgContainer{
+  float:left;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.imgContainer img{
+  height: 170px;
+  width: 170px;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

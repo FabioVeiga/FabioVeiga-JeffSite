@@ -5,21 +5,10 @@
     int limit = ViewBag.Limit;
 }
 <style>
-    .imgContainerMain{
-        text-align: center;
-    }
-    .imgContainer{
-        float:left;
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-    .imgContainer img{
-        height: 170px;
-        width: 170px;
-    }
+    
 </style>
 <div class="container">
-  <h1>@ViewBag.Title</h1>
+  <h1 class="Titulo"><span>@ViewBag.Title<span></h1>
   <div class="row">
     <div class="col-sm-8">
         @{
@@ -57,7 +46,7 @@
                     @sendMessage
                 </div>
             }
-            <form asp-controller="Leitor" asp-action="Create" enctype="multipart/form-data">
+            <form asp-controller="Leitor" asp-action="Index" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>@Html.DisplayNameFor(model => model.Name)</label>
                     <input type="text" class="form-control" asp-for="Name">
