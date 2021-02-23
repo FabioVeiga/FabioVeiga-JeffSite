@@ -31,6 +31,17 @@ namespace JeffSite.Controllers
             ViewData["Title"] = "Lista de email";
             return View(itens);
         }
+
+        [HttpGet]
+        public IActionResult EnviarEmailMailling(){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Enviar email mailling";
+            return View();
+        }
         
     }
 }
