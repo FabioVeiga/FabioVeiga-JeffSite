@@ -12,12 +12,13 @@ namespace JeffSite.Controllers
 {
     public class MallingController : Controller
     {
-
+        private readonly SocialMidiaService _socialMidia;
         private readonly MallingService _mallingService;
 
-        public MallingController(MallingService mallingService)
+        public MallingController(MallingService mallingService, SocialMidiaService socialMidia)
         {
             _mallingService = mallingService;
+            _socialMidia = socialMidia;
         }
 
         [HttpGet]
@@ -41,6 +42,30 @@ namespace JeffSite.Controllers
             }
             ViewData["Title"] = "Enviar email mailling";
             return View();
+        }
+
+        [HttpGet]
+        [Route("remover-email/{email}")]
+        public IActionResult RemoverEmail(string email){
+            ViewBag.Redes = _socialMidia.FindAll();
+            ViewBag.Email = email;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("remover-email")]
+        public IActionResult RemoverEmail(bool opcao, string email){
+            ViewBag.Redes = _socialMidia.FindAll();
+            
+            if(opcao){
+                _mallingService.DeleteEmail(email);
+                ViewBag.Message = "Email removido!";
+            }else{
+                ViewBag.Message = "Email mantido!";
+            }
+
+            return RedirectToAction("RemoverEmail",email);
         }
         
     }
