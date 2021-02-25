@@ -1,7 +1,56 @@
-@model IEnumerable<JeffSite.Models.Malling>
+
 @{
     Layout = "_LayoutAdmin";
 }
 <br>
     <h1>@ViewData["Title"]</h1>
 <br>
+
+<form asp-action="EnviarEmailMalling" method="POST" id="enviar-email-malling">
+    <div class="form-group">
+        <label>Titulo do email</label>
+        <input type="text" class="form-control" name="titulo">
+        <span class="text-danger"></span>
+    </div>
+    <div id="editor" name="editor">
+    </div>
+    <input type="hidden" name="html" id="quill-html">
+    <button id="btn-submit" class="btn btn-info">Enviar</button>
+</form>
+
+@section Scripts{
+    <script>
+        var BackgroundClass = Quill.import('attributors/class/background')
+        var ColorClass = Quill.import('attributors/class/color')
+        var SizeStyle = Quill.import('attributors/style/size')
+        Quill.register(BackgroundClass, true)
+        Quill.register(ColorClass, true)
+        Quill.register(SizeStyle, true)
+
+        var quill = new Quill('#editor', {
+            modules: {
+                toolbar: [
+                [{ header: [1, 2, 3, 4, 5, 6,  false] }],
+                ['bold', 'italic', 'underline','strike'],
+                ['image', 'code-block'],
+                ['link'],
+                [{ 'script': 'sub'}, { 'script': 'super' }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['clean']
+                ]
+            },
+            placeholder: 'Digite o cordo do email aqui',
+            theme: 'snow'  // or 'bubble'
+        });
+
+        $('#btn-submit').on('click', () => { 
+            // Get HTML content
+            var html = quill.root.innerHTML;
+
+            // Copy HTML content in hidden form
+            $('#quill-html').val( html )
+            myForm.submit();
+        })
+        
+    </script>
+}

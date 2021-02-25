@@ -67,6 +67,16 @@ namespace JeffSite.Controllers
 
             return RedirectToAction("RemoverEmail",email);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EnviarEmailMalling(string titulo, string html){
+            
+
+            return View("EnviarEmailMailling");
+        }
+
+        
         
     }
 }

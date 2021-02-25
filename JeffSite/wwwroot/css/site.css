@@ -162,6 +162,10 @@ color: #757373;
     padding-right: 40px;
 }
 
+#editor{
+  height: 375px;
+}
+
  
 /* Sticky footer styles
 -------------------------------------------------- */
