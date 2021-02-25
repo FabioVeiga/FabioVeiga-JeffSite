@@ -10,11 +10,14 @@
     <div class="form-group">
         <label>Titulo do email</label>
         <input type="text" class="form-control" name="titulo">
-        <span class="text-danger"></span>
+        @if(!string.IsNullOrEmpty(ViewBag.Obrigatorio)){
+            <span class="text-danger">@ViewBag.Obrigatorio</span>
+        }
     </div>
     <div id="editor" name="editor">
     </div>
     <input type="hidden" name="html" id="quill-html">
+    <span class="text-danger">@ViewBag.Obrigatorio</span>
     <button id="btn-submit" class="btn btn-info">Enviar</button>
 </form>
 

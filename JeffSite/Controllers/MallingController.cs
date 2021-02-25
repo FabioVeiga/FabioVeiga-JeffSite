@@ -71,7 +71,10 @@ namespace JeffSite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EnviarEmailMalling(string titulo, string html){
-            
+            if(string.IsNullOrEmpty(titulo) && string.IsNullOrEmpty(html)){
+                ViewBag.Obrigatorio = "Campo obrigatorio!";
+                return View("EnviarEmailMailling", titulo);
+            }
 
             return View("EnviarEmailMailling");
         }
