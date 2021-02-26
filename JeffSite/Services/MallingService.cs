@@ -32,6 +32,10 @@ namespace JeffSite.Services
             return _context.Mallings.ToList();
         }
 
+        public List<string> FillAllMallingJusEmail(){
+            return _context.Mallings.Select(x => x.Email).ToList();
+        }
+
         public void DeleteEmail(string email){
             var e = _context.Mallings.FirstOrDefault(x => x.Email == email);
             _context.Mallings.Remove(e);

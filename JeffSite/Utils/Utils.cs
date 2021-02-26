@@ -117,6 +117,41 @@ namespace JeffSite.Utils{
                 return false;
             }
         }
+
+        public static bool enviarEmailMalling(Email config, string emailFrom, List<string> emailTo, string subject, string html){ 
+            try{
+                // Instancia da classe de Mensagem
+                MailMessage _mailmessage = new MailMessage();
+                // Remetente
+                _mailmessage.From = new MailAddress(emailFrom);
+
+            
+                // Constroi o MailMessage
+                _mailmessage.Subject = subject;
+                foreach (var item in emailTo)
+                {
+                    _mailmessage.Bcc.Add(item);
+                }
+                _mailmessage.IsBodyHtml = true;
+                _mailmessage.Body = html;
+            
+
+                // Configuração com porta
+                SmtpClient _smtpClient = new SmtpClient(config.Servidor, config.Porta);
+
+                // Credenciais para o envio por SMTP seguro via MailJet
+                _smtpClient.UseDefaultCredentials = config.UsarCredencialPadrao;
+                _smtpClient.Credentials = new NetworkCredential(config.ContaEmail,config.Senha);
+                _smtpClient.EnableSsl = config.HabilitaSSL;
+                _smtpClient.Send(_mailmessage);
+
+                return true;
+            }
+            catch{
+                //TODO: Verificar as exceções que podem vir a calhar.
+                return false;
+            }
+        }
         
 
     }

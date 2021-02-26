@@ -6,7 +6,17 @@
     <h1>@ViewData["Title"]</h1>
 <br>
 
-<form asp-action="EnviarEmailMalling" method="POST" id="enviar-email-malling">
+@if(ViewBag.Message == "sucesso"){
+    <div class="alert alert-success" role="alert">
+        Emails Enviados
+    </div>
+}else if(ViewBag.Message == "erro"){
+    <div class="alert alert-warning" role="alert">
+        Houve algum erro, por favor tentar mais tarde!
+    </div>
+}
+
+<form asp-action="EnviarEmailMailling" method="POST" id="enviar-email-malling">
     <div class="form-group">
         <label>Titulo do email</label>
         <input type="text" class="form-control" name="titulo">
@@ -18,7 +28,12 @@
     </div>
     <input type="hidden" name="html" id="quill-html">
     <span class="text-danger">@ViewBag.Obrigatorio</span>
-    <button id="btn-submit" class="btn btn-info">Enviar</button>
+    <br>
+    <button id="btn-submit" class="btn btn-info">
+        <span id="btnSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"style="display: none;"></span>
+        <span id="btnSpinnerText" style="display: none;">Enviando...</span>
+        <span id="btnSpinnerText1">Enviar</span>
+    </button>
 </form>
 
 @section Scripts{
@@ -52,6 +67,9 @@
 
             // Copy HTML content in hidden form
             $('#quill-html').val( html )
+            $("#btnSpinner").show()
+            $("#btnSpinnerText").show()
+            $("#btnSpinnerText1").hide()
             myForm.submit();
         })
         
