@@ -16,14 +16,16 @@ namespace JeffSite.Controllers
     {
         private readonly SocialMidiaService _socialMidia;
         private readonly LeitorService _leitorService;
+        private readonly MallingService _mallingService;
         private const int MaxMegaBytes = 5 * 1024 * 1024;
         private const string titlePage = "Cantinho do leitor";
         private int limitItensView = 9;
 
-        public LeitorController(SocialMidiaService socialMidia, LeitorService leitorService)
+        public LeitorController(SocialMidiaService socialMidia, LeitorService leitorService, MallingService mallingService)
         {
             _socialMidia = socialMidia;
             _leitorService = leitorService;
+            _mallingService = mallingService;
         }
 
         [HttpGet]
@@ -61,6 +63,16 @@ namespace JeffSite.Controllers
                 }
                 leitor.NameImg = newNameImg;
                 await _leitorService.CreateAsync(leitor);
+
+                //add email malling
+                var mail = new Malling();
+                mail.Email = leitor.Email;
+                mail.Nome = leitor.Name;
+
+                //Add malling
+                if(!_mallingService.CheckMail(mail)){
+                    _mallingService.AddMalling(mail);
+                }
             }
             ViewBag.Leitores = _leitorService.FindAllApproved(limitItensView);
             ViewBag.Send = "Enviado com sucesso!";

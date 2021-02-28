@@ -1,0 +1,22 @@
+<h1 class="Titulo">Remover seu  <span>email<span>...</h1>
+@{
+    string email = ViewBag.Email.ToString() == null ? string.Empty : ViewBag.Email.ToString();
+}
+
+<form asp-controller="Malling" asp-action="RemoverEmail" method="POST">
+    <input type="hidden" name="email" value="@email">
+    <label for="opcao">Deseja realmente remover seu email?</label>
+    <select name="opcao">
+        <option>Selecione um opção</option>
+        <option value="true">Sim</option>
+        <option value="false">Não</option>
+    </select>
+    <button type="submit">Enviar</button>
+</form>
+
+<br>
+    @if(ViewBag.Message != null){
+        <div class="alert alert-sucess" role="alert">
+            @ViewBag.Message
+        </div>
+    }

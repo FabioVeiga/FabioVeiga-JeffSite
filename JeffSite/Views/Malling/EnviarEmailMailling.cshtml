@@ -1,0 +1,77 @@
+
+@{
+    Layout = "_LayoutAdmin";
+}
+<br>
+    <h1>@ViewData["Title"]</h1>
+<br>
+
+@if(ViewBag.Message == "sucesso"){
+    <div class="alert alert-success" role="alert">
+        Emails Enviados
+    </div>
+}else if(ViewBag.Message == "erro"){
+    <div class="alert alert-warning" role="alert">
+        Houve algum erro, por favor tentar mais tarde!
+    </div>
+}
+
+<form asp-action="EnviarEmailMailling" method="POST" id="enviar-email-malling">
+    <div class="form-group">
+        <label>Titulo do email</label>
+        <input type="text" class="form-control" name="titulo">
+        @if(!string.IsNullOrEmpty(ViewBag.Obrigatorio)){
+            <span class="text-danger">@ViewBag.Obrigatorio</span>
+        }
+    </div>
+    <div id="editor" name="editor">
+    </div>
+    <input type="hidden" name="html" id="quill-html">
+    <span class="text-danger">@ViewBag.Obrigatorio</span>
+    <br>
+    <button id="btn-submit" class="btn btn-info">
+        <span id="btnSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"style="display: none;"></span>
+        <span id="btnSpinnerText" style="display: none;">Enviando...</span>
+        <span id="btnSpinnerText1">Enviar</span>
+    </button>
+</form>
+
+@section Scripts{
+    <script>
+        var BackgroundClass = Quill.import('attributors/class/background')
+        var ColorClass = Quill.import('attributors/class/color')
+        var SizeStyle = Quill.import('attributors/style/size')
+        Quill.register(BackgroundClass, true)
+        Quill.register(ColorClass, true)
+        Quill.register(SizeStyle, true)
+
+        var quill = new Quill('#editor', {
+            modules: {
+                toolbar: [
+                [{ header: [1, 2, 3, 4, 5, 6,  false] }],
+                ['bold', 'italic', 'underline','strike'],
+                ['image', 'code-block'],
+                ['link'],
+                [{ 'script': 'sub'}, { 'script': 'super' }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['clean']
+                ]
+            },
+            placeholder: 'Digite o cordo do email aqui',
+            theme: 'snow'  // or 'bubble'
+        });
+
+        $('#btn-submit').on('click', () => { 
+            // Get HTML content
+            var html = quill.root.innerHTML;
+
+            // Copy HTML content in hidden form
+            $('#quill-html').val( html )
+            $("#btnSpinner").show()
+            $("#btnSpinnerText").show()
+            $("#btnSpinnerText1").hide()
+            myForm.submit();
+        })
+        
+    </script>
+}

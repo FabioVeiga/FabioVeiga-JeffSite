@@ -19,15 +19,17 @@ namespace JeffSite.Controllers
         private readonly ConfiguracaoService _configuracaoService;
         private readonly SocialMidiaService _socialMidia;
         private readonly CarouselService _carouselService;
+        private readonly MallingService _mallingService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, UserService userService, ConfiguracaoService configuracaoService, SocialMidiaService socialMidia, CarouselService carouselService)
+        public HomeController(ILogger<HomeController> logger, UserService userService, ConfiguracaoService configuracaoService, SocialMidiaService socialMidia, CarouselService carouselService, MallingService mallingService)
         {
             _logger = logger;
             _userService = userService;
             _configuracaoService = configuracaoService;
             _socialMidia = socialMidia;
             _carouselService = carouselService;
+            _mallingService = mallingService;
         }
 
         public IActionResult Index()
@@ -76,6 +78,10 @@ namespace JeffSite.Controllers
                 }
                 if(resp != resposta){
                     ViewBag.conta = "Resultado errado";
+                    ViewBag.NameContact = namecontact;
+                    ViewBag.EmailContact = emailcontact;
+                    ViewBag.PhoneContact = phonecontact;
+                    ViewBag.SubjectContact = subjectcontact;
                     return View();
                 }
             }
@@ -150,7 +156,17 @@ namespace JeffSite.Controllers
                 ViewBag.EmailContact = "";
                 ViewBag.PhoneContact = "";
                 ViewBag.SubjectContact = "";
+
+                var mail = new Malling();
+                mail.Email = emailcontact;
+                mail.Nome = namecontact;
+
+                //Add malling
+                if(!_mallingService.CheckMail(mail)){
+                    _mallingService.AddMalling(mail);
+                }
             }
+
             ViewBag.Redes = _socialMidia.FindAll();
             return View();
             
