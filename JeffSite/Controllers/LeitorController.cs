@@ -140,13 +140,13 @@ namespace JeffSite.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DisapprovePost(int id){
+        public IActionResult DisapprovePost(int id){
             var item = _leitorService.FindById(id);
             var pathimg = $@"{item.PathImg}{item.NameImg}";
             System.IO.FileInfo file = new System.IO.FileInfo(pathimg);
             try{
                 file.Delete();
-                _leitorService.DisapprovePostAsync(item);
+                _leitorService.DisapprovePost(item);
             }catch(System.IO.IOException e){
                 throw new System.Exception(e.Message);
             }

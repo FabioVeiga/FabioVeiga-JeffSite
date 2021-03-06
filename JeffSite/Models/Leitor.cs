@@ -34,7 +34,7 @@ namespace JeffSite.Models
         public DateTime CreateDate { get; set; }
 
         [Display(Name = "Data Aniversário")]
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
         
     }
 }

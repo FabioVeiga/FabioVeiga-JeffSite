@@ -54,9 +54,9 @@ namespace JeffSite.Services
             await _context.SaveChangesAsync();
         }
 
-        public void DisapprovePostAsync(Leitor leitor){
+        public void DisapprovePost(Leitor leitor){
             _context.Leitors.Remove(leitor);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public int HowManyPostsApproved(){
