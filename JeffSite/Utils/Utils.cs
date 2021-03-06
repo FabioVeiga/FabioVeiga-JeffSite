@@ -136,6 +136,10 @@ namespace JeffSite.Utils{
                     _mailmessage.Bcc.Add(item);
                 }
                 _mailmessage.IsBodyHtml = true;
+                
+                html += "<br><br>";
+                html += "<small>Para não receber mais estes emails <a href='https://localhost:5001/remover-email'></a></small>";
+
                 _mailmessage.Body = html;
             
 

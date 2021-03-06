@@ -51,10 +51,9 @@ namespace JeffSite.Controllers
         }
 
         [HttpGet]
-        [Route("remover-email/{email}")]
-        public IActionResult RemoverEmail(string email){
+        [Route("remover-email")]
+        public IActionResult RemoverEmail(){
             ViewBag.Redes = _socialMidia.FindAll();
-            ViewBag.Email = email;
             return View();
         }
 
