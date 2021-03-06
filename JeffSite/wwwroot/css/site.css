@@ -166,6 +166,11 @@ color: #757373;
   height: 375px;
 }
 
+#carrosselMain{
+  width: 80%;  
+  margin-left: 12%;
+}
+
  
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -178,6 +183,7 @@ html {
   html {
     font-size: 16px;
   }
+  
 }
 
 @media (max-width: 991px) {
@@ -212,6 +218,7 @@ html {
         margin-left: -45px;
         margin-top: -35px;
     }
+
 }
 
 
