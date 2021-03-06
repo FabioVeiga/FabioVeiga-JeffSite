@@ -171,6 +171,9 @@ color: #757373;
   margin-left: 12%;
 }
 
+#menuHome{
+  display: none;
+}
  
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -187,12 +190,16 @@ html {
 }
 
 @media (max-width: 991px) {
-      .divLogoImage {
+    .divLogoImage {
         display: none;
     }
 
     .imageBG {
         display: none;
+    }
+
+    #menuHome{
+      display: block;
     }
 
     #firstLiNavbar {
