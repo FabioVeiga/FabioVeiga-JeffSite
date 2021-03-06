@@ -11,11 +11,13 @@ namespace JeffSite.Controllers
     {
         private readonly UserService _userService;
         private readonly SocialMidiaService _socialMidiaService;
+        private readonly LeitorService _leitorService;
 
-        public SocialMidiaController(UserService userService, SocialMidiaService socialMidiaService)
+        public SocialMidiaController(UserService userService, SocialMidiaService socialMidiaService, LeitorService leitorService)
         {
             _userService = userService;
             _socialMidiaService = socialMidiaService;
+            _leitorService = leitorService;
         }
 
         public IActionResult Index()
@@ -26,6 +28,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Redes sociais";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var socialMidias = _socialMidiaService.FindAll();
             return View(socialMidias);
         }
@@ -38,6 +41,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Criar";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             return View();
         }
 
@@ -66,6 +70,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Deletar";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var social = _socialMidiaService.FindById(id);
             return View(social);
         }
@@ -92,6 +97,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Editar";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var social = _socialMidiaService.FindById(id);
             return View(social);
         }

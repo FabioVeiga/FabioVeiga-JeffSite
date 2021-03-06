@@ -15,12 +15,14 @@ namespace JeffSite.Controllers
         private readonly SocialMidiaService _socialMidia;
         private readonly MallingService _mallingService;
         private readonly ConfiguracaoService _configuracaoService;
+        private readonly LeitorService _leitorService;
 
-        public MallingController(MallingService mallingService, SocialMidiaService socialMidia, ConfiguracaoService configuracaoService)
+        public MallingController(MallingService mallingService, SocialMidiaService socialMidia, ConfiguracaoService configuracaoService, LeitorService leitorService)
         {
             _mallingService = mallingService;
             _socialMidia = socialMidia;
             _configuracaoService = configuracaoService;
+            _leitorService = leitorService;
         }
 
         [HttpGet]
@@ -31,6 +33,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             var itens = _mallingService.FillAllMalling();
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             ViewData["Title"] = "Lista de email";
             return View(itens);
         }
@@ -43,6 +46,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Enviar email mailling";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             return View();
         }
 

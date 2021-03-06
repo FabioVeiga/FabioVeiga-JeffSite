@@ -14,9 +14,11 @@ namespace JeffSite.Controllers
     public class CarouselController : Controller
     {
         private readonly CarouselService _carouselService;
+        private readonly LeitorService _leitorService;
 
-        public CarouselController(CarouselService carouselService){
+        public CarouselController(CarouselService carouselService, LeitorService leitorService){
             _carouselService = carouselService;
+            _leitorService = leitorService;
         }
 
         [HttpGet]
@@ -28,6 +30,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Lista de Carrousel";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var lista = _carouselService.FindAll();
             return View(lista);
         }
@@ -41,6 +44,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Novo";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             return View();
         }
 
@@ -74,6 +78,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Excluir";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _carouselService.FindById(id);
             return View(item);
         }
@@ -103,6 +108,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Editar";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _carouselService.FindById(id);
             return View(item);
         }

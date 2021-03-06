@@ -21,8 +21,9 @@ namespace JeffSite.Controllers
         private readonly CarouselService _carouselService;
         private readonly MallingService _mallingService;
         private readonly ILogger<HomeController> _logger;
+        private readonly LeitorService _leitorService;
 
-        public HomeController(ILogger<HomeController> logger, UserService userService, ConfiguracaoService configuracaoService, SocialMidiaService socialMidia, CarouselService carouselService, MallingService mallingService)
+        public HomeController(ILogger<HomeController> logger, UserService userService, ConfiguracaoService configuracaoService, SocialMidiaService socialMidia, CarouselService carouselService, MallingService mallingService, LeitorService leitorService)
         {
             _logger = logger;
             _userService = userService;
@@ -30,6 +31,8 @@ namespace JeffSite.Controllers
             _socialMidia = socialMidia;
             _carouselService = carouselService;
             _mallingService = mallingService;
+            _leitorService = leitorService;
+
         }
 
         public IActionResult Index()

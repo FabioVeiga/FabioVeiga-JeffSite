@@ -102,6 +102,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Aprovar Posts";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _leitorService.FindAllApproved(false);
             return View(item);
         }
@@ -115,6 +116,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Aprovar este post";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _leitorService.FindById(id);
             return View(item);
         }
@@ -135,6 +137,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Desaprovar este post";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _leitorService.FindById(id);
             return View(item);
         }
