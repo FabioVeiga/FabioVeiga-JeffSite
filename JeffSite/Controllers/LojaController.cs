@@ -95,7 +95,7 @@ namespace JeffSite.Controllers
             var itemsWTB = _livroService.FindAllWhereToBuyByIdLivro(id);
             var itemsPedidos = _livroService.FindAllPedidosByIdLivro(id);
             
-            if(itemsWTB.Count > 0 && itemsPedidos.Count > 0){
+            if(itemsWTB.Count > 0 || itemsPedidos.Count > 0){
                 ViewBag.flagDelete = false;
                 ViewBag.qtdWTB = itemsWTB.Count;
                 ViewBag.qtdPedido = itemsPedidos.Count;
