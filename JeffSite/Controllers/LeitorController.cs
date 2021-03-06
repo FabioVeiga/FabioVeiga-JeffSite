@@ -42,7 +42,9 @@ namespace JeffSite.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Index(Leitor leitor, IFormFile Img){
             ViewBag.Title = titlePage;
+            ViewBag.Limit = 9;
             ViewBag.Redes = _socialMidia.FindAll();
+            ViewBag.Leitores = _leitorService.FindAllApproved(limitItensView);
 
             if(Img == null){
                 ViewBag.ErrorMessage = "Por favor inserir uma imagem!";
@@ -74,7 +76,7 @@ namespace JeffSite.Controllers
                     _mallingService.AddMalling(mail);
                 }
             }
-            ViewBag.Leitores = _leitorService.FindAllApproved(limitItensView);
+            
             ViewBag.Send = "Enviado com sucesso!";
             ViewBag.Limit = limitItensView;
             return View("Index");
@@ -121,6 +123,34 @@ namespace JeffSite.Controllers
         [HttpPost]
         public async Task<IActionResult> ApprovePost(int id){
             await _leitorService.ApprovePostAsync(id);
+            return RedirectToAction("ApprovePost");
+        }
+
+        [Route("DisapprovePost")]
+        [HttpGet]
+        public IActionResult Disapprove(int id){
+            var userLogged = HttpContext.Session.GetString("userLogged");
+            if (userLogged == "" || userLogged == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            ViewData["Title"] = "Desaprovar este post";
+            var item = _leitorService.FindById(id);
+            return View(item);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DisapprovePost(int id){
+            var item = _leitorService.FindById(id);
+            var pathimg = $@"{item.PathImg}{item.NameImg}";
+            System.IO.FileInfo file = new System.IO.FileInfo(pathimg);
+            try{
+                file.Delete();
+                _leitorService.DisapprovePostAsync(item);
+            }catch(System.IO.IOException e){
+                throw new System.Exception(e.Message);
+            }
+            
             return RedirectToAction("ApprovePost");
         }
     }
