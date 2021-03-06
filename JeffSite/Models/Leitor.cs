@@ -32,6 +32,9 @@ namespace JeffSite.Models
 
         [Display(Name = "Data da do envio")]
         public DateTime CreateDate { get; set; }
+
+        [Display(Name = "Data Aniversário")]
+        public DateTime Birthday { get; set; }
         
     }
 }
