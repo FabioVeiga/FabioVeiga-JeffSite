@@ -28,7 +28,11 @@
         <span asp-validation-for="ImgName" class="text-danger"></span>
     </div>
 
-    
+    @if(Model.Esgotado){
+      <input type="checkbox" class="form-control" asp-for="Esgotado" checked>
+    }else{
+      <input type="checkbox" class="form-control" asp-for="Esgotado" >
+    }
     
     <a asp-controller="Loja" asp-action="ListLivros">Voltar</a>
     <button class="btn btn-primary">Editar</button>

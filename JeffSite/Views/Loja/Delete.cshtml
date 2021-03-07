@@ -20,6 +20,11 @@
         <label>@Html.DisplayNameFor(Model => Model.Description)</label>
         <input type="text" class="form-control" asp-for="Description" readonly>
     </div>
+    @if(Model.Esgotado){
+      <input type="checkbox" class="form-control" asp-for="Esgotado" disabled checked>
+    }else{
+      <input type="checkbox" class="form-control" asp-for="Esgotado" disabled>
+    }
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.ImgName)</label>
         <img src="@pathImg/@Model.ImgName" style="width: 100px;">
