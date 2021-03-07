@@ -121,7 +121,7 @@ namespace JeffSite.Utils{
             }
         }
 
-        public static bool enviarEmailMalling(Email config, string emailFrom, List<string> emailTo, string subject, string html){ 
+        public static bool enviarEmailMalling(Email config, string emailFrom, string emailTo, string subject, string html){ 
             try{
                 // Instancia da classe de Mensagem
                 MailMessage _mailmessage = new MailMessage();
@@ -131,14 +131,11 @@ namespace JeffSite.Utils{
             
                 // Constroi o MailMessage
                 _mailmessage.Subject = subject;
-                foreach (var item in emailTo)
-                {
-                    _mailmessage.Bcc.Add(item);
-                }
+                _mailmessage.Bcc.Add(emailTo);
                 _mailmessage.IsBodyHtml = true;
                 
                 html += "<br><br>";
-                html += "<small>Para não receber mais estes emails <a href='https://localhost:5001/remover-email'></a></small>";
+                html += "<small>Para não receber mais estes emails <a href='https://localhost:5001/remover-email/"+emailTo+"'> clique aqui</a></small>";
 
                 _mailmessage.Body = html;
             

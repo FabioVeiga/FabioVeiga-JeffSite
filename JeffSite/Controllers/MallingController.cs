@@ -51,10 +51,11 @@ namespace JeffSite.Controllers
         }
 
         [HttpGet]
-        [Route("remover-email")]
-        public IActionResult RemoverEmail(){
+        [Route("remover-email/{email}")]
+        public IActionResult RemoverEmail(string email){
             ViewBag.Redes = _socialMidia.FindAll();
-            return View();
+            ViewBag.Email = email;
+            return View("RemoverEmail");
         }
 
         [HttpPost]
@@ -85,13 +86,14 @@ namespace JeffSite.Controllers
             var emails = _mallingService.FillAllMallingJusEmail();
             var config = _configuracaoService.FindEmail();
             var emailFrom = _configuracaoService.FindAdminEmail();
-            var flag = JeffSite.Utils.EnviarEmail.enviarEmailMalling(config,emailFrom,emails,titulo,html);
-
-            if(flag){
-                ViewBag.Message = "sucesso";
-            }else{
-                ViewBag.Message = "erro";
+            List<Dictionary<bool,string>> flags = new List<Dictionary<bool,string>>();
+            foreach (var email in emails)
+            {
+                Dictionary<bool, string> item = new Dictionary<bool, string>(); 
+                item.Add(JeffSite.Utils.EnviarEmail.enviarEmailMalling(config,emailFrom,email,titulo,html),email);
+                flags.Add(item);
             }
+            ViewBag.Itens = flags;
             return View();
         }
     }
