@@ -23,6 +23,10 @@
         <input type="hidden" class="form-control" asp-for="ImgName">
         <span asp-validation-for="ImgName" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Esgotado)</label>
+        <input type="checkbox" class="form-control" asp-for="Esgotado">
+    </div>
     
     <a asp-controller="Loja" asp-action="ListLivros">Voltar</a>
     <button class="btn btn-primary">Proximo</button>
