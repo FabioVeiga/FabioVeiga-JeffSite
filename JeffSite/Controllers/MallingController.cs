@@ -52,26 +52,10 @@ namespace JeffSite.Controllers
 
         [HttpGet]
         [Route("remover-email/{email}")]
-        public IActionResult RemoverEmail(string email){
-            ViewBag.Redes = _socialMidia.FindAll();
-            ViewBag.Email = email;
-            return View("RemoverEmail");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("remover-email")]
         public IActionResult RemoverEmail(bool opcao, string email){
             ViewBag.Redes = _socialMidia.FindAll();
-            
-            if(opcao){
-                _mallingService.DeleteEmail(email);
-                ViewBag.Message = "Email removido!";
-            }else{
-                ViewBag.Message = "Email mantido!";
-            }
-
-            return RedirectToAction("RemoverEmail",email);
+            _mallingService.DeleteEmail(email);
+            return View("RemoverEmail");
         }
 
         [HttpPost]
