@@ -76,7 +76,8 @@ namespace JeffSite.Utils{
             switch (modelo)
             {
                 case "ModeloEmailContato":
-                    texthtml = ModeloEmailContato(nome, phonecontact, emailTo, subject);
+                    //usando paramentro livro para mostrar o email de contato
+                    texthtml = ModeloEmailContato(nome, phonecontact, livro, subject);
                     break;
 
                 case "ModeloPedidoLinkPagamento":
