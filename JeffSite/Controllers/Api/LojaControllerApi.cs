@@ -65,6 +65,7 @@ namespace JeffSite.Controllers
         [Route("add-pedido")]
         [HttpPost]
         public IActionResult AddPedido([FromBody]Pedido pedido){
+            pedido.Id = _lojaService.FindNextIdPedido();
             pedido.Status = Status.Aguardando_Link_De_Pagamento;
             _lojaService.AddPedido(pedido);
 
