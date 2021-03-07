@@ -68,13 +68,14 @@ namespace JeffSite.Controllers
             }
 
             var emails = _mallingService.FillAllMallingJusEmail();
-            var config = _configuracaoService.FindEmail();
+            var configEmail = _configuracaoService.FindEmail();
+            var configSite = _configuracaoService.Find();
             var emailFrom = _configuracaoService.FindAdminEmail();
             List<Dictionary<bool,string>> flags = new List<Dictionary<bool,string>>();
             foreach (var email in emails)
             {
                 Dictionary<bool, string> item = new Dictionary<bool, string>(); 
-                item.Add(JeffSite.Utils.EnviarEmail.enviarEmailMalling(config,emailFrom,email,titulo,html),email);
+                item.Add(JeffSite.Utils.EnviarEmail.enviarEmailMalling(configEmail,emailFrom,email,titulo,html, configSite.UrlSite),email);
                 flags.Add(item);
             }
             ViewBag.Itens = flags;

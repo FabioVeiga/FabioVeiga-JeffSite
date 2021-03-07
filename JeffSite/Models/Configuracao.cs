@@ -30,12 +30,14 @@ namespace JeffSite.Models
         {
         }
 
-        public Configuracao(string contactEmail, string imgProfile, string imgLogo, string urlMercadoLivre)
+        public Configuracao(string contactEmail, string imgProfile, string imgLogo, string urlMercadoLivre, string urlSite, string nomeSite)
         {
             ContactEmail = contactEmail;
             ImgProfile = imgLogo;
             ImgLogo = imgLogo;
             UrlMercadoLivre = urlMercadoLivre;
+            UrlSite = urlSite;
+            NomeSite = nomeSite;
         }
         
     }

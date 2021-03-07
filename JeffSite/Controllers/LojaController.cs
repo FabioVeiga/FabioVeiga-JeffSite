@@ -289,11 +289,12 @@ namespace JeffSite.Controllers
                         return View(pedido);
                     }else{
                         var configEmail = _configuracaoService.FindEmail();
+                        var configsite = _configuracaoService.Find();
                         bool envioEmail = JeffSite.Utils.EnviarEmail.testeEmail(
                             configEmail,
                             emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
                             pedido.Nome, null, "ModeloPedidoLinkPagamento",livro.Title, pedido.Id, 
-                            pedido.LinkPagamento);
+                            pedido.LinkPagamento, configsite.NomeSite);
                         if(envioEmail){
                             pedido.Status = Status.Aguardando_Pagamento;
                         }else{
@@ -324,11 +325,12 @@ namespace JeffSite.Controllers
                         return View(pedido);
                     }else{
                         var configEmail = _configuracaoService.FindEmail();
+                        var configSite = _configuracaoService.Find();
                         bool envioEmail = JeffSite.Utils.EnviarEmail.testeEmail(
                             configEmail,
                             emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
                             pedido.Nome, null, "ModeloPedidoLinkRastreio",livro.Title, pedido.Id, 
-                            pedido.LinkRastreio);
+                            pedido.LinkRastreio, configSite.NomeSite);
                         if(envioEmail){
                             pedido.Status = Status.Enviado;
                         }else{

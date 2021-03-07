@@ -5,12 +5,11 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using JeffSite.Models;
+using JeffSite.Services;
 
 namespace JeffSite.Utils{
 
     public static class EnviarEmail{
-
-        private static string nomeSite = "Autor JP";
         
         private static string ModeloEmailContato(string namecontact, string phonecontact, string emailTo, string subject){
             return string.Format(@"<p> Nome: {0}</p>
@@ -19,7 +18,7 @@ namespace JeffSite.Utils{
                  <p>Assunto: {3}</p>", namecontact, phonecontact, emailTo, subject); 
         }
 
-        private static string ModeloPedidoLinkPagamento(string nome, string livro, int pedido, string url){
+        private static string ModeloPedidoLinkPagamento(string nome, string livro, int pedido, string url, string nomeSite){
             return string.Format(
                 @"<html style=""text-align: center;"" >
                     <table style=""width: 80%;
@@ -44,7 +43,7 @@ namespace JeffSite.Utils{
                 , nomeSite, pedido, livro, nome, url); 
         }
 
-        private static string ModeloPedidoLinkRastreio(string nome, string livro, int pedido, string url){
+        private static string ModeloPedidoLinkRastreio(string nome, string livro, int pedido, string url, string nomeSite){
             return string.Format(
                 @"<html style=""text-align: center;"" >
                     <table style=""width: 80%;
@@ -71,7 +70,7 @@ namespace JeffSite.Utils{
                 , nomeSite, pedido, livro, nome, url); 
         }
 
-        public static bool testeEmail(Email config, string emailFrom, string emailTo, string subject, string nome, string phonecontact, string modelo, string livro, int? pedido, string url){
+        public static bool testeEmail(Email config, string emailFrom, string emailTo, string subject, string nome, string phonecontact, string modelo, string livro, int? pedido, string url, string nomeSite){
              string texthtml = "";
 
             switch (modelo)
@@ -81,11 +80,11 @@ namespace JeffSite.Utils{
                     break;
 
                 case "ModeloPedidoLinkPagamento":
-                    texthtml = ModeloPedidoLinkPagamento(nome, livro, pedido.Value, url);
+                    texthtml = ModeloPedidoLinkPagamento(nome, livro, pedido.Value, url, nomeSite);
                     break;
 
                 case "ModeloPedidoLinkRastreio":
-                    texthtml = ModeloPedidoLinkRastreio(nome, livro, pedido.Value, url);
+                    texthtml = ModeloPedidoLinkRastreio(nome, livro, pedido.Value, url, nomeSite);
                     break;
             }
             
@@ -121,7 +120,7 @@ namespace JeffSite.Utils{
             }
         }
 
-        public static bool enviarEmailMalling(Email config, string emailFrom, string emailTo, string subject, string html){ 
+        public static bool enviarEmailMalling(Email config, string emailFrom, string emailTo, string subject, string html, string urlSite){ 
             try{
                 // Instancia da classe de Mensagem
                 MailMessage _mailmessage = new MailMessage();
@@ -135,7 +134,7 @@ namespace JeffSite.Utils{
                 _mailmessage.IsBodyHtml = true;
                 
                 html += "<br><br>";
-                html += "<small>Para não receber mais estes emails <a href='https://localhost:5001/remover-email/"+emailTo+"'> clique aqui</a></small>";
+                html += "<small>Para não receber mais estes emails <a href='"+urlSite+"remover-email/"+emailTo+"'> clique aqui</a></small>";
 
                 _mailmessage.Body = html;
             

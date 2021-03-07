@@ -133,7 +133,8 @@ namespace JeffSite.Controllers
 
                 // Se passou em todas as validações, realiza o envio de email
                 var configEmail = _configuracaoService.FindEmail();
-                bool flag = JeffSite.Utils.EnviarEmail.testeEmail(configEmail,email, emailcontact, subjectcontact, namecontact, phonecontact, "ModeloEmailContato", null, null, null);
+                var configSite = _configuracaoService.Find();
+                bool flag = JeffSite.Utils.EnviarEmail.testeEmail(configEmail, emailcontact, email, subjectcontact, namecontact, phonecontact, "ModeloEmailContato", null, null, null, configSite.NomeSite);
                 if(flag){
                     ViewBag.Message = "Mensagem enviada!";
                     ViewBag.Enviado = true;
