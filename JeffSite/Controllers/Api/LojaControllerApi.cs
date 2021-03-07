@@ -73,6 +73,8 @@ namespace JeffSite.Controllers
             var mail = new Malling();
             mail.Email = pedido.Email;
             mail.Nome = pedido.Nome;
+            mail.Onde = "Pedido";
+            mail.DataCadastro = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
 
             //Add malling
             if(!_mallingService.CheckMail(mail)){

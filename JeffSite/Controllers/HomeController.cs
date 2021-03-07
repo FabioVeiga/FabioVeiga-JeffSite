@@ -164,6 +164,8 @@ namespace JeffSite.Controllers
                 var mail = new Malling();
                 mail.Email = emailcontact;
                 mail.Nome = namecontact;
+                mail.Onde = "Contato";
+                mail.DataCadastro = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
 
                 //Add malling
                 if(!_mallingService.CheckMail(mail)){

@@ -70,6 +70,9 @@ namespace JeffSite.Controllers
                 var mail = new Malling();
                 mail.Email = leitor.Email;
                 mail.Nome = leitor.Name;
+                mail.DataAniversario = leitor.Birthday;
+                mail.Onde = "Leitor";
+                mail.DataCadastro = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
 
                 //Add malling
                 if(!_mallingService.CheckMail(mail)){
