@@ -26,15 +26,16 @@ namespace JeffSite.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(){
+        public IActionResult Index(int limit = 10){
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
             }
-            var itens = _mallingService.FillAllMalling();
+            var itens = _mallingService.FillAllMalling(limit);
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             ViewData["Title"] = "Lista de email";
+            ViewBag.Limit = limit;
             return View(itens);
         }
 

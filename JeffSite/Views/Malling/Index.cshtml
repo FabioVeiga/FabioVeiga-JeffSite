@@ -1,6 +1,7 @@
 @model IEnumerable<JeffSite.Models.Malling>
 @{
     Layout = "_LayoutAdmin";
+    int limit = (int)ViewBag.Limit + 5;
 }
 <br>
 <h1>@ViewData["Title"]</h1>
@@ -29,3 +30,8 @@
       }
   </tbody>
 </table>
+
+<form asp-action="Index" method="GET" >
+    <input type="hidden" name="limit" value="@limit">
+    <button class="btn btn-block btn-info">Ver mais Emails</button>
+</form>
