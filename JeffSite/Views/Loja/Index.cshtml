@@ -30,7 +30,9 @@
                                 {
                                     <li><a href="@wtb.UrlEndereco" target="_blank"><i class="@wtb.IconFA"></i> @wtb.Name</a></li>
                                 }
+                                @if(item.Esgotado == false){
                                     <li><a href="" id="linkAutografado" data-toggle="modal" data-target="#myModal" data-id="@item.Id" data-title="@item.Title"><i class="fas fa-book-open"></i> Compra Autografada</a></li>
+                                }
                             </ul>
                         </div>
                     </div>
