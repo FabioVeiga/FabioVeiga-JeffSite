@@ -21,6 +21,15 @@
         <span asp-validation-for="ContactEmail" class="text-danger"></span>
     </div>
     <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.NomeSite)</label>
+        <input type="text" class="form-control" asp-for="NomeSite">
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.UrlSite)</label>
+        <input type="text" class="form-control" asp-for="UrlSite">
+        <small>Nao esqueça do HTTP no endereço</small>
+    </div>
+    <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.ImgLogo)</label>
         <input type="file" accept="image/*" class="form-control" asp-for="ImgLogo">
         <small>Dimensão máxima  200px x 200px - Nome da imagem devera ser <b>ImgLogo.jpg</b></small>
@@ -39,7 +48,7 @@
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.UrlMercadoLivre)</label>
-        <input type="text" class="form-control" asp-for="UrlMercadoLivre" value="http://">
+        <input type="text" class="form-control" asp-for="UrlMercadoLivre">
         <small>Nao esqueça do HTTP no endereço</small>
     </div>
     <a asp-controller="Admin" asp-action="AdminHome">Voltar</a>
