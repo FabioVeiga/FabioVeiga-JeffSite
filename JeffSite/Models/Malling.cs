@@ -10,8 +10,10 @@ namespace JeffSite.Models
         public string Nome { get; set; }
         public string Onde { get; set; }
 
-        [Display(Name = "data de Aniversário")]
+        [Display(Name = "Aniversário")]
         public DateTime? DataAniversario { get; set; }
+        
+        [Display(Name = "Data Cadastro")]
         public DateTime? DataCadastro { get; set; }
 
         public Malling(){

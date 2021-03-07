@@ -11,6 +11,9 @@
     <tr>
       <th scope="col">@Html.DisplayNameFor(Model => Model.Email)</th>
       <th scope="col">@Html.DisplayNameFor(Model => Model.Nome)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.Onde)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.DataAniversario)</th>
+      <th scope="col">@Html.DisplayNameFor(Model => Model.DataCadastro)</th>
     </tr>
   </thead>
   <tbody>
@@ -19,6 +22,9 @@
           <tr>
             <td>@Html.DisplayFor(modelItem => item.Email)</td>
             <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+            <td>@Html.DisplayFor(modelItem => item.Onde)</td>
+            <td>@Html.DisplayFor(modelItem => item.DataAniversario)</td>
+            <td>@Html.DisplayFor(modelItem => item.DataCadastro)</td>
         </tr>
       }
   </tbody>
