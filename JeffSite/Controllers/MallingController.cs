@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using JeffSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using JeffSite.Models;
 
 namespace JeffSite.Controllers
 {
@@ -26,16 +27,23 @@ namespace JeffSite.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int limit = 10){
+        public IActionResult Index(string filtro, int limit = 10){
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
             }
-            var itens = _mallingService.FillAllMalling(limit);
+            List<Malling> itens = new List<Malling>();
+            if(!string.IsNullOrEmpty(filtro)){
+                itens = _mallingService.FillAllMallingWithFilters(limit, filtro);
+            }else{
+                itens = _mallingService.FillAllMalling(limit);
+            }
+            
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             ViewData["Title"] = "Lista de email";
             ViewBag.Limit = limit;
+            ViewBag.Filtro = filtro;
             return View(itens);
         }
 

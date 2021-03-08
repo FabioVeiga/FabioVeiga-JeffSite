@@ -34,6 +34,23 @@ namespace JeffSite.Services
             .ToList();
         }
 
+        public List<Malling> FillAllMallingWithFilters(int limit, string filtro){
+            switch (filtro)
+            {
+                case "Aniversario":
+                    return _context.Mallings
+                    .Where(x => x.DataAniversario != null)
+                    .Take(limit)
+                    .ToList();
+                default:
+                    return _context.Mallings
+                    .Where(x => x.Onde == filtro)
+                    .Take(limit)
+                    .ToList();
+            }
+            
+        }
+
         public List<string> FillAllMallingJusEmail(){
             return _context.Mallings.Select(x => x.Email).ToList();
         }

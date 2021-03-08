@@ -2,10 +2,30 @@
 @{
     Layout = "_LayoutAdmin";
     int limit = (int)ViewBag.Limit + 5;
+    string filter = ViewBag.Filtro == null ? string.Empty : ViewBag.Filtro;
 }
 <br>
 <h1>@ViewData["Title"]</h1>
 <br>
+
+<div style="
+    width: 100%;
+    margin-top: -30px;
+    height: 80px;
+    ">
+  Filtrar por Status:
+  <form asp-action="Index" method="GET">
+    <input type="hidden" name="limit" value="@limit">
+    <select name="filtro" id="filtro">
+      <option value="" >Selecione um tipo</option>
+      <option value="Aniversario">Ver emails com Aniversario</option>
+      <option value="Pedido">Ver emails de Pedido</option>
+      <option value="Contato">Ver Emails Contato</option>
+      <option value="Leitor">Ver Emails Leitor</option>
+    </select>
+    <button type="submit" class="btn btn-info" >Filtrar</button>
+  </form>
+</div>
 
 <table class="table table-striped">
   <thead>
@@ -33,5 +53,10 @@
 
 <form asp-action="Index" method="GET" >
     <input type="hidden" name="limit" value="@limit">
+    <input type="hidden" name="filter" value="@filter">
     <button class="btn btn-block btn-info">Ver mais Emails</button>
 </form>
+
+<script>
+  document.getElementById('filtro').value = "@filter"
+</script>
