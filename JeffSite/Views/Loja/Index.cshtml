@@ -12,12 +12,13 @@
     @foreach (var item in ViewBag.Livros)
     {
         <div class="row" style="margin-bottom: 20px; position: relative;">
-            <div class="col">
-                <div class="livro">
-                    <div class="fotoLivro">
+            <div class="col-6 col-md-3">
+                <div class="fotoLivro">
                         <img src="img/Livro/@item.ImgName" />
                     </div>
-                    <div class="descricao">
+            </div>
+            <div class="col-12 col-md-9">
+                <div class="descricao">
                         <div class="descricao-titulo"><h4>@item.Title</h4></div>
                         <div class="descricao-corpo">
                             <p>
@@ -36,7 +37,6 @@
                             </ul>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     }
