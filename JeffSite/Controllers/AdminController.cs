@@ -34,6 +34,7 @@ namespace JeffSite.Controllers
             ViewBag.QuantidadePedidos = _lojaService.HowManyPedidos();
             ViewBag.QuantidadePostsAprovado = _leitorService.HowManyPostsApproved();
             ViewBag.QuantidadePostsNaoAprovado = _leitorService.HowManyPostsAreNotApproved();
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             return View();
         }
 
@@ -65,6 +66,7 @@ namespace JeffSite.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             string login = HttpContext.Session.GetString("userLogged");
             User u = _userService.GetUserBYLogin(login);
             return View(u);

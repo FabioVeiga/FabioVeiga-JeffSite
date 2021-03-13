@@ -28,8 +28,27 @@ namespace JeffSite.Services
             }
         }
 
-        public List<Malling> FillAllMalling(){
-            return _context.Mallings.ToList();
+        public List<Malling> FillAllMalling(int limit){
+            return _context.Mallings
+            .Take(limit)
+            .ToList();
+        }
+
+        public List<Malling> FillAllMallingWithFilters(int limit, string filtro){
+            switch (filtro)
+            {
+                case "Aniversario":
+                    return _context.Mallings
+                    .Where(x => x.DataAniversario != null)
+                    .Take(limit)
+                    .ToList();
+                default:
+                    return _context.Mallings
+                    .Where(x => x.Onde == filtro)
+                    .Take(limit)
+                    .ToList();
+            }
+            
         }
 
         public List<string> FillAllMallingJusEmail(){

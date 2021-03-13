@@ -20,12 +20,14 @@ namespace JeffSite.Controllers
         private readonly SocialMidiaService _socialMidia;
         private readonly LivroService _livroService;
         private readonly ConfiguracaoService _configuracaoService;
+        private readonly LeitorService _leitorService;
         private const string titlePage = "Loja";
-        public LojaController(SocialMidiaService socialMidia, LivroService livroService, ConfiguracaoService configuracaoService)
+        public LojaController(SocialMidiaService socialMidia, LivroService livroService, ConfiguracaoService configuracaoService,  LeitorService leitorService)
         {
             _socialMidia = socialMidia;
             _livroService = livroService;
             _configuracaoService = configuracaoService;
+            _leitorService = leitorService;
         }
         // GET: /<controller>/
         public IActionResult Index()
@@ -54,6 +56,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Livro";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var livros = _livroService.FindAll();
             return View(livros);
         }
@@ -66,6 +69,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Novo";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             return View();
         }
 
@@ -91,11 +95,12 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Deletar";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var livro = _livroService.FindById(id);
             var itemsWTB = _livroService.FindAllWhereToBuyByIdLivro(id);
             var itemsPedidos = _livroService.FindAllPedidosByIdLivro(id);
             
-            if(itemsWTB.Count > 0 && itemsPedidos.Count > 0){
+            if(itemsWTB.Count > 0 || itemsPedidos.Count > 0){
                 ViewBag.flagDelete = false;
                 ViewBag.qtdWTB = itemsWTB.Count;
                 ViewBag.qtdPedido = itemsPedidos.Count;
@@ -125,6 +130,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Editar";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var livro = _livroService.FindById(id);
             
             return View(livro);
@@ -157,6 +163,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Adicionar URL de compra";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             livro.WhereToBuys = _livroService.FindAllWhereToBuyByIdLivro(livro.Id);
             return View(livro);
         }
@@ -184,6 +191,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Editar URL de compra";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _livroService.FindWhereToBuyById(id);
             item.Livro = _livroService.FindById(idLivro);
             return View(item);
@@ -212,6 +220,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Deletar URL de compra";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _livroService.FindWhereToBuyById(id);
             item.Livro = _livroService.FindById(idLivro);
 
@@ -240,6 +249,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Pedidos";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             ViewBag.Limit = limit;
             ViewBag.Status = filtroStatus;
             if(!string.IsNullOrEmpty(filtroStatus)){
@@ -260,6 +270,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Adicionar informação do pedido";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _livroService.FindPedidoById(id);
             return View(item);
         }
@@ -278,11 +289,12 @@ namespace JeffSite.Controllers
                         return View(pedido);
                     }else{
                         var configEmail = _configuracaoService.FindEmail();
+                        var configsite = _configuracaoService.Find();
                         bool envioEmail = JeffSite.Utils.EnviarEmail.testeEmail(
                             configEmail,
                             emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
                             pedido.Nome, null, "ModeloPedidoLinkPagamento",livro.Title, pedido.Id, 
-                            pedido.LinkPagamento);
+                            pedido.LinkPagamento, configsite.NomeSite);
                         if(envioEmail){
                             pedido.Status = Status.Aguardando_Pagamento;
                         }else{
@@ -313,11 +325,12 @@ namespace JeffSite.Controllers
                         return View(pedido);
                     }else{
                         var configEmail = _configuracaoService.FindEmail();
+                        var configSite = _configuracaoService.Find();
                         bool envioEmail = JeffSite.Utils.EnviarEmail.testeEmail(
                             configEmail,
                             emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
                             pedido.Nome, null, "ModeloPedidoLinkRastreio",livro.Title, pedido.Id, 
-                            pedido.LinkRastreio);
+                            pedido.LinkRastreio, configSite.NomeSite);
                         if(envioEmail){
                             pedido.Status = Status.Enviado;
                         }else{
@@ -356,6 +369,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Editar Pedido";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _livroService.FindPedidosById(id);
             return View(item);
         }
@@ -368,6 +382,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Deletar Pedido";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _livroService.FindPedidosById(id);
             return View(item);
         }

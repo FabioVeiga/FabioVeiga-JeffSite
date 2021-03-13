@@ -19,17 +19,25 @@ namespace JeffSite.Models
 
         [Display(Name = "Endereco da loja do Mercado Livre")]
         public string UrlMercadoLivre { get; set; }
+        
+        [Display(Name = "Endereco do Site")]
+        public string UrlSite { get; set; }
+
+        [Display(Name = "Nome do Site")]
+        public string NomeSite { get; set; }
 
         public Configuracao()
         {
         }
 
-        public Configuracao(string contactEmail, string imgProfile, string imgLogo, string urlMercadoLivre)
+        public Configuracao(string contactEmail, string imgProfile, string imgLogo, string urlMercadoLivre, string urlSite, string nomeSite)
         {
             ContactEmail = contactEmail;
             ImgProfile = imgLogo;
             ImgLogo = imgLogo;
             UrlMercadoLivre = urlMercadoLivre;
+            UrlSite = urlSite;
+            NomeSite = nomeSite;
         }
         
     }

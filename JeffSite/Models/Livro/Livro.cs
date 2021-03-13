@@ -18,6 +18,11 @@ namespace JeffSite.Models.Livro
         [Display(Name = "Nome da imagem")]
         public string ImgName { get; set; }
 
+        [Display(Name = "Livro esgotatado?")]
+        public bool Esgotado { get; set; }
+        
+        
+
         public virtual ICollection<WhereToBuy> WhereToBuys { get; set; }
         public Livro()
         {

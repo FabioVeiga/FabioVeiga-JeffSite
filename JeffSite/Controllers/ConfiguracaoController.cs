@@ -10,11 +10,13 @@ namespace JeffSite.Controllers
     {
         private readonly UserService _userService;
         private readonly ConfiguracaoService _configuracaoService;
+        private readonly LeitorService _leitorService;
 
-        public ConfiguracaoController(UserService userService, ConfiguracaoService configuracaoService)
+        public ConfiguracaoController(UserService userService, ConfiguracaoService configuracaoService, LeitorService leitorService)
         {
             _userService = userService;
             _configuracaoService = configuracaoService;
+            _leitorService = leitorService;
         }
 
         public IActionResult Index()
@@ -25,6 +27,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Configurações do site";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var configs = _configuracaoService.Find();
             return View(configs);
         }
@@ -85,6 +88,7 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Configurações do Email";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
 
             var item = _configuracaoService.FindEmail();
 

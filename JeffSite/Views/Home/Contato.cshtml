@@ -50,10 +50,8 @@
         }
     </div>
 
+    Você é humano? Faça a conta: 
     <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Você é humano? Faça a conta: </span>
-        </div>
         <input type="text" aria-label="numeroA" class="form-control" style="text-align: center;" name="numA" id="numA" readonly>
         <input type="text" aria-label="Operacao" class="form-control" style="text-align: center;"  name="ope" id="ope"  readonly>
         <input type="text" aria-label="numeroB" class="form-control" style="text-align: center;"  name="numb" id="numb"  readonly>
@@ -64,23 +62,38 @@
     }
     <br>
     
-    <button class="btn btn-info">Enviar</button>
+    <!-- button class="btn btn-info">Enviar</button -->
+    <button id="btn-submit" class="btn btn-info">
+        <span id="btnSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"style="display: none;"></span>
+        <span id="btnSpinnerText" style="display: none;">Enviando...</span>
+        <span id="btnSpinnerText1">Enviar</span>
+    </button>
 </form>
 
-<script>
-    document.getElementById('numA').value = Math.floor(Math.random() * 11)
-    document.getElementById('numb').value = Math.floor(Math.random() * 11)
-    document.getElementById('ope').value = escolhaOperacao()
+@section Scripts{
+    <script>
+    
+        document.getElementById('numA').value = Math.floor(Math.random() * 11)
+        document.getElementById('numb').value = Math.floor(Math.random() * 11)
+        document.getElementById('ope').value = escolhaOperacao()
 
-    function escolhaOperacao(){
-        var aux = Math.floor(Math.random() * 3)
-        switch(aux){
-            case 0:
-                return '+'
-            case 1:
-                return '-'
-            case 2:
-                return 'x'
+        function escolhaOperacao(){
+            var aux = Math.floor(Math.random() * 3)
+            switch(aux){
+                case 0:
+                    return '+'
+                case 1:
+                    return '-'
+                case 2:
+                    return 'x'
+            }
         }
-    }
-</script>
+
+        $('#btn-submit').on('click', () => { 
+            $("#btnSpinner").show()
+            $("#btnSpinnerText").show()
+            $("#btnSpinnerText1").hide()
+        })
+
+    </script>
+}

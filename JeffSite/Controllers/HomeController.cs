@@ -21,8 +21,9 @@ namespace JeffSite.Controllers
         private readonly CarouselService _carouselService;
         private readonly MallingService _mallingService;
         private readonly ILogger<HomeController> _logger;
+        private readonly LeitorService _leitorService;
 
-        public HomeController(ILogger<HomeController> logger, UserService userService, ConfiguracaoService configuracaoService, SocialMidiaService socialMidia, CarouselService carouselService, MallingService mallingService)
+        public HomeController(ILogger<HomeController> logger, UserService userService, ConfiguracaoService configuracaoService, SocialMidiaService socialMidia, CarouselService carouselService, MallingService mallingService, LeitorService leitorService)
         {
             _logger = logger;
             _userService = userService;
@@ -30,6 +31,8 @@ namespace JeffSite.Controllers
             _socialMidia = socialMidia;
             _carouselService = carouselService;
             _mallingService = mallingService;
+            _leitorService = leitorService;
+
         }
 
         public IActionResult Index()
@@ -130,7 +133,8 @@ namespace JeffSite.Controllers
 
                 // Se passou em todas as validações, realiza o envio de email
                 var configEmail = _configuracaoService.FindEmail();
-                bool flag = JeffSite.Utils.EnviarEmail.testeEmail(configEmail,email, emailcontact, subjectcontact, namecontact, phonecontact, "ModeloEmailContato", null, null, null);
+                var configSite = _configuracaoService.Find();
+                bool flag = JeffSite.Utils.EnviarEmail.testeEmail(configEmail, email, email, subjectcontact, namecontact, phonecontact, "ModeloEmailContato", emailcontact, null, null, configSite.NomeSite);
                 if(flag){
                     ViewBag.Message = "Mensagem enviada!";
                     ViewBag.Enviado = true;
@@ -160,6 +164,8 @@ namespace JeffSite.Controllers
                 var mail = new Malling();
                 mail.Email = emailcontact;
                 mail.Nome = namecontact;
+                mail.Onde = "Contato";
+                mail.DataCadastro = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
 
                 //Add malling
                 if(!_mallingService.CheckMail(mail)){

@@ -123,7 +123,7 @@
                 //console.log(data)
                 var newRow = $("<tr>");
                 var cols = ""
-                cols += `<td style="width: 150px;"><a href="/Loja/EditWhereToBuy/${data.id}?idLivro=${obj.Livro.Id}">Editar</a> | <a href="">Deletar</a></td>`                      
+                cols += `<td style="width: 150px;"><a href="/Loja/EditWhereToBuy/${data.id}?idLivro=${obj.Livro.Id}">Editar</a> | <a href="/Loja/DeleteWhereToBuy/${data.id}?idLivro=${obj.Livro.Id}">Deletar</a></td>`                      
                 cols += `<td style="width: 125px;">${data.name}</td>`
                 cols += `<td><a href="${data.urlEndereco}" target="_blank" style="font-size: smaller; text-decoration: none;">${data.urlEndereco}</a></td>`
                 newRow.append(cols)

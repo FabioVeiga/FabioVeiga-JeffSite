@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,9 +18,12 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a asp-action="Index" id="linkLogo"><div class="divLogoImage"></div></a>
+                <a asp-controller="Home" asp-action="Index" id="linkLogo"><div class="divLogoImage"></div></a>
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item" id="firstLiNavbar">
+                            <a class="nav-link" style="padding-left: 3.5em;" asp-controller="Home" asp-action="Index" id="menuHome" >HOME</a>
+                        </li>
                         <li class="nav-item" id="firstLiNavbar">
                             <a class="nav-link" style="padding-left: 3.5em;" asp-controller="Home" asp-action="BioCompleta">BIO COMPLETA</a>
                         </li>
@@ -45,7 +48,7 @@
     </div>
     
     <div class="container" style="background-color: #33415C;">
-        @{Html.RenderPartial("_FooterPartial");}
+        @await Html.PartialAsync("_FooterPartial")
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

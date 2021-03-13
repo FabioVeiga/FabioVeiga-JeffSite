@@ -6,13 +6,20 @@
     <h1>@ViewData["Title"]</h1>
 <br>
 
-@if(ViewBag.Message == "sucesso"){
+@if(ViewBag.Itens != null){
+    foreach (Dictionary<bool,string> item in ViewBag.Itens)
+    {
+        foreach (var dic in item)
+        {
+            if(dic.Key == false){
+                <div class="alert alert-warning" role="alert">
+                    Não enviado para o email @dic.Value
+                </div>
+            }
+        }
+    }
     <div class="alert alert-success" role="alert">
         Emails Enviados
-    </div>
-}else if(ViewBag.Message == "erro"){
-    <div class="alert alert-warning" role="alert">
-        Houve algum erro, por favor tentar mais tarde!
     </div>
 }
 
@@ -48,8 +55,11 @@
         var quill = new Quill('#editor', {
             modules: {
                 toolbar: [
+                [{ 'font': [] }],
                 [{ header: [1, 2, 3, 4, 5, 6,  false] }],
+                [{ 'align': [] }],
                 ['bold', 'italic', 'underline','strike'],
+                [{ 'color': [] }, { 'background': [] }],
                 ['image', 'code-block'],
                 ['link'],
                 [{ 'script': 'sub'}, { 'script': 'super' }],
@@ -70,7 +80,6 @@
             $("#btnSpinner").show()
             $("#btnSpinnerText").show()
             $("#btnSpinnerText1").hide()
-            myForm.submit();
         })
         
     </script>

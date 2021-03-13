@@ -21,8 +21,18 @@
         <span asp-validation-for="ContactEmail" class="text-danger"></span>
     </div>
     <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.NomeSite)</label>
+        <input type="text" class="form-control" asp-for="NomeSite">
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.UrlSite)</label>
+        <input type="text" class="form-control" asp-for="UrlSite">
+        <small>Nao esqueça do HTTP no endereço</small>
+    </div>
+    <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.ImgLogo)</label>
         <input type="file" accept="image/*" class="form-control" asp-for="ImgLogo">
+        <small>Dimensão máxima  200px x 200px - Nome da imagem devera ser <b>ImgLogo.jpg</b></small>
         @* <input type="text" class="form-control" asp-for="ImgLogo"> *@
         @if(!string.IsNullOrEmpty(ViewBag.FileNameLogoErro)){
             <span class="text-danger">@ViewBag.FileNameLogoErro</span>
@@ -31,6 +41,7 @@
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.ImgProfile)</label>
         <input type="file" accept="image/*" class="form-control" asp-for="ImgProfile">
+        <small>Dimensão 300px de altura - Nome da imagem devera ser <b>ImgProfile.jpg</b></small>
         @if(!string.IsNullOrEmpty(ViewBag.FileNameProfileErro)){
             <span class="text-danger">@ViewBag.FileNameProfileErro</span>
         }

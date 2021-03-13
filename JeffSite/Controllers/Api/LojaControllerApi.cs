@@ -65,6 +65,7 @@ namespace JeffSite.Controllers
         [Route("add-pedido")]
         [HttpPost]
         public IActionResult AddPedido([FromBody]Pedido pedido){
+            pedido.Id = _lojaService.FindNextIdPedido();
             pedido.Status = Status.Aguardando_Link_De_Pagamento;
             _lojaService.AddPedido(pedido);
 
@@ -72,6 +73,8 @@ namespace JeffSite.Controllers
             var mail = new Malling();
             mail.Email = pedido.Email;
             mail.Nome = pedido.Nome;
+            mail.Onde = "Pedido";
+            mail.DataCadastro = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
 
             //Add malling
             if(!_mallingService.CheckMail(mail)){
