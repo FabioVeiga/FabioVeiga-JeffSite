@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,7 +41,9 @@
                             <a class="nav-link" asp-controller="Carousel" asp-action="Index">Carrousel</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Leitor" asp-action="ApprovePost">Posts</a>
+                            <a class="nav-link" asp-controller="Leitor" asp-action="ApprovePost">
+                                Posts <span class="badge badge-light">@ViewBag.QuantidadeDeAprovacao</span>
+                            </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

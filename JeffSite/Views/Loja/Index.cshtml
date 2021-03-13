@@ -12,12 +12,13 @@
     @foreach (var item in ViewBag.Livros)
     {
         <div class="row" style="margin-bottom: 20px; position: relative;">
-            <div class="col">
-                <div class="livro">
-                    <div class="fotoLivro">
+            <div class="col-6 col-md-3">
+                <div class="fotoLivro">
                         <img src="img/Livro/@item.ImgName" />
                     </div>
-                    <div class="descricao">
+            </div>
+            <div class="col-12 col-md-9">
+                <div class="descricao">
                         <div class="descricao-titulo"><h4>@item.Title</h4></div>
                         <div class="descricao-corpo">
                             <p>
@@ -30,11 +31,12 @@
                                 {
                                     <li><a href="@wtb.UrlEndereco" target="_blank"><i class="@wtb.IconFA"></i> @wtb.Name</a></li>
                                 }
+                                @if(item.Esgotado == false){
                                     <li><a href="" id="linkAutografado" data-toggle="modal" data-target="#myModal" data-id="@item.Id" data-title="@item.Title"><i class="fas fa-book-open"></i> Compra Autografada</a></li>
+                                }
                             </ul>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     }
@@ -63,7 +65,7 @@
                         <input class="form-control" type="email" id="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="dedicado" class="col-form-label">Nome do dedicado</label>
+                        <label for="dedicado" class="col-form-label">Nome para dedicatória</label>
                         <input class="form-control" type="text" id="dedicado">
                     </div>
                     <div class="form-group">
@@ -97,7 +99,7 @@
                         <input class="form-control" type="text" id="complemento">
                     </div>
                     <div class="alert alert-success" role="alert" id="aviso" style="display:none">
-                        Enviado, por favor aguarda que você receberá novas instruções.
+                        Enviado, por favor aguardar  que você receberá novas instruções.
                     </div>
                 </div>
                 <div class="modal-footer">

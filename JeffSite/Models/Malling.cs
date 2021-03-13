@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace JeffSite.Models
@@ -7,6 +8,15 @@ namespace JeffSite.Models
         [Key]
         public string Email { get; set; }
         public string Nome { get; set; }
+        public string Onde { get; set; }
+
+        [Display(Name = "Aniversário")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime? DataAniversario { get; set; }
+        
+        [Display(Name = "Data Cadastro")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime? DataCadastro { get; set; }
 
         public Malling(){
             

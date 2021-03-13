@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using JeffSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using JeffSite.Models;
 
 namespace JeffSite.Controllers
 {
@@ -15,23 +16,34 @@ namespace JeffSite.Controllers
         private readonly SocialMidiaService _socialMidia;
         private readonly MallingService _mallingService;
         private readonly ConfiguracaoService _configuracaoService;
+        private readonly LeitorService _leitorService;
 
-        public MallingController(MallingService mallingService, SocialMidiaService socialMidia, ConfiguracaoService configuracaoService)
+        public MallingController(MallingService mallingService, SocialMidiaService socialMidia, ConfiguracaoService configuracaoService, LeitorService leitorService)
         {
             _mallingService = mallingService;
             _socialMidia = socialMidia;
             _configuracaoService = configuracaoService;
+            _leitorService = leitorService;
         }
 
         [HttpGet]
-        public IActionResult Index(){
+        public IActionResult Index(string filtro, int limit = 10){
             var userLogged = HttpContext.Session.GetString("userLogged");
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
             }
-            var itens = _mallingService.FillAllMalling();
+            List<Malling> itens = new List<Malling>();
+            if(!string.IsNullOrEmpty(filtro)){
+                itens = _mallingService.FillAllMallingWithFilters(limit, filtro);
+            }else{
+                itens = _mallingService.FillAllMalling(limit);
+            }
+            
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             ViewData["Title"] = "Lista de email";
+            ViewBag.Limit = limit;
+            ViewBag.Filtro = filtro;
             return View(itens);
         }
 
@@ -43,31 +55,16 @@ namespace JeffSite.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             ViewData["Title"] = "Enviar email mailling";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             return View();
         }
 
         [HttpGet]
         [Route("remover-email/{email}")]
-        public IActionResult RemoverEmail(string email){
-            ViewBag.Redes = _socialMidia.FindAll();
-            ViewBag.Email = email;
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("remover-email")]
         public IActionResult RemoverEmail(bool opcao, string email){
             ViewBag.Redes = _socialMidia.FindAll();
-            
-            if(opcao){
-                _mallingService.DeleteEmail(email);
-                ViewBag.Message = "Email removido!";
-            }else{
-                ViewBag.Message = "Email mantido!";
-            }
-
-            return RedirectToAction("RemoverEmail",email);
+            _mallingService.DeleteEmail(email);
+            return View("RemoverEmail");
         }
 
         [HttpPost]
@@ -80,15 +77,17 @@ namespace JeffSite.Controllers
             }
 
             var emails = _mallingService.FillAllMallingJusEmail();
-            var config = _configuracaoService.FindEmail();
+            var configEmail = _configuracaoService.FindEmail();
+            var configSite = _configuracaoService.Find();
             var emailFrom = _configuracaoService.FindAdminEmail();
-            var flag = JeffSite.Utils.EnviarEmail.enviarEmailMalling(config,emailFrom,emails,titulo,html);
-
-            if(flag){
-                ViewBag.Message = "sucesso";
-            }else{
-                ViewBag.Message = "erro";
+            List<Dictionary<bool,string>> flags = new List<Dictionary<bool,string>>();
+            foreach (var email in emails)
+            {
+                Dictionary<bool, string> item = new Dictionary<bool, string>(); 
+                item.Add(JeffSite.Utils.EnviarEmail.enviarEmailMalling(configEmail,emailFrom,email,titulo,html, configSite.UrlSite),email);
+                flags.Add(item);
             }
+            ViewBag.Itens = flags;
             return View();
         }
     }
