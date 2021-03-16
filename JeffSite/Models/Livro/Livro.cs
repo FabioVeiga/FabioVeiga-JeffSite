@@ -18,7 +18,7 @@ namespace JeffSite.Models.Livro
         [Display(Name = "Nome da imagem")]
         public string ImgName { get; set; }
 
-        [Display(Name = "Livro esgotatado?")]
+        [Display(Name = "Livro esgotado?")]
         public bool Esgotado { get; set; }
         
         
