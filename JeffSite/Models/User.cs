@@ -6,6 +6,7 @@ namespace JeffSite.Models
     {
         [Key]
         [Required (ErrorMessage = "Por favor, inserir seu {0}!")]
+        [MaxLength(100)]
         [Display(Name = "Usuario")]
         public string UserName { get; set; }
 
