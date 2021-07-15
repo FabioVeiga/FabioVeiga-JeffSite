@@ -30,6 +30,7 @@ namespace JeffSite
             services.AddDbContext<JeffContext>(options =>
                 options.UseMySql(
                     Configuration.GetConnectionString("JeffSite"),
+                    //new MySqlServerVersion(new Version(5, 5, 51)),
                     builder => builder.MigrationsAssembly("JeffSite")
                 ));
 

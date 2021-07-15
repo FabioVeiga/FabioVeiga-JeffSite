@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JeffSite.Migrations
 {
     [DbContext(typeof(JeffContext))]
-    [Migration("20210115002414_add coluna ImgName")]
-    partial class addcolunaImgName
+    [Migration("20210713231456_first migration")]
+    partial class firstmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,7 +29,7 @@ namespace JeffSite.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime?>("ExpirationDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Image")
                         .IsRequired()
@@ -66,12 +66,50 @@ namespace JeffSite.Migrations
                     b.Property<string>("ImgProfile")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<string>("NomeSite")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("UrlMercadoLivre")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("UrlSite")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Cod");
 
                     b.ToTable("Configuracao");
+                });
+
+            modelBuilder.Entity("JeffSite.Models.Email", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ContaEmail")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("HabilitaSSL")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Porta")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Servidor")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("UsarCredencialPadrao")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Emails");
                 });
 
             modelBuilder.Entity("JeffSite.Models.Leitor", b =>
@@ -80,8 +118,11 @@ namespace JeffSite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("Birthday")
+                        .HasColumnType("datetime");
+
                     b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -119,41 +160,19 @@ namespace JeffSite.Migrations
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<bool>("Esgotado")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("ImgName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int?>("TagsId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("WhereToBuyId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TagsId");
-
-                    b.HasIndex("WhereToBuyId");
 
                     b.ToTable("Livros");
-                });
-
-            modelBuilder.Entity("JeffSite.Models.Livro.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("JeffSite.Models.Livro.WhereToBuy", b =>
@@ -162,13 +181,99 @@ namespace JeffSite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("ListWhereToBuy")
+                    b.Property<string>("IconFA")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int?>("LivroId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("UrlEndereco")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LivroId");
+
                     b.ToTable("WhereToBuys");
+                });
+
+            modelBuilder.Entity("JeffSite.Models.Loja.Pedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Bairro")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("CEP")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Cidade")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Complemento")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Endereco")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("LinkPagamento")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("LinkRastreio")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("LivroId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("NomeDedicado")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("Numero")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pedidos");
+                });
+
+            modelBuilder.Entity("JeffSite.Models.Malling", b =>
+                {
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime?>("DataAniversario")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DataCadastro")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Onde")
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Email");
+
+                    b.ToTable("Mallings");
                 });
 
             modelBuilder.Entity("JeffSite.Models.SocialMidia", b =>
@@ -195,7 +300,8 @@ namespace JeffSite.Migrations
             modelBuilder.Entity("JeffSite.Models.User", b =>
                 {
                     b.Property<string>("UserName")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Pass")
                         .IsRequired()
@@ -206,15 +312,11 @@ namespace JeffSite.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("JeffSite.Models.Livro.Livro", b =>
+            modelBuilder.Entity("JeffSite.Models.Livro.WhereToBuy", b =>
                 {
-                    b.HasOne("JeffSite.Models.Livro.Tag", "Tags")
-                        .WithMany("Livros")
-                        .HasForeignKey("TagsId");
-
-                    b.HasOne("JeffSite.Models.Livro.WhereToBuy", "WhereToBuy")
-                        .WithMany("Livros")
-                        .HasForeignKey("WhereToBuyId");
+                    b.HasOne("JeffSite.Models.Livro.Livro", "Livro")
+                        .WithMany("WhereToBuys")
+                        .HasForeignKey("LivroId");
                 });
 #pragma warning restore 612, 618
         }

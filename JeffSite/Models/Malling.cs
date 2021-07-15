@@ -6,8 +6,13 @@ namespace JeffSite.Models
     public class Malling
     {
         [Key]
+        [MaxLength(100)]
         public string Email { get; set; }
+
+        [MaxLength(100)]
         public string Nome { get; set; }
+
+        [MaxLength(100)]
         public string Onde { get; set; }
 
         [Display(Name = "Aniversário")]
