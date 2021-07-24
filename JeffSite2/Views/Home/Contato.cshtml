@@ -1,0 +1,96 @@
+﻿
+<div class="text-center">
+    <h1 class="Titulo"><span>Contato</span></h1>
+    <div style="text-align: left" >
+        @if(!string.IsNullOrEmpty(ViewBag.Message)){
+            if((bool)ViewBag.Enviado){
+                <div class="alert alert-success" role="alert">
+                    @ViewBag.Message
+                </div>
+            }else{
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.Message
+                </div>
+            }
+    }
+    </div>
+    
+</div><br>
+
+<form asp-action="Contato" asp-controller="Home" method="POST">
+    <div class="form-group">
+        <label>Nome</label>
+        <input type="text" name="NameContact" class="form-control" value="@ViewBag.NameContact">
+        @if(!string.IsNullOrEmpty(ViewBag.ErroNome)){
+            <span class="text-danger">@ViewBag.ErroNome</span>
+        }
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input type="text" name="EmailContact" class="form-control" value="@ViewBag.EmailContact">
+        @if(!string.IsNullOrEmpty(ViewBag.ErroEmail)){
+            <span class="text-danger">@ViewBag.ErroEmail</span>
+        }
+    </div>
+    <div class="form-group">
+        <label>Telefone</label>
+        <input type="text" name="PhoneContact" class="form-control" value="@ViewBag.PhoneContact">
+        @if(!string.IsNullOrEmpty(ViewBag.ErroPhone)){
+            <span class="text-danger" role="alert">@ViewBag.ErroPhone</span>
+        }
+    </div>
+    <div class="form-group">
+        <label>Assunto</label>
+        <input type="text" name="SubjectContact" class="form-control" value="@ViewBag.SubjectContact">
+        @if(!string.IsNullOrEmpty(ViewBag.ErroSubject)){
+            <span class="text-danger" role="alert" >@ViewBag.ErroSubject</span>
+        }
+    </div>
+
+    Você é humano? Faça a conta: 
+    <div class="input-group">
+        <input type="text" aria-label="numeroA" class="form-control" style="text-align: center;" name="numA" id="numA" readonly>
+        <input type="text" aria-label="Operacao" class="form-control" style="text-align: center;"  name="ope" id="ope"  readonly>
+        <input type="text" aria-label="numeroB" class="form-control" style="text-align: center;"  name="numb" id="numb"  readonly>
+        <input type="text" aria-label="Resultado" class="form-control" name="resposta" placeholder="Responda">
+    </div>
+    @if(!string.IsNullOrEmpty(ViewBag.conta)){
+        <span class="text-danger" role="alert" >@ViewBag.conta</span>
+    }
+    <br>
+    
+    <!-- button class="btn btn-info">Enviar</button -->
+    <button id="btn-submit" class="btn btn-info">
+        <span id="btnSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"style="display: none;"></span>
+        <span id="btnSpinnerText" style="display: none;">Enviando...</span>
+        <span id="btnSpinnerText1">Enviar</span>
+    </button>
+</form>
+
+@section Scripts{
+    <script>
+    
+        document.getElementById('numA').value = Math.floor(Math.random() * 11)
+        document.getElementById('numb').value = Math.floor(Math.random() * 11)
+        document.getElementById('ope').value = escolhaOperacao()
+
+        function escolhaOperacao(){
+            var aux = Math.floor(Math.random() * 3)
+            switch(aux){
+                case 0:
+                    return '+'
+                case 1:
+                    return '-'
+                case 2:
+                    return 'x'
+            }
+        }
+
+        $('#btn-submit').on('click', () => { 
+            $("#btnSpinner").show()
+            $("#btnSpinnerText").show()
+            $("#btnSpinnerText1").hide()
+        })
+
+    </script>
+}
