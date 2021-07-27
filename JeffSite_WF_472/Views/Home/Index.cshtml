@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<JeffSite_WF_472.Models.Carousel>
 @{
     ViewData["Title"] = "Home Page";
+    List<JeffSite_WF_472.Models.Carousel> carousels = ViewBag.Carousels;
 }
 
 <div>
@@ -16,11 +17,11 @@
         </div>
     </div>
 
-    @*<div id="carrosselMain" >
+   @*<div id="carrosselMain" >
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
-                @foreach(var item in ViewBag.Carousels)
-                { 
+                @foreach (var item in ViewBag.Carousels)
+                {
                     <li data-target="#carouselExampleIndicators" data-slide-to="@item.Id" class="active"></li>
                 }
             </ol>
