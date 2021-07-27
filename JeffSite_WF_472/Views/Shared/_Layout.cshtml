@@ -1,42 +1,60 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JeffSite</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/fontawesome-free-5.15.1-web/css/all.css">
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <header>
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+            <nav class="imageBG"></nav>
+            <nav class="navbar navbar-expand-lg navbar-dark" id="navPersonal">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-            </div>
+                <a asp-controller="Home" asp-action="Index" id="linkLogo"><div class="divLogoImage"></div></a>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item" id="firstLiNavbar">
+                            <a class="nav-link" style="padding-left: 3.5em;" asp-controller="Home" asp-action="Index" id="menuHome" >HOME</a>
+                        </li>
+                        <li class="nav-item" id="firstLiNavbar">
+                            <a class="nav-link" style="padding-left: 3.5em;" asp-controller="Home" asp-action="BioCompleta">BIO COMPLETA</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="padding-left: 3.5em;" asp-controller="Loja" asp-action="Index">LOJA</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="padding-left: 3.5em;" asp-controller="Leitor" asp-action="Index">CANTINHO DO LEITOR</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="padding-left: 3.5em;" asp-controller="Home" asp-action="Contato">CONTATO</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+    
+    <div class="container" style="background-color: #33415C;">
+        @Html.Partial("_FooterPartial")
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

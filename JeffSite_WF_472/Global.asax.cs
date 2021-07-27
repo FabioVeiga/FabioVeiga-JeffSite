@@ -12,20 +12,12 @@ namespace JeffSite_WF_472
     {
         protected void Application_Start()
         {
-            var services = new ServiceCollection();
-            ConfigureServices(services);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             IocConfig.ConfigurarDependencias();
 
-        }
-
-        private void ConfigureServices(IServiceCollection services)
-        {
-            var connection = @"server=a2nlmysql45plsk.secureserver.net;userid=jeffUserBD;password=89&Owf2j;database=jeffdb";
-            services.AddDbContext<JeffContext>(options => options.UseMySql(connection));
         }
     }
 }

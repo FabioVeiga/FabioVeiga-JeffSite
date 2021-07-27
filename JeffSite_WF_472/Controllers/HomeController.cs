@@ -1,9 +1,11 @@
-﻿using JeffSite_WF_472.Models;
+﻿using JeffSite_WF_472.Data;
+using JeffSite_WF_472.Models;
 using JeffSite_WF_472.Services;
 using JeffSite_WF_472.Utils;
-using Microsoft.AspNetCore.Mvc;
+
 using System;
 using System.Text.RegularExpressions;
+using System.Web.Mvc;
 
 namespace JeffSite_WF_472.Controllers
 {
@@ -15,9 +17,11 @@ namespace JeffSite_WF_472.Controllers
         private readonly CarouselService _carouselService;
         private readonly MallingService _mallingService;
         private readonly LeitorService _leitorService;
+        private readonly JeffContext _jeffContext;
 
-        public HomeController(UserService userService, ConfiguracaoService configuracaoService, SocialMidiaService socialMidia, CarouselService carouselService, MallingService mallingService, LeitorService leitorService)
+        public HomeController(JeffContext jeffContext, UserService userService, ConfiguracaoService configuracaoService, SocialMidiaService socialMidia, CarouselService carouselService, MallingService mallingService, LeitorService leitorService)
         {
+            _jeffContext = jeffContext;
             _userService = userService;
             _configuracaoService = configuracaoService;
             _socialMidia = socialMidia;
@@ -49,7 +53,7 @@ namespace JeffSite_WF_472.Controllers
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
+        //[AutoValidateAntiforgeryToken]
         public ActionResult Contato(int numA, int numB, string ope, int resposta, string namecontact, string emailcontact, string phonecontact, string subjectcontact)
         {
             ViewBag.Redes = _socialMidia.FindAll();
