@@ -1,0 +1,35 @@
+﻿using JeffSite_WF_472.Data;
+using JeffSite_WF_472.Models;
+using System.Linq;
+
+namespace JeffSite_WF_472.Services
+{
+    public class UserService
+    {
+        private readonly JeffContext _context;
+
+        public UserService(JeffContext context)
+        {
+            _context = context;
+        }
+        public bool ValidateUser(User user){
+            string senhaEncriptada = Utils.Util.GerarHashMd5(user.Pass);
+            if(senhaEncriptada == "erro:senha-vazia"){
+                return false;
+            }
+            return  _context.User.Any(u => u.UserName == user.UserName && u.Pass == senhaEncriptada);
+        }
+
+        public User GetUserBYLogin(string login){
+            return _context.User.FirstOrDefault(u => u.UserName == login);
+        }
+
+        public void ChangePassword(User user){
+            user.Pass = JeffSite_WF_472.Utils.Util.GerarHashMd5(user.Pass);
+            _context.User.Update(user);
+            _context.SaveChanges();
+        }
+
+    }
+
+}
