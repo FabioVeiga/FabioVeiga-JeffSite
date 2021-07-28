@@ -1,0 +1,24 @@
+@model JeffSite.Models.Leitor
+@{
+    Layout = "_LayoutAdmin";
+    string nameImg = Model.NameImg; 
+}
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="DisapprovePost" method="POST">
+<div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Id)</label>
+        <input type="text" class="form-control" asp-for="Id" readonly>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Name)</label>
+        <input type="text" class="form-control" asp-for="Name" readonly>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.PathImg)</label>
+        <td><img height="500px" width="500px" src="../img/Leitor/@nameImg"></td>
+    </div>
+    
+    <a asp-controller="Leitor" asp-action="ApprovePost">Voltar</a>
+    <button class="btn btn-danger">Excluir</button>
+</form>

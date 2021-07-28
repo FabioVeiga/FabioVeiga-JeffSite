@@ -350,6 +350,8 @@
     <Compile Include="App_Start\NinjectDependencyResolver.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LeitorController.cs" />
+    <Compile Include="Controllers\LojaController.cs" />
     <Compile Include="Data\JeffContext.cs" />
     <Compile Include="Data\SeedingService.cs" />
     <Compile Include="Global.asax.cs">
@@ -2176,10 +2178,25 @@
     <Content Include="Views\Shared\_FooterPartial.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Loja\Create.cshtml" />
+    <Content Include="Views\Loja\CreateWhereToBuy.cshtml" />
+    <Content Include="Views\Loja\Delete.cshtml" />
+    <Content Include="Views\Loja\DeletePedido.cshtml" />
+    <Content Include="Views\Loja\DeleteWhereToBuy.cshtml" />
+    <Content Include="Views\Loja\Edit.cshtml" />
+    <Content Include="Views\Loja\EditPedido.cshtml" />
+    <Content Include="Views\Loja\EditWhereToBuy.cshtml" />
+    <Content Include="Views\Loja\Index.cshtml" />
+    <Content Include="Views\Loja\ListLivros.cshtml" />
+    <Content Include="Views\Loja\Pedido.cshtml" />
+    <Content Include="Views\Loja\PedidoAddInfo.cshtml" />
+    <Content Include="Views\Leitor\Approve.cshtml" />
+    <Content Include="Views\Leitor\ApprovePost.cshtml" />
+    <Content Include="Views\Leitor\Disapprove.cshtml" />
+    <Content Include="Views\Leitor\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
