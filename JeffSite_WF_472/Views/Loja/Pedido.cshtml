@@ -1,6 +1,6 @@
-@model IEnumerable<JeffSite.Models.Loja.Pedido>
+@model IEnumerable<JeffSite_WF_472.Models.Loja.Pedido>
 @{
-    Layout = "_LayoutAdmin";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
     int limit = (int)ViewBag.Limit + 5;
     string filterStatus = ViewBag.Status == null ? string.Empty : ViewBag.Status;
 }

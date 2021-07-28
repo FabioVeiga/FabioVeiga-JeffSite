@@ -1,0 +1,44 @@
+@model JeffSite_WF_472.Models.Email
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+@if(ViewBag.Message != null){
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Message 
+    </div>
+}
+
+<form asp-action="confEmail" method="POST">
+    <input type="hidden" class="form-control" asp-for="Id" readonly>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Servidor)</label>
+        <input type="text" class="form-control" asp-for="Servidor">
+        <span asp-validation-for="Servidor" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Porta)</label>
+        <input type="number" class="form-control" asp-for="Porta">
+        <span asp-validation-for="Porta" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.ContaEmail)</label>
+        <input type="text" class="form-control" asp-for="ContaEmail">
+        <span asp-validation-for="ContaEmail" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Senha)</label>
+        <input type="text" class="form-control" asp-for="Senha">
+        <span asp-validation-for="Senha" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.HabilitaSSL)</label>
+        <input type="checkbox" class="form-control" asp-for="HabilitaSSL">
+    </div>
+    <a asp-controller="Admin" asp-action="AdminHome">Voltar</a>
+    <button class="btn btn-info">Salvar</button>
+</form>

@@ -1,6 +1,6 @@
-@model JeffSite.Models.Livro.Livro
+@model JeffSite_WF_472.Models.Livro.Livro
 @{
-    Layout = "_LayoutAdmin";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 <br>
 <h1>@ViewData["Title"]</h1>
@@ -37,7 +37,3 @@
     <a asp-controller="Loja" asp-action="ListLivros">Voltar</a>
     <button class="btn btn-primary">Editar</button>
 </form>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

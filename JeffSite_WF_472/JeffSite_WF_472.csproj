@@ -2198,6 +2198,19 @@
     <Content Include="Views\Admin\AdminHome.cshtml" />
     <Content Include="Views\Admin\ChangePassword.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Carousel\Create.cshtml" />
+    <Content Include="Views\Carousel\Delete.cshtml" />
+    <Content Include="Views\Carousel\Edit.cshtml" />
+    <Content Include="Views\Carousel\Index.cshtml" />
+    <Content Include="Views\Configuracao\confEmail.cshtml" />
+    <Content Include="Views\Configuracao\Index.cshtml" />
+    <Content Include="Views\Malling\EnviarEmailMailling.cshtml" />
+    <Content Include="Views\Malling\Index.cshtml" />
+    <Content Include="Views\Malling\RemoverEmail.cshtml" />
+    <Content Include="Views\SocialMidia\Create.cshtml" />
+    <Content Include="Views\SocialMidia\Delete.cshtml" />
+    <Content Include="Views\SocialMidia\Edit.cshtml" />
+    <Content Include="Views\SocialMidia\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

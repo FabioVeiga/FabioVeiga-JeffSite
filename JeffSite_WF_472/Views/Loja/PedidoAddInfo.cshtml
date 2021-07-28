@@ -1,6 +1,6 @@
-@model JeffSite.Models.Loja.Pedido
+@model JeffSite_WF_472.Models.Loja.Pedido
 @{
-    Layout = "_LayoutAdmin";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
     int status = (int)Model.Status;
 }
 
@@ -9,55 +9,57 @@
 <br>
 
 <form asp-action="PedidoAddInfo" method="POST">
-    <input type="hidden" class="form-control" asp-for="Status" >
-    <input type="hidden" class="form-control" asp-for="Id" >
-    <input type="hidden" class="form-control" asp-for="LivroId" >
-    <input type="hidden" class="form-control" asp-for="Nome" >
-    <input type="hidden" class="form-control" asp-for="NomeDedicado" >
-    <input type="hidden" class="form-control" asp-for="Numero" >
-    <input type="hidden" class="form-control" asp-for="Bairro" >
-    <input type="hidden" class="form-control" asp-for="CEP" >
-    <input type="hidden" class="form-control" asp-for="Cidade" >
-    <input type="hidden" class="form-control" asp-for="Complemento" >
-    <input type="hidden" class="form-control" asp-for="Email" >
-    <input type="hidden" class="form-control" asp-for="Endereco" >
+    <input type="hidden" class="form-control" asp-for="Status">
+    <input type="hidden" class="form-control" asp-for="Id">
+    <input type="hidden" class="form-control" asp-for="LivroId">
+    <input type="hidden" class="form-control" asp-for="Nome">
+    <input type="hidden" class="form-control" asp-for="NomeDedicado">
+    <input type="hidden" class="form-control" asp-for="Numero">
+    <input type="hidden" class="form-control" asp-for="Bairro">
+    <input type="hidden" class="form-control" asp-for="CEP">
+    <input type="hidden" class="form-control" asp-for="Cidade">
+    <input type="hidden" class="form-control" asp-for="Complemento">
+    <input type="hidden" class="form-control" asp-for="Email">
+    <input type="hidden" class="form-control" asp-for="Endereco">
 
-    @if(!string.IsNullOrEmpty(Model.LinkPagamento)){
-        <input type="hidden" class="form-control" asp-for="LinkPagamento" >
+    @if (!string.IsNullOrEmpty(Model.LinkPagamento))
+    {
+        <input type="hidden" class="form-control" asp-for="LinkPagamento">
     }
 
-    <div class="form-group"></div>
+    <div class="form-group">
         @switch (status)
         {
             case 1:
                 <label>@Html.DisplayNameFor(Model => Model.LinkPagamento)</label>
-                <input type="text" class="form-control" asp-for="LinkPagamento" >
+                <input type="text" class="form-control" asp-for="LinkPagamento">
                 break;
             case 2:
                 <label>Foi Pago</label>
-                <select class="form-control" id="outrosStatus" name="outrosStatus" >
+                <select class="form-control" id="outrosStatus" name="outrosStatus">
                     <option value="PagoSim">Sim</option>
                     <option value="PagoNao">Não</option>
                 </select>
                 break;
             case 3:
                 <label>Foi dedicado para: <b><i>@Model.NomeDedicado</i></b></label>
-                <select class="form-control" id="outrosStatus" name="outrosStatus" >
+                <select class="form-control" id="outrosStatus" name="outrosStatus">
                     <option value="DedicadoSim">Sim</option>
                     <option value="DedicadoNao">Não</option>
                 </select>
                 break;
             case 4:
                 <label>@Html.DisplayNameFor(Model => Model.LinkRastreio)</label>
-                <input type="text" class="form-control" asp-for="LinkRastreio" >
+                <input type="text" class="form-control" asp-for="LinkRastreio">
                 break;
         }
-        @if(ViewBag.Erro != null){
+        @if (ViewBag.Erro != null)
+        {
             <span class="text-danger">@ViewBag.Erro</span>
         }
         <br>
         <a asp-controller="Loja" asp-action="Pedido">Voltar</a>
         <button class="btn btn-primary">Salvar</button>
     </div>
-    
+
 </form>

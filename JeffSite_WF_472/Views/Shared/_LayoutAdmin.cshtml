@@ -21,30 +21,30 @@
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            @Html.ActionLink("HOME", "Admin", "AdminHome", null, new { @style = "padding-left: 3.5em;", @class = "nav-link" })
+                            @Html.ActionLink("HOME", "AdminHome", "Admin", null, new { @style = "padding-left: 3.5em;", @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            @Html.ActionLink("Redes Sociais", "SocialMidia", "Index", null, new { @style = "padding-left: 3.5em;", @class = "nav-link" })
+                            @Html.ActionLink("Redes Sociais", "Index", "SocialMidia", null, new { @style = "padding-left: 3.5em;", @class = "nav-link" })
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Configurações
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @Html.ActionLink("do Site", "Configuracao", "Index", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
-                                @Html.ActionLink("do Email", "Configuracao", "confEmail", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("do Site", "Index", "Configuracao", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("do Email", "confEmail", "Configuracao", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<% =Url.Action(" ApprovePost","Leitor")%">Posts <span class="badge badge-light">@ViewBag.QuantidadeDeAprovacao</span></a>
+                            <a class="nav-link" href="@Url.Action("ApprovePost","Leitor")">Posts <span class="badge badge-light">@ViewBag.QuantidadeDeAprovacao</span></a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Loja
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @Html.ActionLink("Livros", "Loja", "ListLivros", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
-                                @Html.ActionLink("Pedidos", "Loja", "Pedido", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("Livros", "ListLivros", "Loja", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("Pedidos", "Pedido", "Loja", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -52,8 +52,8 @@
                                 Malling
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @Html.ActionLink("Ver emails", "Malling", "Index", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
-                                @Html.ActionLink("Compor email", "Malling", "EnviarEmailMailling", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("Ver emails", "Index", "Malling", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("Compor email", "EnviarEmailMailling", "Malling", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -61,8 +61,8 @@
                                 Usuário
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @Html.ActionLink("Alterar Senha", "Admin", "ChangePassword", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
-                                @Html.ActionLink("Logout", "Admin", "Logout", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("Alterar Senha", "ChangePassword", "Admin", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("Logout", "Logout", "Admin", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
                             </div>
                         </li>
                     </ul>
