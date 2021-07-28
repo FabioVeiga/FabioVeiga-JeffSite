@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "_LayoutAdmin";
+}
+
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: 80px 120px;
+  grid-gap: 10px;
+  background-color: #33415C;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+</style>
+
+<h1 style="text-align: center; margin-top: 30px; margin-bottom: 30px;">Dashboard</h1>
+
+<div class="grid-container">
+  <div>Livros cadastrados</div>
+  <div>Pedidos recebidos</div>
+  <div>Posts</div> 
+
+  <div>@ViewBag.QuantidadeLivros</div>
+  <div>@ViewBag.QuantidadePedidos </div>
+  <div>
+      Aprovados: @ViewBag.QuantidadePostsAprovado <br>
+      Não aprovados: @ViewBag.QuantidadePostsNaoAprovado
+      </div> 
+</div>

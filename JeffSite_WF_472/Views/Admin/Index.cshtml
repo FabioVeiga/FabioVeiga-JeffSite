@@ -1,0 +1,37 @@
+﻿@model JeffSite_WF_472.Models.User
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    string user = "";
+}
+
+<div class="container" 
+    style="width: 50%;
+    margin-top: 10%;
+    border: 2px black solid;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #EBEBEB;">
+    <h1 style="text-align: center;">Login</h1>
+    <form method="post" asp-action="ValidateUser" asp-controller="Admin">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Usuario</label>
+            <input type="text" class="form-control" placeholder="Digite o usuario" asp-for="UserName" value="@user">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Senha</label>
+            <input type="password" class="form-control" placeholder="Digite a senha" asp-for="Pass">
+        </div>
+
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                <b>Erro: </b>@TempData["message"].ToString()
+            </div>
+            if(TempData["user"] != null){
+                user = TempData["user"].ToString();
+            }
+        }
+
+        <button type="submit" class="btn btn-primary">Logar</button>
+    </form>
+</div>
