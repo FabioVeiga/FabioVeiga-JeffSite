@@ -38,7 +38,7 @@ namespace JeffSite_WF_472.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult ValidateUser(User userLogged)
         {
             bool validUser = _userService.ValidateUser(userLogged);
