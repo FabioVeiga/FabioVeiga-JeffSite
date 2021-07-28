@@ -94,7 +94,7 @@ namespace JeffSite_WF_472.Controllers
         [Route("ApprovePost")]
         [HttpGet]
         public ActionResult ApprovePost(){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -108,7 +108,7 @@ namespace JeffSite_WF_472.Controllers
         [Route("ApprovePost-id")]
         [HttpGet]
         public ActionResult Approve(int id){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -129,7 +129,7 @@ namespace JeffSite_WF_472.Controllers
         [Route("DisapprovePost")]
         [HttpGet]
         public ActionResult Disapprove(int id){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -144,7 +144,7 @@ namespace JeffSite_WF_472.Controllers
         public ActionResult DisapprovePost(int id){
             var item = _leitorService.FindById(id);
             var pathimg = $@"{item.PathImg}{item.NameImg}";
-            System.IO.FileInfo file = new System.IO.FileInfo(pathimg);
+            FileInfo file = new FileInfo(pathimg);
             try{
                 file.Delete();
                 _leitorService.DisapprovePost(item);

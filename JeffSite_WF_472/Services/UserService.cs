@@ -1,12 +1,16 @@
 ﻿using JeffSite_WF_472.Data;
 using JeffSite_WF_472.Models;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace JeffSite_WF_472.Services
 {
     public class UserService
     {
         private readonly JeffContext _context;
+
+        private readonly IList<Claim> _usersLogged;
 
         public UserService(JeffContext context)
         {
@@ -25,7 +29,7 @@ namespace JeffSite_WF_472.Services
         }
 
         public void ChangePassword(User user){
-            user.Pass = JeffSite_WF_472.Utils.Util.GerarHashMd5(user.Pass);
+            user.Pass = Utils.Util.GerarHashMd5(user.Pass);
             _context.User.Update(user);
             _context.SaveChanges();
         }

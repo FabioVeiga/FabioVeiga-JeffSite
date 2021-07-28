@@ -48,7 +48,7 @@ namespace JeffSite_WF_472.Controllers
         }
 
         public ActionResult ListLivros(){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -61,7 +61,7 @@ namespace JeffSite_WF_472.Controllers
         
         [HttpGet]
         public ActionResult Create(){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -87,7 +87,7 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult Delete(int id){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -122,7 +122,7 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult Edit(int id){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -155,7 +155,7 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult CreateWhereToBuy(Livro livro){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -169,7 +169,7 @@ namespace JeffSite_WF_472.Controllers
         [Route("AddWhereToBuy")]
         [HttpGet]
         public ActionResult CreateWhereToBuy(int id){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -183,7 +183,7 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult EditWhereToBuy(int id, int idLivro){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -198,7 +198,7 @@ namespace JeffSite_WF_472.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditWhereToBuy(WhereToBuy item){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -212,7 +212,7 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult DeleteWhereToBuy(int id, int idLivro){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -228,7 +228,7 @@ namespace JeffSite_WF_472.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteWhereToBuy(WhereToBuy item){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -241,7 +241,7 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult Pedido(string filtroStatus, int limit = 10){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -262,7 +262,7 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult PedidoAddInfo(int id){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -361,7 +361,7 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult EditPedido(int id){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
@@ -374,7 +374,7 @@ namespace JeffSite_WF_472.Controllers
 
          [HttpGet]
         public ActionResult DeletePedido(int id){
-            var userLogged = ("userLogged");
+            var userLogged = Session["userLogged"].ToString();
             if (userLogged == "" || userLogged == null)
             {
                 return RedirectToAction("Index", "Admin");
