@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Autor JP</title>
+    <title>@ViewData["Title"]Administrador - Autor JP</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -21,37 +21,30 @@
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Admin" asp-action="AdminHome">Home</a>
+                            @Html.ActionLink("HOME", "Admin", "AdminHome", null, new { @style = "padding-left: 3.5em;", @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="SocialMidia" asp-action="Index">Redes Sociais</a>
+                            @Html.ActionLink("Redes Sociais", "SocialMidia", "Index", null, new { @style = "padding-left: 3.5em;", @class = "nav-link" })
                         </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Configurações
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-controller="Configuracao" asp-action="Index">do Site</a>
-                                <a class="dropdown-item" asp-controller="Configuracao" asp-action="confEmail">do Email</a>
+                                @Html.ActionLink("do Site", "Configuracao", "Index", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("do Email", "Configuracao", "confEmail", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
                             </div>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Carousel" asp-action="Index">Carrousel</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Leitor" asp-action="ApprovePost">
-                                Posts <span class="badge badge-light">@ViewBag.QuantidadeDeAprovacao</span>
-                            </a>
+                            <a class="nav-link" href="<% =Url.Action(" ApprovePost","Leitor")%">Posts <span class="badge badge-light">@ViewBag.QuantidadeDeAprovacao</span></a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Loja
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-controller="Loja" asp-action="ListLivros">Livros</a>
-                                <a class="dropdown-item" asp-controller="Loja" asp-action="Pedido">Pedidos</a>
+                                @Html.ActionLink("Livros", "Loja", "ListLivros", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("Pedidos", "Loja", "Pedido", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -59,17 +52,20 @@
                                 Malling
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-controller="Malling" asp-action="Index">Ver emails</a>
-                                <a class="dropdown-item" asp-controller="Malling" asp-action="EnviarEmailMailling">Compor email</a>
+                                @Html.ActionLink("Ver emails", "Malling", "Index", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("Compor email", "Malling", "EnviarEmailMailling", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Usuário
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @Html.ActionLink("Alterar Senha", "Admin", "ChangePassword", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
+                                @Html.ActionLink("Logout", "Admin", "Logout", null, new { @style = "padding-left: 3.5em;", @class = "dropdown-item" })
                             </div>
                         </li>
                     </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <div>
-                            <a class="btn btn-warning" asp-controller="Admin" asp-action="ChangePassword">Alterar Senha</a>
-                            <a class="btn btn-warning" asp-controller="Admin" asp-action="Logout">Logout</a>
-                        </div>
-                    </form>
                 </div>
             </nav>
         </div>
