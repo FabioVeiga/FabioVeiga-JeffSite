@@ -78,11 +78,9 @@ namespace JeffSite.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Editar";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var social = _socialMidiaService.FindById(id);
@@ -92,11 +90,9 @@ namespace JeffSite.Controllers
         [HttpPost]
         public ActionResult Edit(SocialMidia socialMidia)
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             _socialMidiaService.Edit(socialMidia);
             return RedirectToAction("Index");
         }
