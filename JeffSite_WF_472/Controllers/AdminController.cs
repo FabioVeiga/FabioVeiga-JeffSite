@@ -9,32 +9,41 @@ namespace JeffSite_WF_472.Controllers
         private readonly UserService _userService;
         private readonly LojaService _lojaService;
         private readonly LeitorService _leitorService;
+        private UserLogged _userLogged;
 
-        public AdminController(UserService userService, LojaService lojaService, LeitorService leitorService)
+        public AdminController(UserService userService, LojaService lojaService, LeitorService leitorService, UserLogged userLogged)
         {
             _userService = userService;
             _lojaService = lojaService;
             _leitorService = leitorService;
+            _userLogged = userLogged;
         }
 
+        private bool IsUserLogged()
+        {
+            if (string.IsNullOrEmpty(_userLogged.UserName))
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
         public ActionResult AdminHome()
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
-                return View(nameof(AdminHome));
-            }
             ViewBag.QuantidadeLivros = _lojaService.HowManyLivros();
             ViewBag.QuantidadePedidos = _lojaService.HowManyPedidos();
             ViewBag.QuantidadePostsAprovado = _leitorService.HowManyPostsApproved();
             ViewBag.QuantidadePostsNaoAprovado = _leitorService.HowManyPostsAreNotApproved();
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
-            return View();
+            return View(nameof(AdminHome));
         }
 
         [HttpPost]
@@ -43,7 +52,7 @@ namespace JeffSite_WF_472.Controllers
             bool validUser = _userService.ValidateUser(userLogged);
             if (validUser)
             {
-                HttpContext.Session["userLogged"] = userLogged.UserName;
+                _userLogged.UserName = userLogged.UserName;
                 return RedirectToAction(nameof(AdminHome));
             }
             TempData["message"] = "Usuario ou Senha invalido!";
@@ -52,26 +61,28 @@ namespace JeffSite_WF_472.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
         public ActionResult Logout()
         {
-            var userLogged = Session["userLogged"].ToString();
+            _userLogged.UserName = string.Empty;
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
         public ActionResult ChangePassword(){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!IsUserLogged())
                 return RedirectToAction(nameof(Index));
-            }
-            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
-            string login = Session["userLogged"].ToString();
-            User u = _userService.GetUserBYLogin(login);
-            return View(u);
+
+            var user = _userService.GetUserBYLogin(_userLogged.UserName);
+            user.Pass = string.Empty;
+            return View(user);
         }
 
         [HttpPost]
         public ActionResult ChangePassword(User user){
+            if (!IsUserLogged())
+                return RedirectToAction(nameof(Index));
+
             _userService.ChangePassword(user);
             return RedirectToAction(nameof(AdminHome));
         }

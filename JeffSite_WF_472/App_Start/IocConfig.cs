@@ -1,4 +1,5 @@
 ﻿using JeffSite_WF_472.Data;
+using JeffSite_WF_472.Models;
 using JeffSite_WF_472.Services;
 using Microsoft.EntityFrameworkCore;
 using Ninject;
@@ -22,6 +23,7 @@ namespace JeffSite_WF_472.App_Start
             kernel.Bind<CarouselService>().ToSelf().InTransientScope();
             kernel.Bind<MallingService>().ToSelf().InTransientScope();
             kernel.Bind<LeitorService>().ToSelf().InTransientScope();
+            kernel.Bind<UserLogged>().ToSelf().InSingletonScope();
 
             //Registra o container no ASP.NET
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
