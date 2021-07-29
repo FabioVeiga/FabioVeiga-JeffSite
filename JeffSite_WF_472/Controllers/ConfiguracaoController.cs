@@ -1,6 +1,7 @@
 using JeffSite_WF_472.Models;
 using JeffSite_WF_472.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using System.IO;
 using System.Web.Mvc;
 
@@ -11,21 +12,21 @@ namespace JeffSite_WF_472.Controllers
         private readonly UserService _userService;
         private readonly ConfiguracaoService _configuracaoService;
         private readonly LeitorService _leitorService;
+        private UserLogged _userLogged;
 
-        public ConfiguracaoController(UserService userService, ConfiguracaoService configuracaoService, LeitorService leitorService)
+        public ConfiguracaoController(UserService userService, ConfiguracaoService configuracaoService, LeitorService leitorService, UserLogged userLogged)
         {
             _userService = userService;
             _configuracaoService = configuracaoService;
             _leitorService = leitorService;
+            _userLogged = userLogged;
         }
 
         public ActionResult Index()
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Configurações do site";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var configs = _configuracaoService.Find();
@@ -33,14 +34,11 @@ namespace JeffSite_WF_472.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Configuracao configuracao, IFormFile ImgLogo, IFormFile ImgProfile)
+        public ActionResult Edit(Configuracao configuracao, FormFile ImgLogo, FormFile ImgProfile)
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             configuracao.ImgLogo = "imgLogo.jpg";
             configuracao.ImgProfile = "imgProfile.jpg";
 
@@ -82,11 +80,9 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult confEmail(){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Configurações do Email";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
 
@@ -97,6 +93,9 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpPost]
         public ActionResult confEmail(Email item){
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
             ViewData["Title"] = "Configurações do Email";
 
             if(ModelState.IsValid){
