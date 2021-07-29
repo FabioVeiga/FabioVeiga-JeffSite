@@ -11,6 +11,7 @@ namespace JeffSite_WF_472.Models
         [Display(Name = "Nome rede social")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Por favor, inserir {0}!")]
         [Display(Name = "Endereço da rede social")]
         public string Url { get; set; }
 

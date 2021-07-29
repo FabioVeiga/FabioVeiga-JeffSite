@@ -9,7 +9,7 @@ namespace JeffSite_WF_472
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery/dist/jquery.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -23,8 +23,8 @@ namespace JeffSite_WF_472
                       "~/Scripts/bootstrap/dist/js/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                "~/Scripts/bootstrap/dist/css/bootstrap.css",
+                "~/Content/site.css"));
         }
     }
 }

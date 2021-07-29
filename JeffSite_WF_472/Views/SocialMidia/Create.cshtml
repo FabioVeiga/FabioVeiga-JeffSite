@@ -1,11 +1,11 @@
 @model JeffSite_WF_472.Models.SocialMidia
 @{
-    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+
 <style>
-    .dropdown-item a{
+    .dropdown-item a {
         font-family: 'FontAwesome';
-        
     }
 </style>
 
@@ -13,38 +13,72 @@
 <h1>@ViewData["Title"]</h1>
 <br>
 
-<form asp-action="Create">
+@using (Html.BeginForm("Create", "SocialMidia"))
+{
+    @Html.AntiForgeryToken()
     <div class="input-group mb-3">
-    <div class="input-group-prepend">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnIcon">
-            <label id="label-icon">Icone</label>
-        </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="changeIcon('Facebook','fab fa-facebook-square')" href="#"><i class="fab fa-facebook-square"></i> Facebook</a>
-            <a class="dropdown-item" onclick="changeIcon('Instagram','fab fa-instagram-square')"  href="#"><i class="fab fa-instagram-square"></i> Instagram</a>
-            <a class="dropdown-item" onclick="changeIcon('Twitter','fab fa-twitter-square')" href="#"><i class="fab fa-twitter-square"></i> Twitter</a>
-            <a class="dropdown-item" onclick="changeIcon('GoodReads','fab fa-goodreads')" href="#"><i class="fab fa-goodreads"></i> GoodReads</a>
-            <a class="dropdown-item" onclick="changeIcon('WhatsApp','fab fa-whatsapp-square')" href="#"><i class="fab fa-whatsapp-square"></i> WhatsApp</a>
-            <a class="dropdown-item" onclick="changeIcon('Telegram','fab fa-telegram')" href="#"><i class="fab fa-telegram"></i> Telegram</a>
-            <a class="dropdown-item" onclick="changeIcon('Facebook-Messager','fab fa-facebook-messenger')" href="#"><i class="fab fa-facebook-messenger"></i>Facebook-Messager</a>
-            <a class="dropdown-item" onclick="changeIcon('TikTok','fab fa-tiktok')" href="#"><i class="fab fa-tiktok"></i>TikTok</a>
+        <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnIcon">
+                <span id="label-icon">Icone</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="changeIcon('Facebook','fab fa-facebook-square')" href="#"><i class="fab fa-facebook-square"></i> Facebook</a>
+                <a class="dropdown-item" onclick="changeIcon('Instagram','fab fa-instagram-square')" href="#"><i class="fab fa-instagram-square"></i> Instagram</a>
+                <a class="dropdown-item" onclick="changeIcon('Twitter','fab fa-twitter-square')" href="#"><i class="fab fa-twitter-square"></i> Twitter</a>
+                <a class="dropdown-item" onclick="changeIcon('GoodReads','fab fa-goodreads')" href="#"><i class="fab fa-goodreads"></i> GoodReads</a>
+                <a class="dropdown-item" onclick="changeIcon('WhatsApp','fab fa-whatsapp-square')" href="#"><i class="fab fa-whatsapp-square"></i> WhatsApp</a>
+                <a class="dropdown-item" onclick="changeIcon('Telegram','fab fa-telegram')" href="#"><i class="fab fa-telegram"></i> Telegram</a>
+                <a class="dropdown-item" onclick="changeIcon('Facebook-Messager','fab fa-facebook-messenger')" href="#"><i class="fab fa-facebook-messenger"></i>Facebook-Messager</a>
+                <a class="dropdown-item" onclick="changeIcon('TikTok','fab fa-tiktok')" href="#"><i class="fab fa-tiktok"></i>TikTok</a>
+            </div>
         </div>
-    </div>
-    <input type="text" class="form-control" asp-for="Name" placeholder="Nome rede social" readonly>
-    <input type="hidden" class="form-control" asp-for="IconFA">
+        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "" } })
+        @Html.EditorFor(model => model.IconFA, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.Url)</label>
-        <input type="text" class="form-control" asp-for="Url" placeholder="Endereço rede social">
+        @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "Endereco rede social" } })
         <span asp-validation-for="Url" class="text-danger"></span>
     </div>
-    <a asp-controller="Admin" asp-action="AdminHome">Voltar</a>
-    <button class="btn btn-primary">Salvar</button>
-</form>
+    @Html.ActionLink("Voltar", "Index", "SocialMidia")
+    <button class="btn btn-primary" type="submit">Salvar</button>
+}
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@*<form asp-action="Create">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnIcon">
+                    <label id="label-icon">Icone</label>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" onclick="changeIcon('Facebook','fab fa-facebook-square')" href="#"><i class="fab fa-facebook-square"></i> Facebook</a>
+                    <a class="dropdown-item" onclick="changeIcon('Instagram','fab fa-instagram-square')" href="#"><i class="fab fa-instagram-square"></i> Instagram</a>
+                    <a class="dropdown-item" onclick="changeIcon('Twitter','fab fa-twitter-square')" href="#"><i class="fab fa-twitter-square"></i> Twitter</a>
+                    <a class="dropdown-item" onclick="changeIcon('GoodReads','fab fa-goodreads')" href="#"><i class="fab fa-goodreads"></i> GoodReads</a>
+                    <a class="dropdown-item" onclick="changeIcon('WhatsApp','fab fa-whatsapp-square')" href="#"><i class="fab fa-whatsapp-square"></i> WhatsApp</a>
+                    <a class="dropdown-item" onclick="changeIcon('Telegram','fab fa-telegram')" href="#"><i class="fab fa-telegram"></i> Telegram</a>
+                    <a class="dropdown-item" onclick="changeIcon('Facebook-Messager','fab fa-facebook-messenger')" href="#"><i class="fab fa-facebook-messenger"></i>Facebook-Messager</a>
+                    <a class="dropdown-item" onclick="changeIcon('TikTok','fab fa-tiktok')" href="#"><i class="fab fa-tiktok"></i>TikTok</a>
+                </div>
+            </div>
+            <input type="text" class="form-control" asp-for="Name" placeholder="Nome rede social" readonly>
+            <input type="hidden" class="form-control" asp-for="IconFA">
+        </div>
+        <div class="form-group">
+            <label>@Html.DisplayNameFor(Model => Model.Url)</label>
+            <input type="text" class="form-control" asp-for="Url" placeholder="Endereço rede social">
+            <span asp-validation-for="Url" class="text-danger"></span>
+        </div>
+        <a asp-controller="Admin" asp-action="AdminHome">Voltar</a>
+        <button class="btn btn-primary">Salvar</button>
+    </form>*@
 
 <script>
-    function changeIcon(name,icon){
+    function changeIcon(name, icon) {
         const txtName = document.getElementById('Name')
         const txtIconFA = document.getElementById('IconFA')
         const lIcon = document.getElementById('label-icon')
@@ -52,9 +86,9 @@
         txtName.value = name
         txtIconFA.value = icon
 
-        if(lIcon === ""){
+        if (lIcon === "") {
             lIcon.value = "Icone"
-        }else{
+        } else {
             lIcon.value = ""
             lIcon.innerHTML = `<i class="${icon}"></i>`
         }

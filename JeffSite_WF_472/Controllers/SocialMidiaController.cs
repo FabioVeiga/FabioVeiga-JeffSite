@@ -41,7 +41,6 @@ namespace JeffSite.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(SocialMidia socialMidia)
         {
             if (!_userLogged.IsUserLogged())
@@ -69,7 +68,6 @@ namespace JeffSite.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Delete(SocialMidia socialMidia)
         {
             var userLogged = Session["userLogged"].ToString();
@@ -96,7 +94,6 @@ namespace JeffSite.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(SocialMidia socialMidia)
         {
             var userLogged = Session["userLogged"].ToString();

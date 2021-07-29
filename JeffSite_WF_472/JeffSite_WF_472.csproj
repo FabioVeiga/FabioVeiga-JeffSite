@@ -2166,6 +2166,9 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery\dist\jquery.js" />
+    <Content Include="Scripts\jquery\dist\jquery.min.js" />
+    <Content Include="Scripts\jquery\LICENSE.txt" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -2216,6 +2219,7 @@
     <Content Include="Views\SocialMidia\Delete.cshtml" />
     <Content Include="Views\SocialMidia\Edit.cshtml" />
     <Content Include="Views\SocialMidia\Index.cshtml" />
+    <Content Include="Scripts\jquery\dist\jquery.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
