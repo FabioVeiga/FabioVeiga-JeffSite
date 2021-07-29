@@ -7,31 +7,32 @@
 <h1>@ViewData["Title"]</h1>
 <br>
 
-<a class="btn btn-primary" asp-action="Create">Criar</a>
+@*<a class="btn btn-primary" asp-action="Create">Criar</a>*@
+@Html.ActionLink("Criar", "Create", "SocialMidia", new { @class = "btn btn-primary" })
 <br>
 
 <table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Id)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Name)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Url)</th>
-    </tr>
-  </thead>
-  <tbody>
-      @foreach (var item in Model)
-      {
-          <tr>
-            <th scope="row">
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.Id)</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.Name)</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.Url)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                     @Html.Label(" | ")
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </th>
-            <td>@Html.DisplayFor(modelItem => item.Id)</td>
-            <td>@Html.DisplayFor(modelItem => item.Name)</td>
-            <td>@Html.DisplayFor(modelItem => item.Url)</td>
-        </tr>
-      }
-  </tbody>
+                </th>
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Url)</td>
+            </tr>
+        }
+    </tbody>
 </table>

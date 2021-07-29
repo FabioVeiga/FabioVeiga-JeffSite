@@ -19,15 +19,6 @@ namespace JeffSite_WF_472.Controllers
             _userLogged = userLogged;
         }
 
-        private bool IsUserLogged()
-        {
-            if (string.IsNullOrEmpty(_userLogged.UserName))
-            {
-                return false;
-            }
-            return true;
-        }
-
 
         [HttpGet]
         public ActionResult Index()
@@ -70,7 +61,7 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult ChangePassword(){
-            if (!IsUserLogged())
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction(nameof(Index));
 
             var user = _userService.GetUserBYLogin(_userLogged.UserName);
@@ -80,7 +71,7 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpPost]
         public ActionResult ChangePassword(User user){
-            if (!IsUserLogged())
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction(nameof(Index));
 
             _userService.ChangePassword(user);

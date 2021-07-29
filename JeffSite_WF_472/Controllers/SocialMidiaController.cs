@@ -9,21 +9,21 @@ namespace JeffSite.Controllers
         private readonly UserService _userService;
         private readonly SocialMidiaService _socialMidiaService;
         private readonly LeitorService _leitorService;
+        private UserLogged _userLogged;
 
-        public SocialMidiaController(UserService userService, SocialMidiaService socialMidiaService, LeitorService leitorService)
+        public SocialMidiaController(UserService userService, SocialMidiaService socialMidiaService, LeitorService leitorService, UserLogged userLogged)
         {
             _userService = userService;
             _socialMidiaService = socialMidiaService;
             _leitorService = leitorService;
+            _userLogged = userLogged;
         }
 
         public ActionResult Index()
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Redes sociais";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var socialMidias = _socialMidiaService.FindAll();
@@ -32,11 +32,9 @@ namespace JeffSite.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Criar";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             return View();
@@ -46,11 +44,9 @@ namespace JeffSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(SocialMidia socialMidia)
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             if (ModelState.IsValid)
             {
                 _socialMidiaService.Create(socialMidia);
