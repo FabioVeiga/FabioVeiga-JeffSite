@@ -10,8 +10,6 @@ namespace JeffSite_WF_472.Services
     {
         private readonly JeffContext _context;
 
-        private readonly IList<Claim> _usersLogged;
-
         public UserService(JeffContext context)
         {
             _context = context;

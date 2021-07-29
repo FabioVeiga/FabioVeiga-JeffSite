@@ -71,7 +71,6 @@ namespace JeffSite_WF_472.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(User user){
             _userService.ChangePassword(user);
             return RedirectToAction(nameof(AdminHome));
