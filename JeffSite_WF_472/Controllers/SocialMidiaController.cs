@@ -56,11 +56,9 @@ namespace JeffSite.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Deletar";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var social = _socialMidiaService.FindById(id);
@@ -70,11 +68,9 @@ namespace JeffSite.Controllers
         [HttpPost]
         public ActionResult Delete(SocialMidia socialMidia)
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             _socialMidiaService.Delete(socialMidia);
             return RedirectToAction("Index");
         }
