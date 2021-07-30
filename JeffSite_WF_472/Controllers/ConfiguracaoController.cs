@@ -2,7 +2,9 @@ using JeffSite_WF_472.Models;
 using JeffSite_WF_472.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
+using System;
 using System.IO;
+using System.Web;
 using System.Web.Mvc;
 
 namespace JeffSite_WF_472.Controllers
@@ -34,27 +36,27 @@ namespace JeffSite_WF_472.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Configuracao configuracao, FormFile ImgLogo, FormFile ImgProfile)
+        public ActionResult Edit(Configuracao configuracao, HttpPostedFileBase ImgLogo, HttpPostedFileBase ImgProfile)
         {
             if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
 
             configuracao.ImgLogo = "imgLogo.jpg";
             configuracao.ImgProfile = "imgProfile.jpg";
+            var pathImg = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "content\\img");
 
-            if(ImgLogo != null){
-                if(ImgLogo.FileName != configuracao.ImgLogo){
+            if (ImgLogo != null){
+                if(ImgLogo.FileName.ToLower() != configuracao.ImgLogo.ToLower())
+                {
                     ViewBag.FileNameLogoErro = $"O nome do arquivo deve ser {configuracao.ImgLogo}";
                     return View(nameof(Index));
                 }
                 //altera imagem logo
-                var pathImageSiteOriginal = $@"../JeffSite/wwwroot/img/{configuracao.ImgLogo}";
-                var pathImageSiteImgChanged = $@"../JeffSite/wwwroot/img/{ImgLogo.FileName}";
+                var pathImageSiteOriginal = Path.Combine(pathImg, configuracao.ImgLogo);
+                var pathImageSiteImgChanged = Path.Combine(pathImg, ImgLogo.FileName);
+
                 System.IO.File.Move(pathImageSiteOriginal, pathImageSiteImgChanged);
-                using (var stream = new FileStream(pathImageSiteOriginal, FileMode.Create))
-                {
-                    ImgLogo.CopyTo(stream); 
-                }
+                ImgLogo.SaveAs(pathImageSiteImgChanged);
             }
 
             if(ImgProfile != null){
@@ -63,13 +65,10 @@ namespace JeffSite_WF_472.Controllers
                     return View(nameof(Index));
                 }
                 //altera imagem profile
-                var pathImageProfileSiteOriginal = $@"../JeffSite/wwwroot/img/{ImgProfile.FileName}";
-                var pathImageProfileSiteImgChanged = $@"../JeffSite/wwwroot/img/{ImgProfile.FileName}";
+                var pathImageProfileSiteOriginal = Path.Combine(pathImg, ImgProfile.FileName);
+                var pathImageProfileSiteImgChanged = Path.Combine(pathImg, ImgProfile.FileName);
                 System.IO.File.Move(pathImageProfileSiteOriginal, pathImageProfileSiteImgChanged);
-                using (var stream = new FileStream(pathImageProfileSiteOriginal, FileMode.Create))
-                {
-                    ImgProfile.CopyTo(stream); 
-                }
+                ImgProfile.SaveAs(pathImageProfileSiteImgChanged);
             }
             
             _configuracaoService.Edit(configuracao);
