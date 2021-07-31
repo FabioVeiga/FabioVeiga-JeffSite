@@ -17,7 +17,7 @@ namespace JeffSite_WF_472.Models
         public string Link { get; set; }
 
         [Display(Name = "Data de Expiração")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? ExpirationDate { get; set; }
 
         [Display(Name = "Imagem")]

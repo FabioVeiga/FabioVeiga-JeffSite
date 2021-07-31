@@ -23,14 +23,14 @@ namespace JeffSite_WF_472.Services
         public List<Carousel> FindAllActive(){
             string now = DateTime.Now.ToString("yyyy-MM-dd");
             return _context.Carousels
-            .Where(x => (x.ExpirationDate == new DateTime(1900,01,01)) || x.ExpirationDate >= DateTime.Parse(now))
+            .Where(x => (x.ExpirationDate == new DateTime(1900, 01,01)) || x.ExpirationDate >= DateTime.Parse(now))
             .ToList();
         }
 
         public int Quantity(){
             string now = DateTime.Now.ToString("yyyy-MM-dd");
             return _context.Carousels
-            .Where(x => (x.ExpirationDate == new DateTime(1900,01,01)) || x.ExpirationDate >= DateTime.Parse(now))
+            .Where(x => (x.ExpirationDate == new DateTime(1900, 01,01)) || x.ExpirationDate >= DateTime.Parse(now))
             .ToList()
             .Count();
         }

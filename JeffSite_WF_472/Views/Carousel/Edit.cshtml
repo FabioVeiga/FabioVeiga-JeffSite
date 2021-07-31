@@ -6,42 +6,37 @@
 <h1>@ViewData["Title"]</h1>
 <br>
 
-<form asp-action="Edit" enctype="multipart/form-data">
-    <div class="form-group">
-        <label>@Html.DisplayNameFor(Model => Model.Id)</label>
-        <input type="text" class="form-control" asp-for="Id" readonly>
-    </div>
+@using (Html.BeginForm("Edit", "Carousel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.Title)</label>
-        <input type="text" class="form-control" asp-for="Title">
-        <span asp-validation-for="Title" class="text-danger"></span>
+        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", type = "text" } })
+        @Html.ValidationMessageFor(x => x.Title)
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.Description)</label>
-        <input type="text" class="form-control" asp-for="Description" maxlength="30">
+        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", type = "text" } })
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.Link)</label>
-        <input type="text" class="form-control" asp-for="Link">
+        @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control", type = "text", value = "http://" } })
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.ExpirationDate)</label>
-        <input type="date" class="form-control" asp-for="ExpirationDate">
+        @Html.EditorFor(model => model.ExpirationDate.Value, new { htmlAttributes = new { @class = "form-control", type = "date" } })
         <small>Se nao estiver preenchido, ficara para sempre na tela</small>
     </div>
     <div class="form-group">
         <label>@Html.DisplayNameFor(Model => Model.Image)</label>
-        <input type="file" accept="image/*" class="form-control" id="img" name="img">
-        <input type="hidden" asp-for="Image">
-        <small>Nao se preocupe a imagem esta gravada, so altere se precisar!</small>
-        <br>
+        @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control", type = "file", accept = "image/*" } })
         <small>Por favor, incluir imagens com no maximo <b>800px</b> de largura e <b>400px</b> de altura</small>
-        <span asp-validation-for="Image" class="text-danger"></span>
+        @Html.ValidationMessageFor(x => x.Image)
     </div>
-    <input type="hidden" asp-for="PathImage" value="../JeffSite/wwwroot/img/Carousel/">
-    <a asp-controller="Carousel" asp-action="Index">Voltar</a>
-    <button class="btn btn-primary">Salvar</button>
-</form>
+    @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control", type = "hidden", @readonly = "readonly" } })
+    @Html.ActionLink("Voltar", "Index", "Carousel")
+    <button class="btn btn-primary" type="submit">Salvar</button>
+}
 
 <script>
     document.getElementById('img').addEventListener('change', changeImg);

@@ -1,8 +1,8 @@
 using JeffSite_WF_472.Models;
 using JeffSite_WF_472.Services;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.IO;
+using System.Web;
 using System.Web.Mvc;
 
 
@@ -12,20 +12,23 @@ namespace JeffSite_WF_472.Controllers
     {
         private readonly CarouselService _carouselService;
         private readonly LeitorService _leitorService;
+        private UserLogged _userLogged;
+        private string pathRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
+        private string pathCarousel = Path.Combine("Content","img", "Carousel");
 
-        public CarouselController(CarouselService carouselService, LeitorService leitorService){
+        public CarouselController(CarouselService carouselService, LeitorService leitorService, UserLogged userLogged)
+        {
             _carouselService = carouselService;
             _leitorService = leitorService;
+            _userLogged = userLogged;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Lista de Carrousel";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var lista = _carouselService.FindAll();
@@ -35,31 +38,28 @@ namespace JeffSite_WF_472.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Novo";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Carousel carousel, IFormFile img){
-            if(img != null){
-                carousel.Image = img.FileName;
-            }
+        public ActionResult Create(Carousel carousel, HttpPostedFileBase Image){
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
             if(ModelState.IsValid){
-                var path = $@"{carousel.PathImage}/{carousel.Image}";
-                using (var stream = new FileStream(path , FileMode.Create))
-                {
-                    img.CopyTo(stream); 
+
+                pathRoot += Path.Combine(pathCarousel, Image.FileName);
+                Image.SaveAs(pathRoot);
+
+                if (carousel.ExpirationDate == null){
+                    carousel.ExpirationDate = new DateTime(1900, 01, 01);
                 }
-                if(carousel.ExpirationDate == null){
-                    carousel.ExpirationDate = new DateTime(1900,01,01);
-                }
+                
                 _carouselService.Create(carousel);
                 return RedirectToAction(nameof(Index));
             }
@@ -69,11 +69,9 @@ namespace JeffSite_WF_472.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Excluir";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _carouselService.FindById(id);
@@ -81,16 +79,18 @@ namespace JeffSite_WF_472.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Delete(Carousel carousel){
-            var item = _carouselService.FindById(carousel.Id);
-            var pathimg = $@"{item.PathImage}{item.Image}";
-            System.IO.FileInfo file = new System.IO.FileInfo(pathimg);
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+            
             try{
+                var item = _carouselService.FindById(carousel.Id);
+                pathRoot += Path.Combine(pathCarousel, item.Image);
+                FileInfo file = new FileInfo(pathRoot);
                 file.Delete();
                 _carouselService.Delete(item);
-            }catch(System.IO.IOException e){
-                throw new System.Exception(e.Message);
+            }catch(IOException e){
+                throw new Exception(e.Message);
             }
 
             return RedirectToAction(nameof(Index)); 
@@ -99,11 +99,9 @@ namespace JeffSite_WF_472.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Editar";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _carouselService.FindById(id);
@@ -112,20 +110,19 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Carousel carousel, IFormFile img){
-            var pathimg = $@"{carousel.PathImage}{carousel.Image}";
-            System.IO.FileInfo file = new System.IO.FileInfo(pathimg);
-            if(img != null){
+        public ActionResult Edit(Carousel carousel, HttpPostedFileBase Image){
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+            
+            if (Image != null){
                 try{
-                    var pathimgNew = $@"{carousel.PathImage}{img.FileName}";
+                    pathRoot += Path.Combine(pathCarousel, Image.FileName);
+                    FileInfo file = new FileInfo(pathRoot);
                     file.Delete();
-                    using (var stream = new FileStream(pathimgNew , FileMode.Create))
-                    {
-                        img.CopyTo(stream); 
-                    }
-                    carousel.Image = img.FileName;
-                }catch(System.IO.IOException e){
-                    throw new System.Exception(e.Message);
+                    Image.SaveAs(pathRoot);
+                    carousel.Image = Image.FileName;
+                }catch(IOException e){
+                    throw new Exception(e.Message);
                 }
             }
             if(carousel.ExpirationDate == null){
