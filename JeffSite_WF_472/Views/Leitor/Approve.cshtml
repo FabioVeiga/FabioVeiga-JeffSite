@@ -1,24 +1,27 @@
 @model JeffSite_WF_472.Models.Leitor
 @{
-    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     string nameImg = Model.NameImg;
 }
 <h1>@ViewData["Title"]</h1>
 
-<form asp-action="ApprovePost" method="POST">
-<div class="form-group">
-        <label>@Html.DisplayNameFor(Model => Model.Id)</label>
-        <input type="text" class="form-control" asp-for="Id" readonly>
+@using (Html.BeginForm("ApprovePost", "Leitor", new { FormMethod.Post }))
+{
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(x => x.Id)</label>
+        @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly" } })
+
     </div>
     <div class="form-group">
-        <label>@Html.DisplayNameFor(Model => Model.Name)</label>
-        <input type="text" class="form-control" asp-for="Name" readonly>
+        <label>@Html.DisplayNameFor(x => x.Name)</label>
+        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly" } })
+
     </div>
     <div class="form-group">
-        <label>@Html.DisplayNameFor(Model => Model.PathImg)</label>
-        <td><img height="500px" width="500px" src="../img/Leitor/@nameImg"></td>
+        <label>@Html.DisplayNameFor(x => x.PathImg)</label>
+        @Html.EditorFor(model => model.NameImg, new { htmlAttributes = new { @class = "form-control", type = "hidden", @readonly = "readonly" } })
+        <img height="500px" width="500px" src="../../Content/img/Leitor/@nameImg">
     </div>
-    
-    <a asp-controller="Leitor" asp-action="ApprovePost">Voltar</a>
-    <button class="btn btn-primary">Aprovar</button>
-</form>
+    @Html.ActionLink("Voltar", "ApprovePost", "Leitor")
+    <button class="btn btn-primary" type="submit">Aprovar</button>
+}

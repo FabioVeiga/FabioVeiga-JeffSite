@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using JeffSite_WF_472.Services;
 using JeffSite_WF_472.Models;
-using Microsoft.AspNetCore.Http;
+using System.Web;
 
 namespace JeffSite_WF_472.Controllers
 {
@@ -16,12 +16,16 @@ namespace JeffSite_WF_472.Controllers
         private const int MaxMegaBytes = 5 * 1024 * 1024;
         private const string titlePage = "Cantinho do leitor";
         private int limitItensView = 9;
+        private UserLogged _userLogged;
+        private string pathRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
+        private string pathLeitor = Path.Combine("Content", "img", "Leitor");
 
-        public LeitorController(SocialMidiaService socialMidia, LeitorService leitorService, MallingService mallingService)
+        public LeitorController(SocialMidiaService socialMidia, LeitorService leitorService, MallingService mallingService, UserLogged userLogged)
         {
             _socialMidia = socialMidia;
             _leitorService = leitorService;
             _mallingService = mallingService;
+            _userLogged = userLogged;
         }
 
         [HttpGet]
@@ -35,29 +39,27 @@ namespace JeffSite_WF_472.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(Leitor leitor, IFormFile Img){
+        public async Task<ActionResult> Index(Leitor leitor, HttpPostedFileBase PathImg)
+        {
             ViewBag.Title = titlePage;
             ViewBag.Limit = 9;
             ViewBag.Redes = _socialMidia.FindAll();
             ViewBag.Leitores = _leitorService.FindAllApproved(limitItensView);
 
-            if(Img == null){
+            if(PathImg == null){
                 ViewBag.ErrorMessage = "Por favor inserir uma imagem!";
                 return View("Index");
             }else{
-                if(Img.Length >= MaxMegaBytes){
+                if(PathImg.ContentLength >= MaxMegaBytes){
                     ViewBag.ErrorMessage = "Esta imagem é maior que 5Mb!";
                 }
             }
 
             if(ModelState.IsValid){
                 DateTime now = DateTime.Now;
-                string newNameImg = $@"{now.ToString("yyyyMMddhhmmss")}_{Img.FileName}";
-                string path = $@"{leitor.PathImg}{newNameImg}";
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    Img.CopyTo(stream); 
-                }
+                string newNameImg = $@"{now.ToString("yyyyMMddhhmmss")}_{PathImg.FileName}";
+                pathRoot += Path.Combine(pathLeitor, newNameImg);
+                PathImg.SaveAs(pathRoot);
                 leitor.NameImg = newNameImg;
                 await _leitorService.CreateAsync(leitor);
 
@@ -94,11 +96,9 @@ namespace JeffSite_WF_472.Controllers
         [Route("ApprovePost")]
         [HttpGet]
         public ActionResult ApprovePost(){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Aprovar Posts";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _leitorService.FindAllApproved(false);
@@ -108,11 +108,9 @@ namespace JeffSite_WF_472.Controllers
         [Route("ApprovePost-id")]
         [HttpGet]
         public ActionResult Approve(int id){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Aprovar este post";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _leitorService.FindById(id);
@@ -122,6 +120,9 @@ namespace JeffSite_WF_472.Controllers
         [Route("ApprovePost")]
         [HttpPost]
         public async Task<ActionResult> ApprovePost(int id){
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
             await _leitorService.ApprovePostAsync(id);
             return RedirectToAction("ApprovePost");
         }
@@ -129,11 +130,9 @@ namespace JeffSite_WF_472.Controllers
         [Route("DisapprovePost")]
         [HttpGet]
         public ActionResult Disapprove(int id){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Desaprovar este post";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _leitorService.FindById(id);
@@ -142,9 +141,12 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpPost]
         public ActionResult DisapprovePost(int id){
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
             var item = _leitorService.FindById(id);
-            var pathimg = $@"{item.PathImg}{item.NameImg}";
-            FileInfo file = new FileInfo(pathimg);
+            pathRoot += Path.Combine(pathLeitor, item.NameImg);
+            FileInfo file = new FileInfo(pathRoot);
             try{
                 file.Delete();
                 _leitorService.DisapprovePost(item);

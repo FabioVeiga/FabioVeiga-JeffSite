@@ -2154,10 +2154,6 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Content\img\ImgLogo.jpg" />
     <Content Include="Content\img\imgProfile.jpg" />
-    <Content Include="Content\img\Leitor\20210307083233_MercadoLivreLogo.jpg" />
-    <Content Include="Content\img\Leitor\20210307083258_MercadoLivreLogo.jpg" />
-    <Content Include="Content\img\Leitor\20210307090604_MercadoLivreLogo.jpg" />
-    <Content Include="Content\img\Leitor\20210315083924_WhatsApp Image 2020-09-07 at 10.17.00 %281%29.jpeg" />
     <Content Include="Content\img\Livro\1_imgLogo.jpg" />
     <Content Include="Content\img\MercadoLivreLogo.jpg" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -2222,6 +2218,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\img\Carousel\" />
+    <Folder Include="Content\img\Leitor\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

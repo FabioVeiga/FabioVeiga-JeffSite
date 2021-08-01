@@ -1,6 +1,6 @@
 @model IEnumerable<JeffSite_WF_472.Models.Leitor>
 @{
-    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -8,11 +8,11 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Id)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Name)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Email)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Nickname)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.PathImg)</th>
+      <th scope="col">@Html.DisplayNameFor(x => x.Id)</th>
+      <th scope="col">@Html.DisplayNameFor(x => x.Name)</th>
+      <th scope="col">@Html.DisplayNameFor(x => x.Email)</th>
+      <th scope="col">@Html.DisplayNameFor(x => x.Nickname)</th>
+      <th scope="col">@Html.DisplayNameFor(x => x.PathImg)</th>
     </tr>
   </thead>
   <tbody>
@@ -27,7 +27,7 @@
             <td>@Html.DisplayFor(modelItem => item.Name)</td>
             <td>@Html.DisplayFor(modelItem => item.Email)</td>
             <td>@Html.DisplayFor(modelItem => item.Nickname)</td>
-            <td><img height="100px" width="100px" src="../img/Leitor/@item.NameImg"></td>
+            <td><img height="100px" width="100px" src="../Content/img/Leitor/@item.NameImg"></td>
         </tr>
       }
   </tbody>
