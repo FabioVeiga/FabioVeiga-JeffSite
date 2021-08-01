@@ -1,17 +1,20 @@
 
 @{
-    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+
 <br>
-    <h1>@ViewData["Title"]</h1>
+<h1>@ViewData["Title"]</h1>
 <br>
 
-@if(ViewBag.Itens != null){
-    foreach (Dictionary<bool,string> item in ViewBag.Itens)
+@if (ViewBag.Itens != null)
+{
+    foreach (Dictionary<bool, string> item in ViewBag.Itens)
     {
         foreach (var dic in item)
         {
-            if(dic.Key == false){
+            if (dic.Key == false)
+            {
                 <div class="alert alert-warning" role="alert">
                     Não enviado para o email @dic.Value
                 </div>
@@ -27,7 +30,8 @@
     <div class="form-group">
         <label>Titulo do email</label>
         <input type="text" class="form-control" name="titulo">
-        @if(!string.IsNullOrEmpty(ViewBag.Obrigatorio)){
+        @if (!string.IsNullOrEmpty(ViewBag.Obrigatorio))
+        {
             <span class="text-danger">@ViewBag.Obrigatorio</span>
         }
     </div>
@@ -37,7 +41,7 @@
     <span class="text-danger">@ViewBag.Obrigatorio</span>
     <br>
     <button id="btn-submit" class="btn btn-info">
-        <span id="btnSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"style="display: none;"></span>
+        <span id="btnSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
         <span id="btnSpinnerText" style="display: none;">Enviando...</span>
         <span id="btnSpinnerText1">Enviar</span>
     </button>
@@ -55,32 +59,32 @@
         var quill = new Quill('#editor', {
             modules: {
                 toolbar: [
-                [{ 'font': [] }],
-                [{ header: [1, 2, 3, 4, 5, 6,  false] }],
-                [{ 'align': [] }],
-                ['bold', 'italic', 'underline','strike'],
-                [{ 'color': [] }, { 'background': [] }],
-                ['image', 'code-block'],
-                ['link'],
-                [{ 'script': 'sub'}, { 'script': 'super' }],
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                ['clean']
+                    [{ 'font': [] }],
+                    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'align': [] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['image', 'code-block'],
+                    ['link'],
+                    [{ 'script': 'sub' }, { 'script': 'super' }],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    ['clean']
                 ]
             },
             placeholder: 'Digite o cordo do email aqui',
             theme: 'snow'  // or 'bubble'
         });
 
-        $('#btn-submit').on('click', () => { 
+        $('#btn-submit').on('click', () => {
             // Get HTML content
             var html = quill.root.innerHTML;
 
             // Copy HTML content in hidden form
-            $('#quill-html').val( html )
+            $('#quill-html').val(html)
             $("#btnSpinner").show()
             $("#btnSpinnerText").show()
             $("#btnSpinnerText1").hide()
         })
-        
+
     </script>
 }

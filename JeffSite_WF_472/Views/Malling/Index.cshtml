@@ -1,6 +1,6 @@
 @model IEnumerable<JeffSite_WF_472.Models.Malling>
 @{
-    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     int limit = (int)ViewBag.Limit + 5;
     string filter = ViewBag.Filtro == null ? string.Empty : ViewBag.Filtro;
 }
@@ -13,49 +13,51 @@
     margin-top: -30px;
     height: 80px;
     ">
-  Filtrar por Status:
-  <form asp-action="Index" method="GET">
-    <input type="hidden" name="limit" value="@limit">
-    <select name="filtro" id="filtro">
-      <option value="" >Selecione um tipo</option>
-      <option value="Aniversario">Ver emails com Aniversario</option>
-      <option value="Pedido">Ver emails de Pedido</option>
-      <option value="Contato">Ver Emails Contato</option>
-      <option value="Leitor">Ver Emails Leitor</option>
-    </select>
-    <button type="submit" class="btn btn-info" >Filtrar</button>
-  </form>
+    Filtrar por Status:
+    <form asp-action="Index" method="GET">
+        <input type="hidden" name="limit" value="@limit">
+        <select name="filtro" id="filtro">
+            <option value="">Selecione um tipo</option>
+            <option value="Aniversario">Ver emails com Aniversario</option>
+            <option value="Pedido">Ver emails de Pedido</option>
+            <option value="Contato">Ver Emails Contato</option>
+            <option value="Leitor">Ver Emails Leitor</option>
+        </select>
+        <button type="submit" class="btn btn-info">Filtrar</button>
+    </form>
 </div>
 
 <table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Email)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Nome)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Onde)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.DataAniversario)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.DataCadastro)</th>
-    </tr>
-  </thead>
-  <tbody>
-      @foreach (var item in Model)
-      {
-          <tr>
-            <td>@Html.DisplayFor(modelItem => item.Email)</td>
-            <td>@Html.DisplayFor(modelItem => item.Nome)</td>
-            <td>@Html.DisplayFor(modelItem => item.Onde)</td>
-            <td>@Html.DisplayFor(modelItem => item.DataAniversario)</td>
-            <td>@Html.DisplayFor(modelItem => item.DataCadastro)</td>
+    <thead>
+        <tr>
+            <th scope="col">@Html.DisplayNameFor(x => x.Email)</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.Nome)</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.Onde)</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.DataAniversario)</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.DataCadastro)</th>
         </tr>
-      }
-  </tbody>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                <td>@Html.DisplayFor(modelItem => item.Onde)</td>
+                <td>@Html.DisplayFor(modelItem => item.DataAniversario)</td>
+                <td>@Html.DisplayFor(modelItem => item.DataCadastro)</td>
+            </tr>
+        }
+    </tbody>
 </table>
 
-<form asp-action="Index" method="GET" >
+@using (Html.BeginForm("Index", "Malling", FormMethod.Get))
+{
     <input type="hidden" name="limit" value="@limit">
     <input type="hidden" name="filter" value="@filter">
-    <button class="btn btn-block btn-info">Ver mais Emails</button>
-</form>
+    <button class="btn btn-block btn-info" type="submit">Ver mais Emails</button>
+}
+
 
 <script>
   document.getElementById('filtro').value = "@filter"

@@ -1,6 +1,5 @@
 using JeffSite_WF_472.Models;
 using JeffSite_WF_472.Services;
-using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -12,22 +11,22 @@ namespace JeffSite_WF_472.Controllers
         private readonly MallingService _mallingService;
         private readonly ConfiguracaoService _configuracaoService;
         private readonly LeitorService _leitorService;
+        private UserLogged _userLogged;
 
-        public MallingController(MallingService mallingService, SocialMidiaService socialMidia, ConfiguracaoService configuracaoService, LeitorService leitorService)
+        public MallingController(MallingService mallingService, SocialMidiaService socialMidia, ConfiguracaoService configuracaoService, LeitorService leitorService, UserLogged userLogged)
         {
             _mallingService = mallingService;
             _socialMidia = socialMidia;
             _configuracaoService = configuracaoService;
             _leitorService = leitorService;
+            _userLogged = userLogged;
         }
 
         [HttpGet]
         public ActionResult Index(string filtro, int limit = 10){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             List<Malling> itens = new List<Malling>();
             if(!string.IsNullOrEmpty(filtro)){
                 itens = _mallingService.FillAllMallingWithFilters(limit, filtro);
@@ -44,11 +43,9 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult EnviarEmailMailling(){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Enviar email mailling";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             return View();
@@ -63,8 +60,11 @@ namespace JeffSite_WF_472.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult EnviarEmailMailling(string titulo, string html){
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
             ViewData["Title"] = "Enviar email mailling";
             if(string.IsNullOrEmpty(titulo) || string.IsNullOrEmpty(html)){
                 ViewBag.Obrigatorio = "Campo obrigatorio!";
