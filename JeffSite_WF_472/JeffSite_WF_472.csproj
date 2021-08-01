@@ -2154,7 +2154,6 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Content\img\ImgLogo.jpg" />
     <Content Include="Content\img\imgProfile.jpg" />
-    <Content Include="Content\img\Livro\1_imgLogo.jpg" />
     <Content Include="Content\img\MercadoLivreLogo.jpg" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -2219,6 +2218,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\img\Carousel\" />
     <Folder Include="Content\img\Leitor\" />
+    <Folder Include="Content\img\Livro\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

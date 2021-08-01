@@ -7,7 +7,8 @@ using JeffSite_WF_472.Services;
 using JeffSite_WF_472.Models.Livro;
 using JeffSite_WF_472.Models.Loja;
 using System.Web.Mvc;
-using Microsoft.AspNetCore.Http;
+using JeffSite_WF_472.Models;
+using System.Web;
 
 namespace JeffSite_WF_472.Controllers
 {
@@ -20,12 +21,17 @@ namespace JeffSite_WF_472.Controllers
         private readonly ConfiguracaoService _configuracaoService;
         private readonly LeitorService _leitorService;
         private const string titlePage = "Loja";
-        public LojaController(SocialMidiaService socialMidia, LivroService livroService, ConfiguracaoService configuracaoService,  LeitorService leitorService)
+        private UserLogged _userLogged;
+        private string pathRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
+        private string pathLivro = Path.Combine("Content", "img", "Livro");
+
+        public LojaController(SocialMidiaService socialMidia, LivroService livroService, ConfiguracaoService configuracaoService,  LeitorService leitorService, UserLogged userLogged)
         {
             _socialMidia = socialMidia;
             _livroService = livroService;
             _configuracaoService = configuracaoService;
             _leitorService = leitorService;
+            _userLogged = userLogged;
         }
         // GET: /<controller>/
         public ActionResult Index()
@@ -48,11 +54,9 @@ namespace JeffSite_WF_472.Controllers
         }
 
         public ActionResult ListLivros(){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Livro";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var livros = _livroService.FindAll();
@@ -61,37 +65,32 @@ namespace JeffSite_WF_472.Controllers
         
         [HttpGet]
         public ActionResult Create(){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Novo";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Livro livro, IFormFile Img){
+        public ActionResult Create(Livro livro, HttpPostedFileBase ImgName){
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
             int proxId = _livroService.FindNextIdLivro();
-            livro.ImgName = string.Concat(proxId,"_",Img.FileName);
-            string path = Path.Combine("wwwroot","img","Livro",livro.ImgName);
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                Img.CopyTo(stream); 
-            }
+            livro.ImgName = string.Concat(proxId,"_",ImgName.FileName);
+            pathRoot += Path.Combine(pathLivro, livro.ImgName);
+            ImgName.SaveAs(pathRoot);
             var item = _livroService.Create(livro, proxId);
             return RedirectToAction("CreateWhereToBuy", item);
         }
 
         [HttpGet]
         public ActionResult Delete(int id){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Deletar";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var livro = _livroService.FindById(id);
@@ -113,8 +112,11 @@ namespace JeffSite_WF_472.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(Livro livro){
-            string path = Path.Combine("wwwroot","img","Livro",livro.ImgName);
-            System.IO.FileInfo file = new System.IO.FileInfo(path);
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
+            pathRoot += Path.Combine(pathLivro, livro.ImgName);
+            FileInfo file = new FileInfo(pathRoot);
             file.Delete();
             _livroService.Delete(livro);
             return RedirectToAction("ListLivros");
@@ -122,11 +124,9 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult Edit(int id){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Editar";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var livro = _livroService.FindById(id);
@@ -135,31 +135,38 @@ namespace JeffSite_WF_472.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Livro livro, IFormFile Img){
-            if(Img != null){
-                if(Img.FileName != livro.ImgName){
-                    string path = Path.Combine("wwwroot","img","Livro",livro.ImgName);
-                    System.IO.FileInfo file = new System.IO.FileInfo(path);
+        public ActionResult Edit(Livro livro, HttpPostedFileBase ImgName){
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
+            var item = _livroService.FindById(livro.Id);
+            item.Title = livro.Title;
+            item.Description = livro.Description;
+            item.Esgotado = livro.Esgotado;
+            if (ImgName != null){
+                if(ImgName.FileName != item.ImgName){
+                    var path = Path.Combine(pathRoot,pathLivro,item.ImgName);
+                    FileInfo file = new FileInfo(path);
                     file.Delete();
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        Img.CopyTo(stream); 
-                    }
+                    item.ImgName = string.Concat(livro.Id,"_", ImgName.FileName);
+                    pathRoot += Path.Combine(pathLivro, item.ImgName);
+                    ImgName.SaveAs(pathRoot);
                 }
             }
+            else
+            {
+                item.ImgName = string.Concat(livro.Id,"_",item.ImgName);
+            }
             
-            _livroService.Edit(livro);
+            _livroService.Edit(item);
             return RedirectToAction("ListLivros");
         }
 
         [HttpGet]
         public ActionResult CreateWhereToBuy(Livro livro){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Adicionar URL de compra";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             livro.WhereToBuys = _livroService.FindAllWhereToBuyByIdLivro(livro.Id);
@@ -169,11 +176,9 @@ namespace JeffSite_WF_472.Controllers
         [Route("AddWhereToBuy")]
         [HttpGet]
         public ActionResult CreateWhereToBuy(int id){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Adicionar URL de compra";
             var livro = _livroService.FindById(id);
             livro.WhereToBuys = _livroService.FindAllWhereToBuyByIdLivro(livro.Id);
@@ -183,11 +188,9 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult EditWhereToBuy(int id, int idLivro){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Editar URL de compra";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _livroService.FindWhereToBuyById(id);
@@ -198,11 +201,9 @@ namespace JeffSite_WF_472.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditWhereToBuy(WhereToBuy item){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             item.Livro = _livroService.FindById(item.Livro.Id);
             await _livroService.UpdateWhereToBuyAsync(item);
 
@@ -212,11 +213,9 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult DeleteWhereToBuy(int id, int idLivro){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Deletar URL de compra";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _livroService.FindWhereToBuyById(id);
@@ -228,11 +227,9 @@ namespace JeffSite_WF_472.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteWhereToBuy(WhereToBuy item){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             item.Livro = _livroService.FindById(item.Livro.Id);
             await _livroService.DeleteWhereToBuyAsync(item);
 
@@ -241,11 +238,9 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult Pedido(string filtroStatus, int limit = 10){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Pedidos";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             ViewBag.Limit = limit;
@@ -262,11 +257,9 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult PedidoAddInfo(int id){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Adicionar informação do pedido";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _livroService.FindPedidoById(id);
@@ -361,11 +354,9 @@ namespace JeffSite_WF_472.Controllers
 
         [HttpGet]
         public ActionResult EditPedido(int id){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Editar Pedido";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _livroService.FindPedidosById(id);
@@ -374,11 +365,9 @@ namespace JeffSite_WF_472.Controllers
 
          [HttpGet]
         public ActionResult DeletePedido(int id){
-            var userLogged = Session["userLogged"].ToString();
-            if (userLogged == "" || userLogged == null)
-            {
+            if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
-            }
+
             ViewData["Title"] = "Deletar Pedido";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
             var item = _livroService.FindPedidosById(id);

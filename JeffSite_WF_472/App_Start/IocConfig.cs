@@ -23,6 +23,7 @@ namespace JeffSite_WF_472.App_Start
             kernel.Bind<CarouselService>().ToSelf().InTransientScope();
             kernel.Bind<MallingService>().ToSelf().InTransientScope();
             kernel.Bind<LeitorService>().ToSelf().InTransientScope();
+            kernel.Bind<LojaService>().ToSelf().InTransientScope();
             kernel.Bind<UserLogged>().ToSelf().InSingletonScope();
 
             //Registra o container no ASP.NET

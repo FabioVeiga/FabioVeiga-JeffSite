@@ -1,6 +1,6 @@
 @model JeffSite_WF_472.Models.Livro.Livro
 @{
-    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <script src="lib/jquery/dist/jquery.min.js"></script>
 <br>
@@ -8,9 +8,9 @@
 <br>
 
 <div class="form-group">
-    <label>@Html.DisplayNameFor(Model => Model.Title)</label>
-    <input type="hidden" class="form-control" asp-for="Id" readonly>
-    <input type="text" class="form-control" asp-for="Title" readonly>
+    <label>@Html.DisplayNameFor(x => x.Title)</label>
+    @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", type = "hidden", @readonly = "readonly" } })
+    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly" } })
 </div>
 <div class="input-group-prepend">
     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnIcon">
@@ -28,7 +28,7 @@
     <input type="hidden" class="form-control" id="iconFA">
     <input type="text" class="form-control" id="url" placeholder="Url" value="http://">
 </div>
-<a asp-action="ListLivros" asp-controller="Loja">Voltar</a>
+@Html.ActionLink("Voltar", "ListLivros", "Loja")
 <button class="btn btn-primary" onclick="AddWhereToBuy()" style="margin-bottom: 20px;margin-top: 10px;">Adicionar</button>
 <table class="table table-striped" id="tab">
     <thead>

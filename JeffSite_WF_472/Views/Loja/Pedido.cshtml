@@ -1,6 +1,6 @@
 @model IEnumerable<JeffSite_WF_472.Models.Loja.Pedido>
 @{
-    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     int limit = (int)ViewBag.Limit + 5;
     string filterStatus = ViewBag.Status == null ? string.Empty : ViewBag.Status;
 }
@@ -35,11 +35,11 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Id)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Nome)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.NomeDedicado)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Email)</th>
-      <th scope="col">@Html.DisplayNameFor(Model => Model.Status)</th>
+      <th scope="col">@Html.DisplayNameFor(x => x.Id)</th>
+      <th scope="col">@Html.DisplayNameFor(x => x.Nome)</th>
+      <th scope="col">@Html.DisplayNameFor(x => x.NomeDedicado)</th>
+      <th scope="col">@Html.DisplayNameFor(x => x.Email)</th>
+      <th scope="col">@Html.DisplayNameFor(x => x.Status)</th>
     </tr>
   </thead>
   <tbody>
@@ -56,10 +56,10 @@
             <td>@Html.DisplayFor(modelItem => item.NomeDedicado)</td>
             <td>@Html.DisplayFor(modelItem => item.Email)</td>
             <td>
-              @if(@JeffSite.Utils.Util.GetDescription(item.Status) == "Enviado"){
-                @JeffSite.Utils.Util.GetDescription(item.Status)
+              @if(JeffSite_WF_472.Utils.Util.GetDescription(item.Status) == "Enviado"){
+                @JeffSite_WF_472.Utils.Util.GetDescription(item.Status)
               }else{
-                @Html.ActionLink(@JeffSite.Utils.Util.GetDescription(item.Status), "PedidoAddInfo", new { id = item.Id})
+                @Html.ActionLink(JeffSite_WF_472.Utils.Util.GetDescription(item.Status), "PedidoAddInfo", new { id = item.Id})
               }
             </td>
             
