@@ -74,6 +74,13 @@ namespace JeffSite_WF_472.Controllers
             if (!_userLogged.IsUserLogged())
                 return RedirectToAction(nameof(Index));
 
+            if (string.IsNullOrEmpty(user.Pass))
+            {
+                ViewBag.Message = "Senha em branco!";
+                return View();
+            }
+                
+
             _userService.ChangePassword(user);
             return RedirectToAction(nameof(AdminHome));
         }
