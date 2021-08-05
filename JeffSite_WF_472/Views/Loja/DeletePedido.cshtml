@@ -1,6 +1,6 @@
 @model JeffSite_WF_472.Models.Loja.Pedido
 @{
-    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     int status = (int)Model.Status;
 }
 
@@ -8,30 +8,38 @@
 <h1>@ViewData["Title"]</h1>
 <br>
 
-<form asp-action="DeletePedido" method="POST">
-    <input type="hidden" class="form-control" asp-for="LivroId" >
-    <input type="hidden" class="form-control" asp-for="NomeDedicado" >
-    <input type="hidden" class="form-control" asp-for="Numero" >
-    <input type="hidden" class="form-control" asp-for="Bairro" >
-    <input type="hidden" class="form-control" asp-for="CEP" >
-    <input type="hidden" class="form-control" asp-for="Cidade" >
-    <input type="hidden" class="form-control" asp-for="Complemento" >
-    <input type="hidden" class="form-control" asp-for="Endereco" >
+
+@using (Html.BeginForm("DeletePedido", "Loja", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.LivroId, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.NomeDedicado, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.CEP, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Cidade, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Complemento, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Endereco, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
 
     <div class="form-group">
-        <label>@Html.DisplayNameFor(Model => Model.Id)</label>
-        <input type="text" class="form-control" asp-for="Id" readonly>
-    </div>
-    <div class="form-group">
-        <label>@Html.DisplayNameFor(Model => Model.Nome)</label>
-        <input type="text" class="form-control" asp-for="Nome" readonly>
-    </div>
-    <div class="form-group">
-        <label>@Html.DisplayNameFor(Model => Model.Email)</label>
-        <input type="text" class="form-control" asp-for="Email" readonly>
+        <label>Cod Pedido</label>
+        @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly" } })
     </div>
 
-    <a asp-controller="Loja" asp-action="Pedido">Voltar</a>
-    <button class="btn btn-danger">Deletar</button>
+    <label>Link de Pagamento</label>
+    <div class="input-group mb-3">
+        @Html.EditorFor(model => model.LinkPagamento, new { htmlAttributes = new { @class = "form-control", type = "text",  @readonly = "readonly" } })
+    </div>
 
-</form>
+    <label>Link/Codigo do Rastreio</label>
+    <div class="input-group mb-3">
+        @Html.EditorFor(model => model.LinkRastreio, new { htmlAttributes = new { @class = "form-control", type = "text",  @readonly = "readonly" } })
+    </div>
+
+    @Html.ActionLink("Voltar", "Pedido", "Loja")
+<button class="btn btn-danger" type="submit">Deletar</button>
+}
