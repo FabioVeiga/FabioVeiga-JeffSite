@@ -15,7 +15,7 @@
         <div class="row" style="margin-bottom: 20px; position: relative;">
             <div class="col-6 col-md-3">
                 <div class="fotoLivro">
-                    <img src="Content/img/Livro/@item.ImgName" />
+                    <img src="../Content/img/Livro/@item.ImgName" />
                 </div>
             </div>
             <div class="col-12 col-md-9">
@@ -157,10 +157,10 @@
                 LivroId: parseInt($("#idLivro").val())
             }
 
-            //console.log(JSON.stringify(pedido))
+            console.log(JSON.stringify(pedido))
 
             $.ajax({
-                url: 'https://' + window.location.host + "/api/livro/add-pedido",
+                url: "AddPedido",
                 method: "POST",
                 type: "json",
                 contentType: "application/json; charset=UTF-8",

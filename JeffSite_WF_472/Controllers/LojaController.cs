@@ -259,134 +259,6 @@ namespace JeffSite_WF_472.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult PedidoAddInfo(int id){
-            if (!_userLogged.IsUserLogged())
-                return RedirectToAction("Index", "Admin");
-
-            ViewData["Title"] = "Adicionar informação do pedido";
-            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
-            var item = _livroService.FindPedidoById(id);
-            return View(item);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult PedidoAddInfo(Pedido pedido, string outrosStatus){
-            ViewData["Title"] = "Adicionar informação do pedido";
-            var livro = _livroService.FindById(pedido.LivroId);
-            string emailFrom = _configuracaoService.FindAdminEmail();
-            switch((int)pedido.Status)
-            {
-                case 1:
-                    if(ValidarCampo(1, pedido.LinkPagamento)){
-                        ViewBag.Erro = "Por favor preencher o campo!";
-                        return View(pedido);
-                    }else{
-                        var configEmail = _configuracaoService.FindEmail();
-                        var configsite = _configuracaoService.Find();
-                        bool envioEmail = Utils.EnviarEmail.testeEmail(
-                            configEmail,
-                            emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
-                            pedido.Nome, null, "ModeloPedidoLinkPagamento",livro.Title, pedido.Id, 
-                            pedido.LinkPagamento, configsite.NomeSite);
-                        if(envioEmail){
-                            pedido.Status = Status.Aguardando_Pagamento;
-                        }else{
-                            ViewBag.Erro = "Houve algum erro no email do email, tentar mais tarde!";
-                            pedido.Status = Status.Aguardando_Link_De_Pagamento;
-                            _livroService.EditPedido(pedido);
-                            return View(pedido);
-                        }
-                    }
-                    break;
-                case 2:
-                    if(outrosStatus == "PagoSim"){
-                        pedido.Status = Status.Pago_e_Aguardando_Dedicatorio;
-                    }else{
-                        pedido.Status = Status.Aguardando_Pagamento;
-                    }
-                    break;
-                case 3:
-                    if(outrosStatus == "DedicadoSim"){
-                        pedido.Status = Status.Aguardando_Postagem;
-                    }else{
-                        pedido.Status = Status.Pago_e_Aguardando_Dedicatorio;
-                    }
-                    break;
-                case 4:
-                    if(ValidarCampo(4, pedido.LinkRastreio)){
-                        ViewBag.Erro = "Por favor preencher o campo!";
-                        return View(pedido);
-                    }else{
-                        var configEmail = _configuracaoService.FindEmail();
-                        var configSite = _configuracaoService.Find();
-                        bool envioEmail = Utils.EnviarEmail.testeEmail(
-                            configEmail,
-                            emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id), 
-                            pedido.Nome, null, "ModeloPedidoLinkRastreio",livro.Title, pedido.Id, 
-                            pedido.LinkRastreio, configSite.NomeSite);
-                        if(envioEmail){
-                            pedido.Status = Status.Enviado;
-                        }else{
-                            ViewBag.Erro = "Houve algum erro no email do email, tentar mais tarde!";
-                            pedido.Status = Status.Aguardando_Postagem;
-                            _livroService.EditPedido(pedido);
-                            return View(pedido);
-                        }
-                        
-                    }
-                    break;
-            }
-            
-            _livroService.EditPedido(pedido);
-            
-            ViewBag.Limit = 10;
-            var pedidos = _livroService.FindAllPedidos(ViewBag.Limit);
-
-            return RedirectToAction("Pedido",pedidos);
-        }
-
-        private bool ValidarCampo(int status, string info){
-            int[] statusValido = {1,4};
-            if(statusValido.Contains(status) && string.IsNullOrEmpty(info)){
-                return true;
-            }else{
-                return false;
-            }
-        }
-
-        [HttpGet]
-        public ActionResult EditPedido(int id){
-            if (!_userLogged.IsUserLogged())
-                return RedirectToAction("Index", "Admin");
-
-            ViewData["Title"] = "Editar Pedido";
-            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
-            var item = _livroService.FindPedidosById(id);
-            return View(item);
-        }
-
-         [HttpGet]
-        public ActionResult DeletePedido(int id){
-            if (!_userLogged.IsUserLogged())
-                return RedirectToAction("Index", "Admin");
-
-            ViewData["Title"] = "Deletar Pedido";
-            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
-            var item = _livroService.FindPedidosById(id);
-            return View(item);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeletePedido(Pedido item){
-            _livroService.DeletePedido(item);
-            ViewBag.Limit = 10;
-            var pedidos = _livroService.FindAllPedidos(ViewBag.Limit);
-            return RedirectToAction("Pedido",pedidos);
-        }
-
 
         [HttpPost]
         public async Task<ActionResult> PostWhereToBuy(ItemWhereToBuy item)
@@ -431,27 +303,192 @@ namespace JeffSite_WF_472.Controllers
             }
         }
 
-        [Route("add-pedido")]
+        #region Pedidos
+
         [HttpPost]
-        public ActionResult AddPedido(Pedido pedido){
+        public ActionResult AddPedido(Pedido pedido)
+        {
             pedido.Id = _lojaService.FindNextIdPedido();
             pedido.Status = Status.Aguardando_Link_De_Pagamento;
             _lojaService.AddPedido(pedido);
-        
+
             //add email malling
             var mail = new Malling();
             mail.Email = pedido.Email;
             mail.Nome = pedido.Nome;
             mail.Onde = "Pedido";
             mail.DataCadastro = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
-        
+
             //Add malling
-            if(!_mallingService.CheckMail(mail)){
+            if (!_mallingService.CheckMail(mail))
+            {
                 _mallingService.AddMalling(mail);
             }
-        
+
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
+
+        [HttpGet]
+        public ActionResult PedidoAddInfo(int id)
+        {
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
+            ViewData["Title"] = "Adicionar informação do pedido";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
+            var item = _livroService.FindPedidoById(id);
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PedidoAddInfo(Pedido pedido, string outrosStatus)
+        {
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
+            ViewData["Title"] = "Adicionar informação do pedido";
+            var livro = _livroService.FindById(pedido.LivroId);
+            string emailFrom = _configuracaoService.FindAdminEmail();
+            switch ((int)pedido.Status)
+            {
+                case 1:
+                    if (ValidarCampo(1, pedido.LinkPagamento))
+                    {
+                        ViewBag.Erro = "Por favor preencher o campo!";
+                        return View(pedido);
+                    }
+                    else
+                    {
+                        var configEmail = _configuracaoService.FindEmail();
+                        var configsite = _configuracaoService.Find();
+                        bool envioEmail = Utils.EnviarEmail.testeEmail(
+                            configEmail,
+                            emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id),
+                            pedido.Nome, null, "ModeloPedidoLinkPagamento", livro.Title, pedido.Id,
+                            pedido.LinkPagamento, configsite.NomeSite);
+                        if (envioEmail)
+                        {
+                            pedido.Status = Status.Aguardando_Pagamento;
+                        }
+                        else
+                        {
+                            ViewBag.Erro = "Houve algum erro no email do email, tentar mais tarde!";
+                            pedido.Status = Status.Aguardando_Link_De_Pagamento;
+                            _livroService.EditPedido(pedido);
+                            return View(pedido);
+                        }
+                    }
+                    break;
+                case 2:
+                    if (outrosStatus == "PagoSim")
+                    {
+                        pedido.Status = Status.Pago_e_Aguardando_Dedicatorio;
+                    }
+                    else
+                    {
+                        pedido.Status = Status.Aguardando_Pagamento;
+                    }
+                    break;
+                case 3:
+                    if (outrosStatus == "DedicadoSim")
+                    {
+                        pedido.Status = Status.Aguardando_Postagem;
+                    }
+                    else
+                    {
+                        pedido.Status = Status.Pago_e_Aguardando_Dedicatorio;
+                    }
+                    break;
+                case 4:
+                    if (ValidarCampo(4, pedido.LinkRastreio))
+                    {
+                        ViewBag.Erro = "Por favor preencher o campo!";
+                        return View(pedido);
+                    }
+                    else
+                    {
+                        var configEmail = _configuracaoService.FindEmail();
+                        var configSite = _configuracaoService.Find();
+                        bool envioEmail = Utils.EnviarEmail.testeEmail(
+                            configEmail,
+                            emailFrom, pedido.Email, string.Concat("Pedido: ", pedido.Id),
+                            pedido.Nome, null, "ModeloPedidoLinkRastreio", livro.Title, pedido.Id,
+                            pedido.LinkRastreio, configSite.NomeSite);
+                        if (envioEmail)
+                        {
+                            pedido.Status = Status.Enviado;
+                        }
+                        else
+                        {
+                            ViewBag.Erro = "Houve algum erro no email do email, tentar mais tarde!";
+                            pedido.Status = Status.Aguardando_Postagem;
+                            _livroService.EditPedido(pedido);
+                            return View(pedido);
+                        }
+
+                    }
+                    break;
+            }
+
+            _livroService.EditPedido(pedido);
+
+            ViewBag.Limit = 10;
+            var pedidos = _livroService.FindAllPedidos(ViewBag.Limit);
+
+            return RedirectToAction("Pedido", pedidos);
+        }
+
+        private bool ValidarCampo(int status, string info)
+        {
+            int[] statusValido = { 1, 4 };
+            if (statusValido.Contains(status) && string.IsNullOrEmpty(info))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditPedido(int id)
+        {
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
+            ViewData["Title"] = "Editar Pedido";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
+            var item = _livroService.FindPedidosById(id);
+            return View(item);
+        }
+
+        [HttpGet]
+        public ActionResult DeletePedido(int id)
+        {
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
+            ViewData["Title"] = "Deletar Pedido";
+            ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
+            var item = _livroService.FindPedidosById(id);
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePedido(Pedido item)
+        {
+            _livroService.DeletePedido(item);
+            ViewBag.Limit = 10;
+            var pedidos = _livroService.FindAllPedidos(ViewBag.Limit);
+            return RedirectToAction("Pedido", pedidos);
+        }
+
+        #endregion
+
+
 
     }
 }
