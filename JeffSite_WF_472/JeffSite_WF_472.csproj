@@ -243,6 +243,9 @@
       <HintPath>..\JeffSite\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\JeffSite\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\JeffSite\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
@@ -282,6 +285,12 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\JeffSite\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\JeffSite\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -349,7 +358,9 @@
     <Compile Include="App_Start\IocConfig.cs" />
     <Compile Include="App_Start\NinjectDependencyResolver.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\LojaApiController.cs" />
     <Compile Include="Controllers\CarouselController.cs" />
     <Compile Include="Controllers\ConfiguracaoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -366,10 +377,12 @@
     <Compile Include="Models\Carousel.cs" />
     <Compile Include="Models\Configuracao.cs" />
     <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\JsonHttpStatusResult.cs" />
     <Compile Include="Models\Leitor.cs" />
     <Compile Include="Models\Livro\Livro.cs" />
     <Compile Include="Models\Livro\Tag.cs" />
     <Compile Include="Models\Livro\WhereToBuy.cs" />
+    <Compile Include="Models\Loja\Api\ItemWhereToBuy.cs" />
     <Compile Include="Models\Loja\Pedido.cs" />
     <Compile Include="Models\Loja\Status.cs" />
     <Compile Include="Models\Malling.cs" />

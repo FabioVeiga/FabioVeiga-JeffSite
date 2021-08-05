@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-<script src="lib/jquery/dist/jquery.min.js"></script>
+<script src="~/Scripts/jquery/dist/jquery.min.js"></script>
 <br>
 <h1>@ViewData["Title"]</h1>
 <br>
@@ -43,9 +43,9 @@
         {
             <tr>
                 <td style="width: 150px;">
-                    @Html.ActionLink("Editar", "EditWhereToBuy", new { id = item.Id, idLivro = Model.Id })
+                    @Html.ActionLink("Editar", "EditWhereToBuy", new { idWhere = item.Id, idLivro = Model.Id })
                     @Html.Label(" | ")
-                    @Html.ActionLink("Deletar", "DeleteWhereToBuy", new { id = item.Id, idLivro = Model.Id })
+                    @Html.ActionLink("Deletar", "DeleteWhereToBuy", new { idWhere = item.Id, idLivro = Model.Id })
                 </td>
                 <td style="width: 125px;">@item.Name</td>
                 <td><a href="@item.UrlEndereco" target="_blank" style="font-size: smaller; text-decoration: none;">@item.UrlEndereco</a></td>
@@ -79,18 +79,16 @@
         if (txtUrl === '' || txtIconFA === '') {
         } else {
             var item = {
-                Livro: {
-                    Id: document.getElementById('Id').value
-                },
+                LivroId: parseInt(document.getElementById('Id').value),
                 Name: document.getElementById('name').value,
                 IconFa: txtIconFA,
                 UrlEndereco: txtUrl
             }
+            //console.log(JSON.stringify(item))
             //console.log(item)
             //enviando dados para API
-            var endpoint = 'https://' + window.location.host + '/api/livro/addwheretobuy'
             $.ajax({
-                url: endpoint,
+                url: `/Loja/PostWhereToBuy`,
                 type: 'POST',
                 dataType: 'json',
                 data: item,
@@ -111,17 +109,17 @@
     }
 
     function AddLinha(obj) {
-        console.log(obj.Livro.Id)
+        //console.log(obj.LivroId)
         $.ajax({
-            url: 'https://' + window.location.host + '/api/livro/findlastwheretobuy/' + obj.Livro.Id,
+            url: `/Loja/findlastwheretobuy/?idLivro=${obj.LivroId}`,
             type: "GET",
             success: function (data) {
                 //console.log(data)
                 var newRow = $("<tr>");
                 var cols = ""
-                cols += `<td style="width: 150px;"><a href="/Loja/EditWhereToBuy/${data.id}?idLivro=${obj.Livro.Id}">Editar</a> | <a href="/Loja/DeleteWhereToBuy/${data.id}?idLivro=${obj.Livro.Id}">Deletar</a></td>`
-                cols += `<td style="width: 125px;">${data.name}</td>`
-                cols += `<td><a href="${data.urlEndereco}" target="_blank" style="font-size: smaller; text-decoration: none;">${data.urlEndereco}</a></td>`
+                cols += `<td style="width: 150px;"><a href="/Loja/EditWhereToBuy?idWhere=${data.Id}&idLivro=${obj.LivroId}">Editar</a> | <a href="/Loja/DeleteWhereToBuy?idWhere=${data.Id}&idLivro=${obj.LivroId}">Deletar</a></td>`
+                cols += `<td style="width: 125px;">${data.Name}</td>`
+                cols += `<td><a href="${data.UrlEndereco}" target="_blank" style="font-size: smaller; text-decoration: none;">${data.UrlEndereco}</a></td>`
                 newRow.append(cols)
                 $("#tab").append(newRow)
                 limparDados()

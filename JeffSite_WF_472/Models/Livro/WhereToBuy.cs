@@ -17,6 +17,7 @@ namespace JeffSite_WF_472.Models.Livro
         [Display (Name= "Escolha um icone")]
         public string IconFA { get; set; }
         public virtual Livro Livro { get; set; }
-        
+        public int LivroId { get; set; }
+
     }
 }

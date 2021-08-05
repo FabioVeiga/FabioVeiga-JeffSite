@@ -9,6 +9,8 @@ using JeffSite_WF_472.Models.Loja;
 using System.Web.Mvc;
 using JeffSite_WF_472.Models;
 using System.Web;
+using System.Net;
+using JeffSite_WF_472.Models.Loja.Api;
 
 namespace JeffSite_WF_472.Controllers
 {
@@ -20,18 +22,22 @@ namespace JeffSite_WF_472.Controllers
         private readonly LivroService _livroService;
         private readonly ConfiguracaoService _configuracaoService;
         private readonly LeitorService _leitorService;
+        private readonly LojaService _lojaService;
+        private readonly MallingService _mallingService;
         private const string titlePage = "Loja";
         private UserLogged _userLogged;
         private string pathRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
         private string pathLivro = Path.Combine("Content", "img", "Livro");
 
-        public LojaController(SocialMidiaService socialMidia, LivroService livroService, ConfiguracaoService configuracaoService,  LeitorService leitorService, UserLogged userLogged)
+        public LojaController(SocialMidiaService socialMidia, LivroService livroService, ConfiguracaoService configuracaoService,  LeitorService leitorService, UserLogged userLogged, LojaService lojaService, MallingService mallingService)
         {
             _socialMidia = socialMidia;
             _livroService = livroService;
             _configuracaoService = configuracaoService;
             _leitorService = leitorService;
             _userLogged = userLogged;
+            _lojaService = lojaService;
+            _mallingService = mallingService;
         }
         // GET: /<controller>/
         public ActionResult Index()
@@ -173,33 +179,32 @@ namespace JeffSite_WF_472.Controllers
             return View(livro);
         }
 
-        [Route("AddWhereToBuy")]
+        [Route("ManagerWhereToBuy")]
         [HttpGet]
-        public ActionResult CreateWhereToBuy(int id){
+        public ActionResult ManagerWhereToBuy(int id){
             if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
 
             ViewData["Title"] = "Adicionar URL de compra";
             var livro = _livroService.FindById(id);
             livro.WhereToBuys = _livroService.FindAllWhereToBuyByIdLivro(livro.Id);
-            return View(livro);
+            return RedirectToAction("CreateWhereToBuy",livro);
         }
 
 
         [HttpGet]
-        public ActionResult EditWhereToBuy(int id, int idLivro){
+        public ActionResult EditWhereToBuy(int idWhere, int idLivro){
             if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
 
             ViewData["Title"] = "Editar URL de compra";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
-            var item = _livroService.FindWhereToBuyById(id);
+            var item = _livroService.FindWhereToBuyById(idWhere);
             item.Livro = _livroService.FindById(idLivro);
             return View(item);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditWhereToBuy(WhereToBuy item){
             if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
@@ -212,20 +217,19 @@ namespace JeffSite_WF_472.Controllers
 
 
         [HttpGet]
-        public ActionResult DeleteWhereToBuy(int id, int idLivro){
+        public ActionResult DeleteWhereToBuy(int idWhere, int idLivro){
             if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
 
             ViewData["Title"] = "Deletar URL de compra";
             ViewBag.QuantidadeDeAprovacao = _leitorService.HowManyPostsAreNotApproved();
-            var item = _livroService.FindWhereToBuyById(id);
+            var item = _livroService.FindWhereToBuyById(idWhere);
             item.Livro = _livroService.FindById(idLivro);
 
             return View(item);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteWhereToBuy(WhereToBuy item){
             if (!_userLogged.IsUserLogged())
                 return RedirectToAction("Index", "Admin");
@@ -381,6 +385,72 @@ namespace JeffSite_WF_472.Controllers
             ViewBag.Limit = 10;
             var pedidos = _livroService.FindAllPedidos(ViewBag.Limit);
             return RedirectToAction("Pedido",pedidos);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> PostWhereToBuy(ItemWhereToBuy item)
+        {
+            if (!_userLogged.IsUserLogged())
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized, "Usuário não logado");
+            try
+            {
+                var modelWhere = new WhereToBuy
+                {
+                    LivroId = item.LivroId,
+                    IconFA = item.IconFa,
+                    UrlEndereco = item.UrlEndereco,
+                    Name = item.Name
+                };
+                await _livroService.AddWhereToBuyAsync(modelWhere);
+
+                return new HttpStatusCodeResult(HttpStatusCode.OK, "Success");
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.Message);
+            } 
+            
+        }
+
+        
+        [Route("findlastwheretobuy/{idlivro}")]
+        [HttpGet]
+        public ActionResult FindLastWhereToBuy(int idLivro){
+            if (!_userLogged.IsUserLogged())
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized, "Usuário não logado");
+
+            try
+            {
+                var item = _livroService.FindLastWhereToBuy(idLivro);
+                return Json(item, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized, ex.Message);
+            }
+        }
+
+        [Route("add-pedido")]
+        [HttpPost]
+        public ActionResult AddPedido(Pedido pedido){
+            pedido.Id = _lojaService.FindNextIdPedido();
+            pedido.Status = Status.Aguardando_Link_De_Pagamento;
+            _lojaService.AddPedido(pedido);
+        
+            //add email malling
+            var mail = new Malling();
+            mail.Email = pedido.Email;
+            mail.Nome = pedido.Nome;
+            mail.Onde = "Pedido";
+            mail.DataCadastro = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
+        
+            //Add malling
+            if(!_mallingService.CheckMail(mail)){
+                _mallingService.AddMalling(mail);
+            }
+        
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
     }

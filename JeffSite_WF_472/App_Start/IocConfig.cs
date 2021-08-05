@@ -18,11 +18,12 @@ namespace JeffSite_WF_472.App_Start
             kernel.Bind<JeffContext>().ToSelf().WithConstructorArgument("options", new DbContextOptionsBuilder<JeffContext>().UseMySql(connection).Options);
 
             kernel.Bind<UserService>().ToSelf().InTransientScope();
-            kernel.Bind<ConfiguracaoService>().ToSelf().InTransientScope();
             kernel.Bind<SocialMidiaService>().ToSelf().InTransientScope();
+            kernel.Bind<ConfiguracaoService>().ToSelf().InTransientScope();
             kernel.Bind<CarouselService>().ToSelf().InTransientScope();
-            kernel.Bind<MallingService>().ToSelf().InTransientScope();
             kernel.Bind<LeitorService>().ToSelf().InTransientScope();
+            kernel.Bind<MallingService>().ToSelf().InTransientScope();
+            kernel.Bind<LivroService>().ToSelf().InTransientScope();
             kernel.Bind<LojaService>().ToSelf().InTransientScope();
             kernel.Bind<UserLogged>().ToSelf().InSingletonScope();
 
