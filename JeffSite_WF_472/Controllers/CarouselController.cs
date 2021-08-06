@@ -59,7 +59,7 @@ namespace JeffSite_WF_472.Controllers
                 if (carousel.ExpirationDate == null){
                     carousel.ExpirationDate = new DateTime(1900, 01, 01);
                 }
-                
+                carousel.Image = Image.FileName;
                 _carouselService.Create(carousel);
                 return RedirectToAction(nameof(Index));
             }
@@ -116,10 +116,11 @@ namespace JeffSite_WF_472.Controllers
             
             if (Image != null){
                 try{
-                    pathRoot += Path.Combine(pathCarousel, Image.FileName);
-                    FileInfo file = new FileInfo(pathRoot);
+                    var pathDelete = Path.Combine(pathRoot, pathCarousel, carousel.Image);
+                    FileInfo file = new FileInfo(pathDelete);
                     file.Delete();
-                    Image.SaveAs(pathRoot);
+                    var pathSave= Path.Combine(pathRoot, pathCarousel, Image.FileName);
+                    Image.SaveAs(pathSave);
                     carousel.Image = Image.FileName;
                 }catch(IOException e){
                     throw new Exception(e.Message);

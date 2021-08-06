@@ -8,7 +8,7 @@ namespace JeffSite_WF_472.Models
         public int Id { get; set; }
 
         [Display(Name = "Titulo")]
-        [Required(ErrorMessage = "Titulo obrigatoria!")]
+        [Required(ErrorMessage = "Titulo obrigatorio!")]
         [MinLength(3,ErrorMessage = "Por favor, inserir mais de {1} caracteres!")]
         public string Title { get; set; }
 
