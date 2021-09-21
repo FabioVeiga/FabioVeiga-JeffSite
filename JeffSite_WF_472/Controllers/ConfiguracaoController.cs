@@ -105,5 +105,32 @@ namespace JeffSite_WF_472.Controllers
             return View(item);
         }
 
+        [HttpGet]
+        public ActionResult Biografia()
+        {
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
+            ViewData["Title"] = "Biografia";
+            var configs = _configuracaoService.Find();
+
+            return View(configs);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Biografia(string Biography)
+        {
+            if (!_userLogged.IsUserLogged())
+                return RedirectToAction("Index", "Admin");
+
+            ViewData["Title"] = "Biografia";
+
+            var configs = _configuracaoService.Find();
+            configs.Biography = Biography;
+            _configuracaoService.Edit(configs);
+            return View();
+        }
+
     }
 }

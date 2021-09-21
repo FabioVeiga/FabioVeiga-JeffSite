@@ -43,6 +43,10 @@ namespace JeffSite_WF_472.Controllers
         public ActionResult BioCompleta()
         {
             ViewBag.Redes = _socialMidia.FindAll();
+            ViewBag.Biogragia = _configuracaoService.Find().Biography;
+            if (ViewBag.Biogragia == "<p><br></p>")
+                return View("BioCompleta_OLD");
+
             return View();
         }
 

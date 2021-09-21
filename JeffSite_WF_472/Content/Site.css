@@ -13,12 +13,11 @@ h1.Titulo span{
   text-shadow: #1b6ec2 0 15px 2px;
 }
 
-p{
-  letter-spacing: 0.1em;
-  padding-top: 10px;
-  padding-left: 40px;
-  padding-right: 20px;
-  text-align: justify;
+p {
+    letter-spacing: 0.1em;
+    padding-top: 10px;
+    padding-right: 20px;
+    text-align: justify;
 }
 
 p span.primeira-letra{
@@ -163,8 +162,8 @@ color: #757373;
 }
 
 #carrosselMain{
-  width: 80%;  
-  margin-left: 12%;
+  width: 50%;  
+  margin-left: 27%;
 }
 
 #menuHome{

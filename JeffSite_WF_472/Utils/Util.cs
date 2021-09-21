@@ -41,5 +41,22 @@ namespace JeffSite_WF_472.Utils
             }
             return sBuilder.ToString();
         }
+
+
+        public static string fnStringConverterCodepage(string sText, string sCodepageIn = "ISO-8859-8", string sCodepageOut = "ISO-8859-8")
+        {
+            string sResultado = string.Empty;
+            try
+            {
+                byte[] tempBytes;
+                tempBytes = System.Text.Encoding.GetEncoding(sCodepageIn).GetBytes(sText);
+                sResultado = System.Text.Encoding.GetEncoding(sCodepageOut).GetString(tempBytes);
+            }
+            catch (Exception)
+            {
+                sResultado = "";
+            }
+            return sResultado;
+        }
     }
 }

@@ -26,6 +26,8 @@ namespace JeffSite_WF_472.Models
         [Display(Name = "Nome do Site")]
         public string NomeSite { get; set; }
 
+        public string Biography { get; set; }
+
         public Configuracao()
         {
         }
