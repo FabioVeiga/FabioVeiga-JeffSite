@@ -1,0 +1,189 @@
+﻿@{
+    string linkMercadoLivre = ViewBag.LinkMercadoLivre;
+}
+<div class="container">
+    <h1 class="Titulo"><span>@ViewBag.Title</span></h1>
+    @if (!string.IsNullOrEmpty(linkMercadoLivre))
+    {
+        <div class="mercado-livre">
+            <p>Conheça nossa loja no: <img src="~/Content/img/MercadoLivreLogo.jpg" style="width: 30px"> <a href="@linkMercadoLivre" target="_blank">Mercado Livre</a></p>
+        </div>
+    }
+
+    @foreach (var item in ViewBag.Livros)
+    {
+        <div class="row" style="margin-bottom: 20px; position: relative;">
+            <div class="col-6 col-md-3">
+                <div class="fotoLivro">
+                    <img src="../Content/img/Livro/@item.ImgName" />
+                </div>
+            </div>
+            <div class="col-12 col-md-9">
+                <div class="descricao">
+                    <div class="descricao-titulo"><h4>@item.Title</h4></div>
+                    <div class="descricao-corpo">
+                        <p>
+                            @item.Description
+                        </p>
+                    </div>
+                    <div class="descricao-links">
+                        <ul>
+                            @foreach (var wtb in item.WhereToBuys)
+                            {
+                                <li><a href="@wtb.UrlEndereco" target="_blank"><i class="@wtb.IconFA"></i> @wtb.Name</a></li>
+                            }
+                            @if (item.Esgotado == false)
+                            {
+                                <li><a href="" id="linkAutografado" data-toggle="modal" data-target="#myModal" data-id="@item.Id" data-title="@item.Title"><i class="fas fa-book-open"></i> Compra Autografada</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+<!-- modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Compra Autografada</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="pedido">
+                <div class="modal-body">
+                    <input type="hidden" id="idLivro">
+                    <div class="form-group">
+                        <label for="nome" class="col-form-label">*Nome:</label>
+                        <input type="text" class="form-control" id="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">*Email:</label>
+                        <input class="form-control" type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dedicado" class="col-form-label">Nome para dedicatória</label>
+                        <input class="form-control" type="text" id="dedicado">
+                    </div>
+                    <div class="form-group">
+                        <label for="cep" class="col-form-label">*CEP</label>
+                        <input class="form-control"
+                               type="number"
+                               placeholder="0000000"
+                               id="CEP"
+                               required
+                               oninput="maxLengthCheck(this)"
+                               maxlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="endereco" class="col-form-label">*Endereço</label>
+                        <input class="form-control" type="text" id="endereco" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bairro" class="col-form-label">*Bairro</label>
+                        <input class="form-control" type="text" id="bairro" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cidade" class="col-form-label">*Cidade</label>
+                        <input class="form-control" type="text" id="cidade" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="numero" class="col-form-label">*Numero</label>
+                        <input class="form-control" type="number" id="numero" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="complemento" class="col-form-label">Complemento</label>
+                        <input class="form-control" type="text" id="complemento">
+                    </div>
+                    <div class="alert alert-success" role="alert" id="aviso" style="display:none">
+                        Enviado, por favor aguardar  que você receberá novas instruções.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="function(){location.reload.bind(location)}">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        $('a#linkAutografado').click(function (event) {
+            var id = $(event.target).attr("data-id")
+            var title = $(event.target).attr("data-title")
+            //console.log($(event.target).attr("data-id"))
+            //console.log($(event.target).attr("data-title"))
+
+            $("h5#myModalLabel").text(title)
+            $("input#idLivro").val(id)
+        })
+
+        $("#CEP").keyup(function () {
+            var cep = $(this).val()
+            if (cep.length == 8) {
+                $.ajax({
+                    url: `https://viacep.com.br/ws/${cep}/json/`,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#endereco").val(data.logradouro)
+                        $("#bairro").val(data.bairro)
+                        $("#cidade").val(data.localidade)
+                    }
+                })
+            }
+        })
+
+        $("#pedido").submit(function (event) {
+
+            var pedido = {
+                Nome: $("#nome").val(),
+                Email: $("#email").val(),
+                NomeDedicado: $("#dedicado").val(),
+                CEP: $("#CEP").val(),
+                Endereco: $("#endereco").val(),
+                Bairro: $("#bairro").val(),
+                Cidade: $("#cidade").val(),
+                Numero: parseInt($("#numero").val()),
+                Complemento: $("#complemento").val(),
+                LivroId: parseInt($("#idLivro").val())
+            }
+
+            console.log(JSON.stringify(pedido))
+
+            $.ajax({
+                url: "/Loja/AddPedido",
+                method: "POST",
+                type: "json",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(pedido),
+                complete: function (xrh, textStatus) {
+                    if (textStatus == "success") {
+                        document.getElementById('aviso').style.display = "block"
+                        setTimeout(location.reload.bind(location), 5000);
+                    } else {
+                        //alert(textStatus)
+                        alert("Houve algum erro, por favor retornar mais tarde")
+                    }
+                }
+            })
+            event.preventDefault()
+        })
+
+        function maxLengthCheck(object) {
+            if (object.value.length > object.maxLength)
+                object.value = object.value.slice(0, object.maxLength)
+        }
+
+
+    </script>
+}
+

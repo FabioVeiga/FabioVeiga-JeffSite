@@ -1,0 +1,64 @@
+@model JeffSite_WF_472.Models.Configuracao
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<main role="main" class="pb-3">
+
+    <br>
+    <h1>@ViewData["Title"]</h1>
+    <br>
+
+    <form asp-action="Biografia" method="POST" id="biografia">
+        <div id="editor" name="editor">
+        </div>
+        @Html.EditorFor(model => model.Biography, new { htmlAttributes = new { @class = "form-control", type = "text", @hidden = "hidden" } })
+        <span class="text-danger">@ViewBag.Obrigatorio</span>
+        <br>
+        <button id="btn-submit" class="btn btn-info">Enviar</button>
+    </form>
+
+</main>
+
+@section Scripts{
+    <script>
+        var BackgroundClass = Quill.import('attributors/class/background')
+        var ColorClass = Quill.import('attributors/class/color')
+        var SizeStyle = Quill.import('attributors/style/size')
+        Quill.register(BackgroundClass, true)
+        Quill.register(ColorClass, true)
+        Quill.register(SizeStyle, true)
+
+        var quill = new Quill('#editor', {
+            modules: {
+                toolbar: [
+                    [{ 'font': [] }],
+                    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'align': [] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['image', 'code-block'],
+                    ['link'],
+                    [{ 'script': 'sub' }, { 'script': 'super' }],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    ['clean']
+                ]
+            },
+            placeholder: 'Digite a biografia aqui',
+            theme: 'snow'  // or 'bubble',
+        });
+
+        quill.root.innerHTML = $('#Biography').val();
+
+        $('#btn-submit').on('click', () => {
+            // Get HTML content
+            var html = quill.root.innerHTML;
+
+            // Copy HTML content in hidden form
+            $('#Biography').val(html);
+        })
+
+
+    </script>
+}

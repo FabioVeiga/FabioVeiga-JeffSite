@@ -1,0 +1,38 @@
+@model IEnumerable<JeffSite_WF_472.Models.Carousel>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+@Html.ActionLink("Criar", "Create", "Carousel", new { @class = "btn btn-primary" })
+<br>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.Id)</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.Title)</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.ExpirationDate)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    @Html.Label(" | ")
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </th>
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.ExpirationDate)</td>
+
+            </tr>
+        }
+    </tbody>
+</table>

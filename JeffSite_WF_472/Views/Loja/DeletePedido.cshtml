@@ -1,0 +1,45 @@
+@model JeffSite_WF_472.Models.Loja.Pedido
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    int status = (int)Model.Status;
+}
+
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+
+@using (Html.BeginForm("DeletePedido", "Loja", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.LivroId, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.NomeDedicado, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.CEP, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Cidade, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Complemento, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.Endereco, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+
+    <div class="form-group">
+        <label>Cod Pedido</label>
+        @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly" } })
+    </div>
+
+    <label>Link de Pagamento</label>
+    <div class="input-group mb-3">
+        @Html.EditorFor(model => model.LinkPagamento, new { htmlAttributes = new { @class = "form-control", type = "text",  @readonly = "readonly" } })
+    </div>
+
+    <label>Link/Codigo do Rastreio</label>
+    <div class="input-group mb-3">
+        @Html.EditorFor(model => model.LinkRastreio, new { htmlAttributes = new { @class = "form-control", type = "text",  @readonly = "readonly" } })
+    </div>
+
+    @Html.ActionLink("Voltar", "Pedido", "Loja")
+<button class="btn btn-danger" type="submit">Deletar</button>
+}

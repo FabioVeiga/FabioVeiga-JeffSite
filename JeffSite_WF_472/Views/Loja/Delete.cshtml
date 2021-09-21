@@ -1,0 +1,51 @@
+@model JeffSite_WF_472.Models.Livro.Livro
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string pathImg = System.IO.Path.Combine("..", "..", "img", "Livro");
+}
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+@using (Html.BeginForm("Delete", "Loja", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Id)</label>
+        @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly" } })
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Title)</label>
+        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(x => x.Title)
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Description)</label>
+        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(x => x.Description)
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Esgotado)</label>
+        @Html.EditorFor(model => model.Esgotado, new { htmlAttributes = new { @class = "form-control", type = "checkbox", disable = "disable" } })
+        @Html.EditorFor(model => model.ImgName, new { htmlAttributes = new { @class = "form-control", type = "hidden", @readonly = "readonly" } })
+    </div>
+    @Html.ActionLink("Voltar", "ListLivros", "Loja")
+    if (ViewBag.flagDelete == false)
+    {
+        <button class="btn btn-danger" disabled>Excluir</button>
+        <div class="alert alert-danger" role="alert" style="margin-top: 30px;">
+            Este livros tem referencias:
+            <button type="button" class="btn btn-danger">
+                URLs <span class="badge badge-light">@ViewBag.qtdWTB</span>
+            </button>
+            <button type="button" class="btn btn-danger">
+                Pedidos <span class="badge badge-light">@ViewBag.qtdPedido</span>
+            </button>
+        </div>
+    }
+    else
+    {
+        <button class="btn btn btn-danger" type="submit">Excluir</button>
+    }
+
+}

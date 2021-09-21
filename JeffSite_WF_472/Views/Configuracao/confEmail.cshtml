@@ -1,0 +1,52 @@
+@model JeffSite_WF_472.Models.Email
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Message
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@using (Html.BeginForm("confEmail", "Configuracao", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", type = "hidden", @readonly = "readonly" } })
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Servidor)</label>
+        @Html.EditorFor(model => model.Servidor, new { htmlAttributes = new { @class = "form-control", type = "text" } })
+        @Html.ValidationMessageFor(x => x.Servidor)
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Porta)</label>
+        @Html.EditorFor(model => model.Porta, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+        @Html.ValidationMessageFor(x => x.Porta)
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.ContaEmail)</label>
+        @Html.EditorFor(model => model.ContaEmail, new { htmlAttributes = new { @class = "form-control", type = "text" } })
+        @Html.ValidationMessageFor(x => x.ContaEmail)
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.Senha)</label>
+        @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control", type = "text" } })
+        @Html.ValidationMessageFor(x => x.Senha)
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(Model => Model.HabilitaSSL)</label>
+        @Html.EditorFor(model => model.HabilitaSSL, new { htmlAttributes = new { @class = "form-control", type = "checkbox" } })
+        @Html.ValidationMessageFor(x => x.HabilitaSSL)
+    </div>
+    @Html.ActionLink("Voltar", "Index", "AdminHome")
+    <button class="btn btn-primary" type="submit">Salvar</button>
+}

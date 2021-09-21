@@ -1,0 +1,52 @@
+@model IEnumerable<JeffSite_WF_472.Models.Livro.Livro>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string pathImg = System.IO.Path.Combine("..", "img", "Livro");
+}
+
+<br>
+<h1>@ViewData["Title"]</h1>
+<br>
+
+@Html.ActionLink("Criar", "Create", "Loja", new { @class = "btn btn-primary" })
+<br>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.Id)</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.Title)</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.Esgotado)</th>
+            <th scope="col">@Html.DisplayNameFor(x => x.ImgName)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id })
+                    @Html.Label(" | ")
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.Id })
+                    @Html.Label(" | ")
+                    @Html.ActionLink("Links", "ManagerWhereToBuy", new { id = item.Id })
+                </th>
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>
+                    @if (item.Esgotado)
+                    {
+                        <input type="checkbox" class="form-control" disabled checked>
+                    }
+                    else
+                    {
+                        <input type="checkbox" class="form-control" disabled>
+                    }
+                </td>
+                <td><img src="~/Content/img/Livro/@item.ImgName" style="width:100px;"></td>
+
+            </tr>
+        }
+    </tbody>
+</table>
